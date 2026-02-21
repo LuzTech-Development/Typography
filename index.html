@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logo</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        overflow: hidden;
+        height: 100vh;
+        height: 100dvh;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .light {
+        background-color: white;
+      }
+
+      .dark {
+        background-color: black;
+      }
+
+      body.colorless img {
+        mask-image: url(monocolor.svg);
+      }
+
+      body.dark {
+        background-color: black;
+      }
+
+      img {
+        height: auto;
+        width: 25%;
+        mask-image: url(logo.svg);
+        mask-size: cover;
+      }
+
+      img:last-child {
+        mask-image: url(monocolor.svg);
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('keydown', (event) => {
+          if (event.key.toUpperCase() === 'T')
+            document.body.classList.toggle('dark');
+
+          if (event.key.toUpperCase() === 'C')
+            document.body.classList.toggle('colorless');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <section class="light">
+      <img src="./mesh-gradient.png" />
+      <img src="./mesh-gradient.png" />
+    </section>
+    <section class="dark">
+      <img src="./mesh-gradient.png" />
+      <img src="./mesh-gradient.png" />
+    </section>
+  </body>
+</html>

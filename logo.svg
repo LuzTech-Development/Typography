@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" stroke="black" stroke-width="18"
+    stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <defs>
+        <mask id="ball-slice">
+            <rect width="100%" height="100%" fill="white" />
+            <path d="M186.667,205C232.889,239.444 279.111,239.889 325.333,205" stroke="black" stroke-width="9" transform="translate(0, 20)" />
+            <path d="M186.667,205C232.889,239.444 279.111,239.889 325.333,205" stroke="black" stroke-width="9" transform="translate(0, -25)" />
+            <path d="M256,142.667C227.298,191.759 226.036,240.019 256,287.333" stroke="black" stroke-width="10"/>
+            <path d="M256,142.667C282.672,193.463 280.883,241.871 256,287.333" stroke="black" stroke-width="10"/>
+        </mask>
+        <mask id="ball-margin">
+            <rect width="100%" height="100%" fill="white" />
+            <circle cx="256" cy="216" r="55" fill="black"></circle>
+        </mask>
+    </defs>
+    <g>
+        <path d="
+      M256 90
+      C170 90 120 160 120 230
+      C120 290 160 330 190 350
+      L190 390
+      M256 90
+      C342 90 392 160 392 230
+      C392 290 352 330 322 350
+      L322 390
+    " />
+    </g>
+
+    <g opacity="40%" mask="url(#ball-margin)">
+        <polygon points="124 255 255 205 388 255 256 300 124 255" fill="black" />
+        <line x1="124" x2="256" y1="255" y2="205" />
+        <line x1="388" x2="256" y1="255" y2="205" />
+    </g>
+    <g>
+        <line x1="124" x2="256" y1="255" y2="300" />
+        <line x1="388" x2="256" y1="255" y2="300" />
+    </g>
+
+    <g>
+        <circle cx="256" cy="216" r="45" fill="black" mask="url(#ball-slice)"></circle>
+    </g>
+
+
+
+</svg>
