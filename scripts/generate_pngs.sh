@@ -3,7 +3,7 @@ ROOT_DIR="$(dirname "$SCRIPT_PATH")"
 
 BACKGROUND_IMAGE="$ROOT_DIR/assets/background.png"
 VARIANT_NAME="${1}"
-INPUT_SVG="$ROOT_DIR/assets/$VARIANT_NAME.svg"
+INPUT_SVG="$ROOT_DIR/icons/$VARIANT_NAME.svg"
 
 if [ -z "$VARIANT_NAME" ]; then
     echo "Usage: $0 <variant-name>"
