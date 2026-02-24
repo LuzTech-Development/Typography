@@ -22,7 +22,7 @@ jobs:
                     build-essential \
                     fonts-space-grotesk \
                     fonts-liberation \
-                    libasound2 \
+                    libasound2t64 \
                     libatk-bridge2.0-0 \
                     libatk1.0-0 \
                     libcups2 \
@@ -40,8 +40,7 @@ jobs:
                     libu2f-udev \
                     libxshmfence1 \
                     libglu1-mesa \
-                    chromium \
-                    chromium-sandbox
+                    chromium
 
             - name: Verify font installation
               run: |
