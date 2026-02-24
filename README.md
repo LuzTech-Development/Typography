@@ -24,24 +24,16 @@ The typography uses a mesh gradient as background, with the following colors:
 
 <ul>
     <li>Top left: #00ff9d
-        <svg style="display: inline" width="8" height="8" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#00ff9d" />
-        </svg>
+        <img src="https://dummyimage.com/8x8/00ff9d/00ff9d" alt="#00ff9d" style="display: inline" />
     </li>
     <li>Top right: #69dd96
-        <svg style="display: inline" width="8" height="8" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#69dd96" />
-        </svg>
+        <img src="https://dummyimage.com/8x8/69dd96/69dd96" alt="#69dd96" style="display: inline" />
     </li>
     <li>Bottom left: #4665c3
-        <svg style="display: inline" width="8" height="8" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#4665c3" />
-        </svg>
+        <img src="https://dummyimage.com/8x8/4665c3/4665c3" alt="#4665c3" style="display: inline" />
     </li>
     <li>Bottom right: #1f6fef
-        <svg style="display: inline" width="8" height="8" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#1f6fef" />
-        </svg>
+        <img src="https://dummyimage.com/8x8/1f6fef/1f6fef" alt="#1f6fef" style="display: inline" />
     </li>
 </ul>
 
