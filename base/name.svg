@@ -1,0 +1,71 @@
+<svg color="black" width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+    stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"
+    maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+    <defs>
+        <mask id="platform-margins" fill="black" stroke="black">
+            <!-- Base mask -->
+            <rect width="100%" height="100%" fill="white" />
+            <!-- Pyramid margin -->
+            <polygon points="196 236 256 256 316 236 256 156" stroke-width="4" />
+            <!-- Pyramid connectors -->
+            <line x1="196" y1="236" x2="124" y2="245" stroke-width="6" />
+            <line x1="316" y1="236" x2="388" y2="245" stroke-width="6" />
+            <line x1="256" y1="290" x2="256" y2="256" stroke-width="6" />
+
+            <!-- Platform margin -->
+            <line x1="124" x2="256" y1="245" y2="290" stroke-width="10" />
+            <line x1="388" x2="256" y1="245" y2="290" stroke-width="10" />
+        </mask>
+
+        <mask id="pyramid-edges" stroke="black" fill="black" stroke-width="6">
+            <!-- Base mask -->
+            <rect width="100%" height="100%" fill="white" />
+            <!-- Outer lines -->
+            <polygon points="196 236 256 256 316 236 256 156" fill="none" />
+            <!-- Mid line -->
+            <line x1="256" y1="256" x2="256" y2="156" />
+        </mask>
+    </defs>
+
+    <!-- Icon -->
+    <g transform="translate(0, -20)">
+        <!-- Platform -->
+        <g>
+            <!-- Backfill -->
+            <g mask="url(#platform-margins)" fill="currentColor">
+                <polygon points="124 255 255 205 388 255 256 300 124 255" stroke-width="0" />
+                <line x1="124" x2="256" y1="255" y2="205" />
+                <line x1="388" x2="256" y1="255" y2="205" />
+            </g>
+            <!-- Strokes -->
+            <g>
+                <line x1="124" x2="256" y1="255" y2="300" />
+                <line x1="388" x2="256" y1="255" y2="300" />
+            </g>
+        </g>
+
+        <!-- Pyramid -->
+        <g stroke-width="6" mask="url(#pyramid-edges)" fill="currentColor">
+            <polygon points="196 236 256 256 316 236 256 156" stroke="none" />
+        </g>
+
+        <!-- Lightbulb -->
+        <g>
+            <path d="
+      M256 90
+      C170 90 120 160 120 230
+      C120 290 160 330 190 350
+      L190 390
+      M256 90
+      C342 90 392 160 392 230
+      C392 290 352 330 322 350
+      L322 390
+    " />
+        </g>
+    </g>
+    <!-- Text -->
+    <g>
+        <text stroke-width="1" font-size="80" fill="currentColor" x="256" y="442" text-anchor="middle"
+            font-family="Space Grotesk SemiBold, sans-serif">LuzTech</text>
+    </g>
+</svg>

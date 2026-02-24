@@ -1,0 +1,8 @@
+Mesh Gradient:
+    Top left: #00ff9d
+    Top right: #69dd96
+    Bottom left: #4665c3
+    Bottom right: #1f6fef
+
+Font:
+    Space Grotesk, <https://fonts.google.com/specimen/Space+Grotesk?query=Space+Grotesk>
