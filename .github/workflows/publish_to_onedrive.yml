@@ -1,0 +1,49 @@
+name: Publish to OneDrive
+
+on:
+    push:
+        branches: [master]
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup Fontist
+              uses: fontist/setup-fontist@v2
+
+            - name: Install Space Grotesk font
+              run: fontist install "Space Grotesk"
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '24'
+
+            - name: Install IFMD
+              run: npm install --global @giancarl021/ifmd
+            - name: Install packages
+              run: |
+                add-apt-repository ppa:inkscape.dev/stable
+                apt-get update
+                apt-get install --yes inkscape imagemagick build-essential
+
+            - name: Build assets
+              run: make
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: icon-set
+                  path: out/
+    publish:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: icon-set
+                  path: icon-set/
