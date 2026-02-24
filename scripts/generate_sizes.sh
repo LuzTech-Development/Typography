@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 BASE_DIR="out/$1"
 SOURCE_DIR="${BASE_DIR}/1024x"
 SIZES=(512 256 128 64 32 16)

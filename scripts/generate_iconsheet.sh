@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 SCRIPT_PATH="$(dirname "$(realpath "$0")")"
 ROOT_DIR="$(dirname "$SCRIPT_PATH")"
 
