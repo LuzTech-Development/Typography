@@ -66,6 +66,6 @@
     <!-- Text -->
     <g>
         <text stroke-width="1" font-size="80" fill="currentColor" x="256" y="442" text-anchor="middle"
-            font-family="Space Grotesk SemiBold, sans-serif">LuzTech</text>
+            font-weight="800" font-family="Space Grotesk">LuzTech</text>
     </g>
 </svg>
