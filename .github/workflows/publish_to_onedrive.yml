@@ -34,7 +34,7 @@ jobs:
             - name: Build assets
               run: make
             - name: Upload artifacts
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v6
               with:
                   name: icon-set
                   path: out/
@@ -43,7 +43,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Download artifacts
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v6
               with:
                   name: icon-set
                   path: icon-set/
