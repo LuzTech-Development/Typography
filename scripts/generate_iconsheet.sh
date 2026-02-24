@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e pipefail
+
 SCRIPT_PATH="$(dirname "$(realpath "$0")")"
 ROOT_DIR="$(dirname "$SCRIPT_PATH")"
 
