@@ -16,6 +16,12 @@ To generate the icons, run the `make` script from the terminal:
 make
 ```
 
+To generate only a subset of variants, you can specify the variant names as arguments:
+
+```bash
+make generate clean name
+```
+
 This will execute the [`scripts/generate.sh`](scripts/generate.sh) script, which processes all SVG files in the `assets` directory and generates the corresponding PNG files in the `out` directory.
 
 ## Typography Details
