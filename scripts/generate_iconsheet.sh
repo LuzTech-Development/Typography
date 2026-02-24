@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-set -e pipefail
+set -e
 
 SCRIPT_PATH="$(dirname "$(realpath "$0")")"
 ROOT_DIR="$(dirname "$SCRIPT_PATH")"
 
 VARIANTS=("$@")
-OUT_FILE="$ROOT_DIR/out/ICONSHEET.md"
+OUT_DIR="$ROOT_DIR/out"
+OUT_FILE="$OUT_DIR/ICONSHEET.md"
+TEMPLATE_ZIP="$OUT_DIR/template.zip"
 
 if ((${#VARIANTS[@]} <= 0)); then
     VARIANTS=($(ls $ROOT_DIR/assets/*.svg))
@@ -32,6 +34,24 @@ done
 
 echo "==> Generating icon sheet PDF..."
 
-ifmd generate --template grid "$OUT_FILE" > /dev/null
+function run_ifmd() {
+    if command -v ifmd >/dev/null 2>&1; then
+        ifmd generate -t grid "$OUT_FILE" > /dev/null
+        return
+    fi
 
-rm -rf "$OUT_FILE"
+    curl -fsSL -o "$TEMPLATE_ZIP" "https://giancarl021media.blob.core.windows.net/cdn/ifmd-templates/grid.zip"
+    mkdir -p "$OUT_DIR/ifmd-config/templates/grid"
+    chmod -R 777 "$OUT_DIR/ifmd-config"
+
+    unzip -o "$TEMPLATE_ZIP" -d "$OUT_DIR/ifmd-config/templates/grid" > /dev/null
+
+    docker run --rm -it -u "$(id -u):$(id -g)" \
+        -v "$OUT_DIR:/data" \
+        -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
+        -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")" > /dev/null
+}
+
+run_ifmd
+
+rm -rf "$OUT_FILE" "$TEMPLATE_ZIP" "$OUT_DIR/ifmd-config"
