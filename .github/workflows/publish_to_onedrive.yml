@@ -12,11 +12,21 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
-            - name: Setup Fontist
-              uses: fontist/setup-fontist@v2
-
             - name: Install Space Grotesk font
-              run: fontist install "Space Grotesk"
+              run: |
+                mkdir -p ~/.local/share/fonts/space-grotesk
+                cd ~/.local/share/fonts/space-grotesk
+
+                curl -s -O https://fonts.gstatic.com/s/spacegrotesk/v12/pxiDyp8kv8JHgFVrJJfedwE3V1wA5cw.woff2
+                curl -s -O https://fonts.gstatic.com/s/spacegrotesk/v12/pxiFyp8kv8JHgFVrLCz7Z1xlEA.woff2
+                curl -s -O https://fonts.gstatic.com/s/spacegrotesk/v12/pxiGyp8kv8JHgFVrDWZxkBxHPyw.woff2
+                cd ~
+
+                fc-cache -f -v
+
+            - name: Verify font installation
+              run: |
+                fc-list | grep "Space Grotesk" || exit 1
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
@@ -27,9 +37,9 @@ jobs:
               run: npm install --global @giancarl021/ifmd
             - name: Install packages
               run: |
-                add-apt-repository ppa:inkscape.dev/stable
-                apt-get update
-                apt-get install --yes inkscape imagemagick build-essential
+                sudo add-apt-repository ppa:inkscape.dev/stable
+                sudo apt-get update
+                sudo apt-get install --yes inkscape imagemagick build-essential
 
             - name: Build assets
               run: make
