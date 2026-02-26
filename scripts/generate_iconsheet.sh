@@ -42,19 +42,17 @@ function run_ifmd() {
 
     curl -fsSL -o "$TEMPLATE_ZIP" "https://giancarl021media.blob.core.windows.net/cdn/ifmd-templates/grid.zip"
     mkdir -p "$OUT_DIR/ifmd-config/templates/grid"
-    mkdir -p "$OUT_DIR/tmp"
 
-    chmod -R 777 "$OUT_DIR/ifmd-config" "$OUT_DIR/tmp"
+    chmod -R 777 "$OUT_DIR/ifmd-config"
 
     unzip -o "$TEMPLATE_ZIP" -d "$OUT_DIR/ifmd-config/templates/grid" > /dev/null
 
-    docker run --rm -u "$(id -u):$(id -g)" \
+    docker run --rm \
         -v "$OUT_DIR:/data" \
         -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
-        -v "$OUT_DIR/tmp:/ifmd/lib" \
         -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")"
 }
 
 run_ifmd
 
-rm -rf "$OUT_FILE" "$TEMPLATE_ZIP" "$OUT_DIR/ifmd-config" "$OUT_DIR/tmp"
+rm -rf "$OUT_FILE" "$TEMPLATE_ZIP" "$OUT_DIR/ifmd-config"
