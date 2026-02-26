@@ -36,7 +36,7 @@ echo "==> Generating icon sheet PDF..."
 
 function run_ifmd() {
     if command -v ifmd >/dev/null 2>&1; then
-        ifmd generate -t grid "$OUT_FILE" > /dev/null
+        ifmd generate -t grid "$OUT_FILE"
         return
     fi
 
@@ -49,7 +49,7 @@ function run_ifmd() {
     docker run --rm -u "$(id -u):$(id -g)" \
         -v "$OUT_DIR:/data" \
         -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
-        -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")" > /dev/null
+        -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")"
 }
 
 run_ifmd
