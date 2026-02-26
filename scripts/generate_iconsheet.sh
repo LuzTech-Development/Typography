@@ -51,7 +51,7 @@ function run_ifmd() {
     docker run --rm -u "$(id -u):$(id -g)" \
         -v "$OUT_DIR:/data" \
         -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
-        -v "$OUT_DIR/tmp:/ifmd/tmp" \
+        -v "$OUT_DIR/tmp:/ifmd/lib" \
         -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")"
 }
 
