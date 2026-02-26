@@ -43,7 +43,7 @@ function run_ifmd() {
     curl -fsSL -o "$TEMPLATE_ZIP" "https://giancarl021media.blob.core.windows.net/cdn/ifmd-templates/grid.zip"
     mkdir -p "$OUT_DIR/ifmd-config/templates/grid"
 
-    chmod -R 777 "$OUT_DIR/ifmd-config"
+    chmod -R 777 "$OUT_DIR"
 
     unzip -o "$TEMPLATE_ZIP" -d "$OUT_DIR/ifmd-config/templates/grid" > /dev/null
 
@@ -51,6 +51,8 @@ function run_ifmd() {
         -v "$OUT_DIR:/data" \
         -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
         -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")"
+
+    chmod -R 755 "$OUT_DIR"
 }
 
 run_ifmd
