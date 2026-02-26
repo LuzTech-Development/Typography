@@ -45,16 +45,14 @@ function run_ifmd() {
 
     chmod -R 777 "$OUT_DIR"
 
-    unzip -o "$TEMPLATE_ZIP" -d "$OUT_DIR/ifmd-config/templates/grid" > /dev/null
+    unzip -o "$TEMPLATE_ZIP" -d "$OUT_DIR/ifmd-config/templates/grid"
 
     docker run --rm \
         -v "$OUT_DIR:/data" \
         -v "$OUT_DIR/ifmd-config:/home/node/.ifmd" \
         -w "/data" giancarl021/ifmd:latest generate -t grid "$(basename "$OUT_FILE")"
 
-    chmod -R 755 "$OUT_DIR"
+    rm -rf "$OUT_FILE" "$TEMPLATE_ZIP" "$OUT_DIR/ifmd-config"
 }
 
 run_ifmd
-
-rm -rf "$OUT_FILE" "$TEMPLATE_ZIP" "$OUT_DIR/ifmd-config"
