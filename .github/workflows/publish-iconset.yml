@@ -1,8 +1,9 @@
-name: Publish to OneDrive
+name: Publish Icon Set
 
 on:
     push:
         branches: [master]
+        paths: ['assets/**', 'scripts/**', 'icons/**', 'Makefile']
     workflow_dispatch:
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
               with:
                   name: icon-set
                   path: out/
-    publish:
+    publish-onedrive:
         needs: build
         runs-on: ubuntu-latest
         steps:
@@ -40,3 +41,15 @@ jobs:
               with:
                   name: icon-set
                   path: icon-set/
+            - name: Publish to OneDrive
+              run: echo "TODO!"
+    publish-cdn:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download artifacts
+              uses: actions/download-artifact@v6
+              with:
+                  name: icon-set
+            - name: Publish to CDN
+              run: echo "TODO!"
