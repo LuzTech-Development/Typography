@@ -10,21 +10,19 @@ import {
   staticFile,
 } from "remotion";
 
-const SPEED = 10;
-const ALTERNATE = false;
-
 interface AnimatedGradientProps {
   reversed?: boolean;
+  speed: number;
 }
 
-const AnimatedGradient: FC<AnimatedGradientProps> = ({ reversed = false }) => {
+const AnimatedGradient: FC<AnimatedGradientProps> = ({ reversed = false, speed }) => {
   const currentFrame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
 
   const frame = interpolate(
     currentFrame,
     [0, durationInFrames],
-    reversed ? [SPEED * durationInFrames, 0] : [0, SPEED * durationInFrames],
+    reversed ? [speed * durationInFrames, 0] : [0, speed * durationInFrames],
     {
       easing: Easing.inOut(Easing.ease),
     },
@@ -82,27 +80,33 @@ const Logo: FC = () => {
   );
 };
 
-export const MeshGradient: FC = () => {
+interface Props {
+  speed: number;
+  alternate: boolean;
+  showLogo: boolean;
+}
+
+export const MeshGradient: FC<Props> = ({ alternate = false, showLogo = true, speed = 10 }) => {
   const { durationInFrames } = useVideoConfig();
 
   return (
     <>
-      {ALTERNATE ? (
+      {alternate ? (
         <>
           <Sequence durationInFrames={durationInFrames / 2}>
-            <AnimatedGradient />
+            <AnimatedGradient speed={speed} />
           </Sequence>
           <Sequence
             from={durationInFrames / 2}
             durationInFrames={durationInFrames / 2}
           >
-            <AnimatedGradient reversed />
+            <AnimatedGradient reversed speed={speed} />
           </Sequence>
         </>
       ) : (
-        <AnimatedGradient />
+        <AnimatedGradient speed={speed} />
       )}
-      <Logo />
+      {showLogo && <Logo />}
     </>
   );
 };
