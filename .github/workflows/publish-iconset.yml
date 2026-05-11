@@ -92,6 +92,8 @@ jobs:
               run: |
                   mkdir -p ./upload
                   rm -f ./icon-set/ICONSHEET.pdf
+                  mv assets/background.png ./upload
+                  mv icons/*.svg ./upload
                   mv ./icon-set/* ./upload
             - name: Azure CLI Action
               uses: Azure/cli@v3
