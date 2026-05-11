@@ -32,6 +32,57 @@ jobs:
               with:
                   name: icon-set
                   path: out/
+    publish_release:
+        name: "Publish ARM Template on GitHub Releases"
+        needs: build
+        permissions:
+            contents: write
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: icon-set
+                  path: ./icon-set
+                  merge-multiple: true
+            - name: Create Tag Name
+              id: tag_name
+              run: echo "tag_name=$(date +'v%Y.%m.%d-%H.%M')" >> $GITHUB_ENV
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ env.tag_name }}
+                  release_name: Release ${{ env.tag_name }}
+                  body: Release of ARM Template on ${{ github.event.repository.updated_at }}
+                  draft: false
+                  prerelease: false
+            - name: Prepare release assets
+              run: |
+                  mkdir -p ./upload/icons
+                  mv ./icon-set/ICONSHEET.pdf ./upload/ICONSHEET.pdf
+                  cd ./icon-set
+                  zip -r ../upload/icons.zip ./*
+            - name: Upload ICONSHEET PDF
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./upload/ICONSHEET.pdf
+                  asset_name: ICONSHEET.pdf
+                  asset_content_type: application/pdf
+            - name: Upload Icons
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./upload/icons.zip
+                  asset_name: icons.zip
+                  asset_content_type: application/zip
     publish-onedrive:
         needs: build
         runs-on: ubuntu-latest
