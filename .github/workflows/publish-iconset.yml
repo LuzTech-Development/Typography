@@ -75,8 +75,11 @@ jobs:
         environment: Azure
         runs-on: ubuntu-latest
         permissions:
+            contents: read
             id-token: write
         steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
             - name: Download artifacts
               uses: actions/download-artifact@v6
               with:
