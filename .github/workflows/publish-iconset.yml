@@ -3,7 +3,7 @@ name: Publish Icon Set
 on:
     push:
         branches: [master]
-        paths: ['assets/**', 'scripts/**', 'icons/**', 'Makefile']
+        paths: ['.github/workflows/publish-iconset.yml', 'assets/**', 'scripts/**', 'icons/**', 'Makefile']
     workflow_dispatch:
 
 jobs:
@@ -54,6 +54,11 @@ jobs:
                   mv ./icon-set/ICONSHEET.pdf ./upload/ICONSHEET.pdf
                   cd ./icon-set
                   zip -r ../upload/icons.zip ./*
+            - name: Create tag
+              uses: mathieudutour/github-tag-action@v6.2
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                custom_tag: ${{ env.tag_name }}
             - name: Publish Release
               uses: softprops/action-gh-release@v3
               with:
