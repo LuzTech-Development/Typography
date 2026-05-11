@@ -69,18 +69,6 @@ jobs:
                   files: |
                       ICONSHEET.pdf
                       icons.zip
-    publish-onedrive:
-        name: 'Publish on OneDrive'
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Download artifacts
-              uses: actions/download-artifact@v6
-              with:
-                  name: icon-set
-                  path: icon-set/
-            - name: Publish to OneDrive
-              run: echo "TODO!"
     publish-cdn:
         name: 'Publish on CDN'
         needs: build
