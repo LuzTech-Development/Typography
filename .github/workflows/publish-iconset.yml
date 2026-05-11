@@ -86,6 +86,8 @@ jobs:
         needs: build
         environment: Azure
         runs-on: ubuntu-latest
+        permissions:
+            id-token: write
         steps:
             - name: Download artifacts
               uses: actions/download-artifact@v6
@@ -117,6 +119,3 @@ jobs:
                     -d assets \
                     --destination-path icons
                     --overwrite
-                    
-            - name: Publish to CDN
-              run: echo "TODO!"
