@@ -110,15 +110,15 @@ jobs:
               with:
                 inlineScript: |
                   az storage blob delete-batch \
-                    --auth-mode login
+                    --auth-mode login \
                     --account-name ${{ vars.STORAGE_ACCOUNT_NAME }} \
                     -s assets \
                     --pattern 'icons/*'
 
                   az storage blob upload-batch \
-                    --auth-mode login
+                    --auth-mode login \
                     --account-name ${{ vars.STORAGE_ACCOUNT_NAME }} \
                     -s ./upload \
                     -d assets \
-                    --destination-path icons
+                    --destination-path icons \
                     --overwrite
