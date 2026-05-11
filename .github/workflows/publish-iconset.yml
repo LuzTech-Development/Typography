@@ -84,12 +84,39 @@ jobs:
     publish-cdn:
         name: 'Publish on CDN'
         needs: build
+        environment: Azure
         runs-on: ubuntu-latest
         steps:
             - name: Download artifacts
               uses: actions/download-artifact@v6
               with:
                   name: icon-set
-            
+            - name: Azure Login
+              uses: Azure/login@v3
+              with:
+                client-id: ${{ vars.CLIENT_ID }}
+                tenant-id: ${{ vars.TENANT_ID }}
+                subscription-id: ${{ vars.SUBSCRIPTION_ID }}
+            - name: Prepare assets
+              run: |
+                  mkdir -p ./upload
+                  rm -f ./icon-set/ICONSHEET.pdf
+                  mv ./icon-set/* ./upload
+            - name: Azure CLI Action
+              uses: Azure/cli@v3
+              with:
+                inlineScript: |
+                  az storage blob delete-batch \
+                    --account-name ${{ vars.STORAGE_ACCOUNT_NAME }} \
+                    -s assets \
+                    --pattern 'icons/*'
+
+                  az storage blob upload-batch \
+                    --account-name ${{ vars.STORAGE_ACCOUNT_NAME }} \
+                    -s ./upload \
+                    -d assets \
+                    --destination-path icons
+                    --overwrite
+                    
             - name: Publish to CDN
               run: echo "TODO!"
