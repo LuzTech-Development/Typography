@@ -33,7 +33,7 @@ jobs:
                   name: icon-set
                   path: out/
     publish_release:
-        name: "Publish GitHub Release"
+        name: "Publish on GitHub"
         needs: build
         permissions:
             contents: write
@@ -93,6 +93,7 @@ jobs:
               uses: actions/download-artifact@v6
               with:
                   name: icon-set
+                  path: icon-set/
             - name: Azure Login
               uses: Azure/login@v3
               with:
