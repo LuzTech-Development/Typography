@@ -7,6 +7,8 @@ const DURATION_SECONDS = 60;
 const ALTERNATE = true;
 const SPEED = 10;
 const SHOW_LOGO = false;
+const WIDTH = 1920;
+const HEIGHT = 1080;
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -16,8 +18,8 @@ export const RemotionRoot: React.FC = () => {
         component={MeshGradient.bind(null, { alternate: ALTERNATE, showLogo: SHOW_LOGO, speed: SPEED })}
         durationInFrames={DURATION_SECONDS * FPS}
         fps={FPS}
-        width={1920}
-        height={1080}
+        width={WIDTH}
+        height={HEIGHT}
       />
     </>
   );
