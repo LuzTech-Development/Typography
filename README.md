@@ -1,13 +1,11 @@
-# LuzTech Typography <a id="luztech-typography"></a> [Go to Summary](#summary)
+# LuzTech Typography
 
 LuzTech Typography is the home for LuzTech visual identity source files, generated icon outputs, typography guidance, and animated brand backgrounds.
 
 Use this repository when you need official LuzTech typography assets, generated icon packages, iconsheets, or the source files and scripts used to reproduce them.
 
-## Summary <a id="summary"></a> [Go to Summary](#summary)
+## Summary
 
-- [LuzTech Typography](#luztech-typography)
-- [Summary](#summary)
 - [Useful links](#useful-links)
 - [What you can do with this repository](#what-you-can-do-with-this-repository)
 - [For users: getting the assets](#for-users-getting-the-assets)
@@ -18,7 +16,9 @@ Use this repository when you need official LuzTech typography assets, generated 
 - [Repository structure](#repository-structure)
 - [Legal and trademark notice](#legal-and-trademark-notice)
 
-## Useful links <a id="useful-links"></a> [Go to Summary](#summary)
+## Useful links
+
+[Go to Summary](#summary)
 
 - [Latest release](https://github.com/LuzTech-Development/Typography/releases/latest) — download the newest generated assets.
 - [All releases](https://github.com/LuzTech-Development/Typography/releases) — browse previous generated asset packages.
@@ -26,30 +26,36 @@ Use this repository when you need official LuzTech typography assets, generated 
 - [License](LICENSE) — source code, scripts, and automation files are licensed under MIT unless otherwise stated.
 - [Animations project](animations/) — Remotion project for animated mesh-gradient visuals.
 
-## What you can do with this repository <a id="what-you-can-do-with-this-repository"></a> [Go to Summary](#summary)
+## What you can do with this repository
+
+[Go to Summary](#summary)
 
 You can use this repository to:
 
 - Download ready-to-use LuzTech icon assets from the [latest release](https://github.com/LuzTech-Development/Typography/releases/latest).
-- Regenerate PNG icons and iconsheets from the SVG sources.
+- Regenerate PNG icons and icon sheets from the SVG sources.
 - Inspect the official typography style, including the font, colors, and mesh-gradient design.
 - Render animated brand backgrounds using the Remotion project in [`animations/`](animations/).
 - Reference LuzTech visual identity materials in documentation, articles, integrations, or compatibility references.
 
 Before using LuzTech brand assets, read [`TRADEMARKS.md`](TRADEMARKS.md). The source code and scripts may be MIT-licensed, but the LuzTech name, logo, icons, typography outputs, generated visual identity files, and other brand materials have additional trademark and brand-use restrictions.
 
-## For users: getting the assets <a id="for-users-getting-the-assets"></a> [Go to Summary](#summary)
+## For users: getting the assets
+
+[Go to Summary](#summary)
 
 The easiest way to get the generated assets is to download them from the [latest release](https://github.com/LuzTech-Development/Typography/releases/latest).
 
 Release assets may include:
 
 - `icons.zip` — generated icon files.
-- `ICONSHEET.pdf` — a printable or shareable iconsheet.
+- `ICONSHEET.pdf` — a printable icon sheet.
 
-If you only need the official generated files, prefer the release downloads instead of running the build scripts locally.
+If you only need the officially generated files, prefer the release downloads instead of running the build scripts locally.
 
-## Typography details <a id="typography-details"></a> [Go to Summary](#summary)
+## Typography details
+
+[Go to Summary](#summary)
 
 The typography uses a mesh gradient background with the following colors:
 
@@ -74,7 +80,9 @@ The font used in the typography is [Space Grotesk](https://fonts.google.com/spec
 
 The weight used in the `name` version of the typography is `800`.
 
-## Requirements for development <a id="requirements-for-development"></a> [Go to Summary](#summary)
+## Requirements for development
+
+[Go to Summary](#summary)
 
 To regenerate assets locally, install:
 
@@ -87,7 +95,9 @@ To work on animations, install:
 - [Node.js](https://nodejs.org/).
 - [pnpm](https://pnpm.io/).
 
-## Generate icons locally <a id="generate-icons-locally"></a> [Go to Summary](#summary)
+## Generate icons locally
+
+[Go to Summary](#summary)
 
 Run the default generation command from the repository root:
 
@@ -103,9 +113,11 @@ To generate only selected variants, pass the variant names after `generate`:
 make generate clean name
 ```
 
-For each requested variant, the generator runs the supporting scripts that create PNG outputs, size variants, and the iconsheet.
+For each requested variant, the generator runs the supporting scripts that create PNG outputs, size variants, and the icon sheet.
 
-## Work with animations <a id="work-with-animations"></a> [Go to Summary](#summary)
+## Work with animations
+
+[Go to Summary](#summary)
 
 The [`animations/`](animations/) directory contains a [Remotion](https://www.remotion.dev/) project for rendering animated LuzTech mesh-gradient visuals.
 
@@ -147,7 +159,9 @@ Useful animation settings include:
 
 After changing these values, preview with `pnpm run dev` before rendering the final video.
 
-## Repository structure <a id="repository-structure"></a> [Go to Summary](#summary)
+## Repository structure
+
+[Go to Summary](#summary)
 
 ```text
 .
@@ -161,7 +175,9 @@ After changing these values, preview with `pnpm run dev` before rendering the fi
 └── TRADEMARKS.md     # LuzTech visual identity and trademark notice
 ```
 
-## Legal and trademark notice <a id="legal-and-trademark-notice"></a> [Go to Summary](#summary)
+## Legal and trademark notice
+
+[Go to Summary](#summary)
 
 The source code, scripts, and automation files in this repository are licensed under the [MIT License](LICENSE), unless otherwise stated.
 
