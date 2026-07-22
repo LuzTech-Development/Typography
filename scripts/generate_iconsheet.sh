@@ -21,7 +21,7 @@ cp "$ROOT_DIR/assets/ICONSHEET.md" "$OUT_FILE"
 echo "==> Adding icons to icon sheet..."
 
 for variant in "${VARIANTS[@]}"; do
-    VARIANT_NAME=$(basename ${variant%%.*})
+    VARIANT_NAME=$(basename "${variant%.*}")
 
     echo "==> Adding $VARIANT_NAME to icon sheet..."
 

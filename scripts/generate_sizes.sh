@@ -17,6 +17,6 @@ for SIZE in "${SIZES[@]}"; do
 
         mkdir -p "$(dirname "$OUT_FILE")"
 
-        convert "$FILE" -filter Lanczos -resize ${SIZE}x${SIZE} "$OUT_FILE"
+        magick "$FILE" -filter Lanczos -resize ${SIZE}x${SIZE} "$OUT_FILE"
     done
 done

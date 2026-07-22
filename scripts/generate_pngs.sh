@@ -5,7 +5,7 @@ ROOT_DIR="$(dirname "$SCRIPT_PATH")"
 
 BACKGROUND_IMAGE="$ROOT_DIR/assets/background.png"
 VARIANT_NAME="${1}"
-INPUT_SVG="$ROOT_DIR/icons/$VARIANT_NAME.svg"
+INPUT_SVG="$ROOT_DIR/out/$VARIANT_NAME.svg"
 
 if [ -z "$VARIANT_NAME" ]; then
     echo "Usage: $0 <variant-name>"
@@ -13,11 +13,11 @@ if [ -z "$VARIANT_NAME" ]; then
 fi
 
 if [ ! -f "$INPUT_SVG" ]; then
-    echo "Error: SVG file '$INPUT_SVG' not found."
+    echo "Error: outlined SVG file '$INPUT_SVG' not found. Run generate_outlined_svg.sh first."
     exit 1
 fi
 
-OUTPUT_DIR="out/$VARIANT_NAME/1024x"
+OUTPUT_DIR="$ROOT_DIR/out/$VARIANT_NAME/1024x"
 
 echo "==> Generating $VARIANT_NAME icons..."
 
@@ -29,11 +29,11 @@ inkscape "$INPUT_SVG" -w 1024 -o "$OUTPUT_DIR/black.png"
 
 echo "==> Creating white and color variants..."
 
-convert "$OUTPUT_DIR/black.png" -negate "$OUTPUT_DIR/white.png"
-convert "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/color.png"
+magick "$OUTPUT_DIR/black.png" -negate "$OUTPUT_DIR/white.png"
+magick "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/color.png"
 
 echo "==> Creating inverted variants..."
 
-convert -size 1024x1024 "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/color.png"
-convert -size 1024x1024 "xc:white" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/white.png"
-convert -size 1024x1024 "xc:black" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/black.png"
+magick -size 1024x1024 "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/color.png"
+magick -size 1024x1024 "xc:white" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/white.png"
+magick -size 1024x1024 "xc:black" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/black.png"

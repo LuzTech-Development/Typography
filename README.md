@@ -81,6 +81,10 @@ The font used in the typography is [Space Grotesk](https://fonts.google.com/spec
 
 The weight used in the `name` version of the typography is `800`.
 
+The Space Grotesk TrueType file is vendored in [`assets/fonts/`](assets/fonts/) under its original [SIL Open Font License 1.1](assets/fonts/OFL.txt) so the build is fully reproducible without requiring the font to be installed system-wide. The build wires it into Inkscape via a temporary fontconfig configuration, and the source files listing the font's authors and contributors are preserved alongside the license in the same directory.
+
+The source SVGs in [`icons/`](icons/) still reference `font-family="Space Grotesk"` on their `<text>` elements so they remain editable in vector tools. The build outputs (`out/<variant>.svg`) have those `<text>` elements converted to `<path>` outlines, so the generated SVGs render identically on any machine, with or without Space Grotesk installed.
+
 ## Requirements for development
 
 [Go to Summary](#summary)
@@ -88,8 +92,10 @@ The weight used in the `name` version of the typography is `800`.
 To regenerate assets locally, install:
 
 - [ImageMagick](https://imagemagick.org/) for image processing.
-- [Inkscape](https://inkscape.org/) for SVG-to-PNG conversion.
+- [Inkscape](https://inkscape.org/) for SVG-to-PNG conversion and for outlining `<text>` into `<path>` elements during the build. On macOS, the easiest way to install it is `brew install --cask inkscape`, which registers the `inkscape` CLI in `PATH` automatically. If you install Inkscape from the DMG instead, remember that the CLI lives at `/Applications/Inkscape.app/Contents/MacOS/inkscape` and needs to be either added to your `PATH` or invoked through `open -a Inkscape` for GUI use.
 - A Unix-like environment, such as Linux, macOS, or Windows Subsystem for Linux, to run the shell scripts.
+
+The Space Grotesk font itself does **not** need to be installed on your system — it is vendored in [`assets/fonts/`](assets/fonts/) and the build wires it into Inkscape through a temporary fontconfig configuration.
 
 To work on animations, install:
 
@@ -167,8 +173,9 @@ After changing these values, preview with `pnpm run dev` before rendering the fi
 ```text
 .
 ├── animations/       # Remotion animation project
-├── icons/            # Source SVG icon variants
-├── out/              # Generated outputs, when created locally
+├── assets/           # Shared assets: gradient background, vendored fonts (with OFL license), iconsheet template
+├── icons/            # Source SVG icon variants (editable, reference Space Grotesk by name)
+├── out/              # Generated outputs, when created locally (includes outlined <path>-only SVGs)
 ├── scripts/          # Asset generation scripts
 ├── LICENSE           # MIT license for source code and scripts
 ├── Makefile          # Convenience commands for generation

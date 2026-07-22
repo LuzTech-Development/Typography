@@ -18,13 +18,14 @@ if ((${#VARIANTS[@]} <= 0)); then
 fi
 
 for file in "${VARIANTS[@]}"; do
-    VARIANT_NAME=$(basename ${file%%.*})
+    VARIANT_NAME=$(basename "${file%.*}")
 
     if [[ ! -f "$ROOT_DIR/icons/$VARIANT_NAME.svg" ]]; then
         echo "File not found: $file"
         exit 1
     fi
 
+    bash "$SCRIPT_PATH/generate_outlined_svg.sh" "$VARIANT_NAME"
     bash "$SCRIPT_PATH/generate_pngs.sh" "$VARIANT_NAME"
     bash "$SCRIPT_PATH/generate_sizes.sh" "$VARIANT_NAME"
 done
