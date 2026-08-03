@@ -2,6 +2,7 @@
 
 SCRIPT_PATH="$(dirname "$(realpath "$0")")"
 ROOT_DIR="$(dirname "$SCRIPT_PATH")"
+source "$SCRIPT_PATH/imagemagick.sh"
 
 BACKGROUND_IMAGE="$ROOT_DIR/assets/background.png"
 VARIANT_NAME="${1}"
@@ -29,11 +30,11 @@ inkscape "$INPUT_SVG" -w 1024 -o "$OUTPUT_DIR/black.png"
 
 echo "==> Creating white and color variants..."
 
-magick "$OUTPUT_DIR/black.png" -negate "$OUTPUT_DIR/white.png"
-magick "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/color.png"
+imagemagick "$OUTPUT_DIR/black.png" -negate "$OUTPUT_DIR/white.png"
+imagemagick "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/color.png"
 
 echo "==> Creating inverted variants..."
 
-magick -size 1024x1024 "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/color.png"
-magick -size 1024x1024 "xc:white" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/white.png"
-magick -size 1024x1024 "xc:black" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/black.png"
+imagemagick -size 1024x1024 "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/color.png"
+imagemagick -size 1024x1024 "xc:white" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/white.png"
+imagemagick -size 1024x1024 "xc:black" '(' "$OUTPUT_DIR/black.png" -alpha extract -negate ')' -compose CopyOpacity -composite "$OUTPUT_DIR/inverted/black.png"

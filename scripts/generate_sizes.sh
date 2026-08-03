@@ -3,6 +3,8 @@
 BASE_DIR="out/$1"
 SOURCE_DIR="${BASE_DIR}/1024x"
 SIZES=(512 256 128 64 32 16)
+SCRIPT_PATH="$(dirname "$(realpath "$0")")"
+source "$SCRIPT_PATH/imagemagick.sh"
 
 echo "==> Generating sizes for $1 variant..."
 
@@ -17,6 +19,6 @@ for SIZE in "${SIZES[@]}"; do
 
         mkdir -p "$(dirname "$OUT_FILE")"
 
-        magick "$FILE" -filter Lanczos -resize ${SIZE}x${SIZE} "$OUT_FILE"
+        imagemagick "$FILE" -filter Lanczos -resize ${SIZE}x${SIZE} "$OUT_FILE"
     done
 done
