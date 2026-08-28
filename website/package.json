@@ -4,10 +4,13 @@
   "description": "Static website for generating LuzTech mesh gradients (images and animated videos) with Editframe.",
   "type": "module",
   "scripts": {
-    "start": "editframe preview"
+    "start": "editframe preview",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@editframe/cli": "0.59.41",
+    "@editframe/elements": "0.59.41",
     "@editframe/react": "0.59.41",
     "@editframe/vite-plugin": "0.59.41",
     "@paper-design/shaders-react": "^0.0.80",

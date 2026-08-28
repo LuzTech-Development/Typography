@@ -1,0 +1,11 @@
+allowBuilds:
+  '@editframe/cli': true
+  node-av: true
+minimumReleaseAgeExclude:
+  - '@editframe/api@0.59.41'
+  - '@editframe/assets@0.59.41'
+  - '@editframe/cli@0.59.41'
+  - '@editframe/dev-server@0.59.41'
+  - '@editframe/elements@0.59.41'
+  - '@editframe/react@0.59.41'
+  - '@editframe/vite-plugin@0.59.41'
