@@ -1,9 +1,95 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    /* LuzTech brand colors — the content of this tool, not the chrome. */
+    --color-mint: #00ff9d;
+    --color-leaf: #69dd96;
+    --color-indigo: #4665c3;
+    --color-azure: #1f6fef;
+
+    /* Chrome — a near-black tuned slightly cool, not pure zinc. */
+    --color-ink: #0a0c0e;
+    --color-ink-2: #101316;
+    --color-line: #1c2126;
+    --color-fog: #8b949e;
+}
+
+html,
+body,
+#root {
+    height: 100%;
 }
 
 body {
-  font-family: var(--font-sans);
+    font-family: var(--font-sans);
+    background: var(--color-ink);
+    color: #e6e8eb;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Numeric readouts are the content of a precision instrument. */
+.tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+/* Range inputs — flat, precise, mint thumb. */
+input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    background: var(--color-line);
+    border-radius: 0;
+    cursor: pointer;
+}
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-mint);
+    border: none;
+}
+input[type='range']::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-mint);
+    border: none;
+}
+input[type='range']:focus-visible {
+    outline: 2px solid var(--color-mint);
+    outline-offset: 4px;
+}
+
+/* Color swatches — square, no rounding, the raw material. */
+input[type='color'] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: none;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+input[type='color']::-webkit-color-swatch {
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+}
+input[type='color']::-moz-color-swatch {
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }

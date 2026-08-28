@@ -9,3 +9,13 @@ minimumReleaseAgeExclude:
   - '@editframe/elements@0.59.41'
   - '@editframe/react@0.59.41'
   - '@editframe/vite-plugin@0.59.41'
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
+  vite-plus: 0.3.0
+overrides:
+  vite@*: 'catalog:'
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: '*'
