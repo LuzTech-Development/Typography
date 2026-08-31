@@ -1,0 +1,77 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+import { ICON_VARIANTS, svgUrl } from '@/lib/icons';
+import { IconDownloader } from './IconDownloader.tsx';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const d = dict.icons.download;
+
+const variantLabels = {
+    clean: dict.icons.variants.clean,
+    name: dict.icons.variants.name,
+    blog: dict.icons.variants.blog,
+    nfse: dict.icons.variants.nfse
+} as const;
+---
+
+<section id="icons" class="border-b border-white/[0.06] py-24">
+    <div class="container-editorial">
+        <p class="eyebrow">{dict.icons.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{dict.icons.title}</h2>
+        <p class="mt-6 max-w-2xl text-lg text-paper/75">{dict.icons.lede}</p>
+
+        <!-- Gallery -->
+        <div class="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4">
+            {
+                ICON_VARIANTS.map(v => (
+                    <a
+                        href={`#icon-${v.id}`}
+                        class="group flex flex-col items-center gap-4 rounded-xl border border-white/[0.08] bg-ink-soft p-6 transition hover:border-luz-mint/40"
+                    >
+                        <img
+                            src={svgUrl(v.id)}
+                            alt={variantLabels[v.id]}
+                            class="h-24 w-24 text-paper transition group-hover:scale-105"
+                            style="color: var(--color-paper)"
+                        />
+                        <span class="stamp-num text-ink-muted group-hover:text-paper">
+                            {variantLabels[v.id]}
+                        </span>
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- URL pattern -->
+        <div class="mt-12 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+            <h3 class="text-lg font-bold">{dict.icons.urlPattern}</h3>
+            <p class="mt-2 text-sm text-ink-muted">{dict.icons.urlPatternHint}</p>
+            <pre class="mt-4 overflow-x-auto rounded-lg bg-ink p-4 font-mono text-sm text-luz-mint"><code>/icons/&lt;variant&gt;/&lt;size&gt;/[inverted/]&lt;color&gt;.png</code></pre>
+        </div>
+
+        <!-- Downloader -->
+        <div id="icon-downloader" class="mt-12">
+            <IconDownloader
+                client:load
+                labels={{
+                    format: d.format,
+                    size: d.size,
+                    color: d.color,
+                    download: d.download,
+                    copyUrl: d.copyUrl,
+                    copied: d.copied,
+                    svg: d.svg,
+                    png: d.png,
+                    colors: d.colors
+                }}
+                variantLabels={variantLabels}
+            />
+        </div>
+    </div>
+</section>

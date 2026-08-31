@@ -1,0 +1,137 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const f = dict.font;
+
+const weights = [
+    { label: f.weights.light, weight: 300 },
+    { label: f.weights.regular, weight: 400 },
+    { label: f.weights.medium, weight: 500 },
+    { label: f.weights.semibold, weight: 600 },
+    { label: f.weights.bold, weight: 700 },
+    { label: f.weights.extrabold, weight: 800 }
+];
+
+const sizes = [
+    { label: f.sizes.caption, cls: 'text-xs' },
+    { label: f.sizes.body, cls: 'text-base' },
+    { label: f.sizes.subtitle, cls: 'text-2xl' },
+    { label: f.sizes.heading, cls: 'text-4xl' },
+    { label: f.sizes.display, cls: 'text-6xl' }
+];
+---
+
+<section id="font" class="py-24">
+    <div class="container-editorial">
+        <p class="eyebrow">{f.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{f.title}</h2>
+        <p class="mt-6 max-w-2xl text-lg text-paper/75">{f.lede}</p>
+
+        <div class="mt-12 grid gap-8 lg:grid-cols-2">
+            <!-- Weights -->
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{f.weights.title}</h3>
+                <div class="mt-6 space-y-4">
+                    {
+                        weights.map(w => (
+                            <div class="flex items-baseline justify-between border-b border-white/[0.06] pb-3">
+                                <span class="text-2xl" style={`font-weight: ${w.weight}`}>
+                                    LuzTech
+                                </span>
+                                <span class="stamp-num text-ink-muted">{w.label}</span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Sizes -->
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{f.sizes.title}</h3>
+                <div class="mt-6 space-y-4">
+                    {
+                        sizes.map(s => (
+                            <div class="flex items-baseline justify-between border-b border-white/[0.06] pb-3">
+                                <span class={`${s.cls} font-semibold`}>LuzTech</span>
+                                <span class="stamp-num text-ink-muted">{s.label}</span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Download -->
+        <div class="mt-8 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+            <h3 class="text-xl font-bold">{f.download.title}</h3>
+            <p class="mt-2 text-sm text-ink-muted">{f.download.officialHint}</p>
+            <div class="mt-6 flex flex-wrap gap-4">
+                <a
+                    href="https://fonts.google.com/specimen/Space+Grotesk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--primary"
+                >
+                    {f.download.googleFonts}
+                </a>
+                <a
+                    href="https://github.com/floriankarsten/space-grotesk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--ghost"
+                >
+                    {f.download.github}
+                </a>
+                <a
+                    href="/fonts/OFL.txt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--ghost"
+                >
+                    {f.download.license}
+                </a>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="mt-8 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+            <h3 class="text-xl font-bold">{f.resources.title}</h3>
+            <div class="mt-6 grid gap-6 md:grid-cols-3">
+                <a
+                    href="https://meshgradient.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
+                >
+                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.meshGradient}</p>
+                    <p class="mt-2 text-sm text-ink-muted">{f.resources.meshGradientHint}</p>
+                </a>
+                <a
+                    href="https://github.com/LuzTech-Development/Typography/releases/latest"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
+                >
+                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.releases}</p>
+                    <p class="mt-2 text-sm text-ink-muted">{f.resources.releasesHint}</p>
+                </a>
+                <a
+                    href="https://github.com/LuzTech-Development/Typography"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
+                >
+                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.repository}</p>
+                    <p class="mt-2 text-sm text-ink-muted">{f.resources.repositoryHint}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

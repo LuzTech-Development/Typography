@@ -1,0 +1,43 @@
+# LuzTech Typography
+
+> Official LuzTech visual identity reference: icons, typography, licenses, and brand assets.
+
+## Site
+
+- English: https://ui.luztech.dev.br/en-us/
+- Português: https://ui.luztech.dev.br/pt-br/
+
+## Sections
+
+- Instructions: https://ui.luztech.dev.br/en-us/#instructions
+- Licenses: https://ui.luztech.dev.br/en-us/#licenses
+- Icons: https://ui.luztech.dev.br/en-us/#icons
+- Font & Resources: https://ui.luztech.dev.br/en-us/#font
+
+## Icon library
+
+Every icon is available as an outlined SVG and as PNGs in multiple sizes, colors, and inverted variants.
+
+URL pattern: /icons/<variant>/<size>/[inverted/]<color>.png
+
+Variants: clean, name, blog, nfse
+Sizes: 16, 32, 64, 128, 256, 512, 1024
+Colors: black, white, color
+
+Full icon map: https://ui.luztech.dev.br/icons.json
+
+## Font
+
+- Space Grotesk (variable font, SIL Open Font License 1.1)
+- Google Fonts: https://fonts.google.com/specimen/Space+Grotesk
+- GitHub: https://github.com/floriankarsten/space-grotesk
+
+## Licenses
+
+- Source code & scripts: MIT License
+- Space Grotesk font: SIL Open Font License 1.1
+- LuzTech brand assets: trademark & brand-use restrictions (see TRADEMARKS.md)
+
+## Repository
+
+- https://github.com/LuzTech-Development/Typography

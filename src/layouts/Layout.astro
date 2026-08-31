@@ -1,0 +1,128 @@
+---
+import '@/styles/globals.css';
+import type { Locale } from '@/i18n';
+import { alternateHref, otherLocale, t } from '@/lib/i18n';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+interface Props {
+    locale: Locale;
+    title?: string;
+    description?: string;
+    noIndex?: boolean;
+}
+
+const {
+    locale,
+    title,
+    description,
+    noIndex = false
+} = Astro.props;
+
+const dict = t(locale);
+const pageTitle = title ?? dict.meta.title;
+const pageDesc = description ?? dict.meta.description;
+
+const siteURL = Astro.site ?? new URL('/', Astro.url);
+const withTrailingSlash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
+const canonical = new URL(withTrailingSlash(Astro.url.pathname), siteURL).href;
+
+const alt = otherLocale(locale);
+const altHref = new URL(withTrailingSlash(alternateHref(Astro.url, alt)), siteURL).href;
+const selfHref = new URL(withTrailingSlash(Astro.url.pathname), siteURL).href;
+const xDefaultHref = new URL('/en-us/', siteURL).href;
+
+const ogLocale = locale === 'pt-br' ? 'pt_BR' : 'en_US';
+const ogLocaleAlt = alt === 'pt-br' ? 'pt_BR' : 'en_US';
+const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en-US';
+const altHreflang = alt === 'pt-br' ? 'pt-BR' : 'en';
+
+const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'LuzTech Development',
+    url: siteURL.href,
+    logo: new URL('/favicon.svg', siteURL).href
+};
+
+const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: dict.meta.title,
+    url: siteURL.href,
+    inLanguage: [htmlLang, altHreflang],
+    publisher: {
+        '@type': 'Organization',
+        name: 'LuzTech Development',
+        url: siteURL.href
+    }
+};
+---
+
+<!doctype html>
+<html lang={htmlLang} class="antialiased">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#0a0d10" />
+        <meta name="generator" content={Astro.generator} />
+
+        <title>{pageTitle}</title>
+        <meta name="title" content={pageTitle} />
+        <meta name="description" content={pageDesc} />
+        <meta name="author" content="LuzTech Development" />
+        {
+            noIndex ? (
+                <meta name="robots" content="noindex,nofollow" />
+            ) : (
+                <meta name="robots" content="index,follow,max-image-preview:large" />
+            )
+        }
+
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+
+        <link rel="alternate" hreflang={htmlLang} href={selfHref} />
+        <link rel="alternate" hreflang={altHreflang} href={altHref} />
+        <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="LuzTech Development" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:locale" content={ogLocale} />
+        <meta property="og:locale:alternate" content={ogLocaleAlt} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonical} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(orgJsonLd)}
+        />
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(websiteJsonLd)}
+        />
+    </head>
+    <body>
+        <a
+            href="#main"
+            class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
+        >
+            {dict.a11y.skipToContent}
+        </a>
+        <Header locale={locale} />
+        <main id="main">
+            <slot />
+        </main>
+        <Footer locale={locale} />
+    </body>
+</html>

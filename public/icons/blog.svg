@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   color="currentColor"
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   stroke="currentColor"
+   stroke-width="18"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   fill="none"
+   maskUnits="userSpaceOnUse"
+   maskContentUnits="userSpaceOnUse"
+   version="1.1"
+   id="svg15"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6">
+    <mask
+       id="platform-margins"
+       fill="black"
+       stroke="black">
+      <!-- Base mask -->
+      <rect
+         width="100%"
+         height="100%"
+         fill="white"
+         id="rect1" />
+      <!-- Pyramid margin -->
+      <polygon
+         points="196 236 256 256 316 236 256 156"
+         stroke-width="4"
+         id="polygon1" />
+      <!-- Pyramid connectors -->
+      <line
+         x1="196"
+         y1="236"
+         x2="124"
+         y2="245"
+         stroke-width="6"
+         id="line1" />
+      <line
+         x1="316"
+         y1="236"
+         x2="388"
+         y2="245"
+         stroke-width="6"
+         id="line2" />
+      <line
+         x1="256"
+         y1="290"
+         x2="256"
+         y2="256"
+         stroke-width="6"
+         id="line3" />
+      <!-- Platform margin -->
+      <line
+         x1="124"
+         x2="256"
+         y1="245"
+         y2="290"
+         stroke-width="10"
+         id="line4" />
+      <line
+         x1="388"
+         x2="256"
+         y1="245"
+         y2="290"
+         stroke-width="10"
+         id="line5" />
+    </mask>
+    <mask
+       id="pyramid-edges"
+       stroke="black"
+       fill="black"
+       stroke-width="6">
+      <!-- Base mask -->
+      <rect
+         width="100%"
+         height="100%"
+         fill="white"
+         id="rect5" />
+      <!-- Outer lines -->
+      <polygon
+         points="196 236 256 256 316 236 256 156"
+         fill="none"
+         id="polygon5" />
+      <!-- Mid line -->
+      <line
+         x1="256"
+         y1="256"
+         x2="256"
+         y2="156"
+         id="line6" />
+    </mask>
+  </defs>
+  <!-- Icon -->
+  <g
+     transform="translate(0, -20)"
+     id="g14">
+    <!-- Platform -->
+    <g
+       id="g11">
+      <!-- Backfill -->
+      <g
+         mask="url(#platform-margins)"
+         fill="currentColor"
+         id="g8">
+        <path
+           id="polygon6"
+           style="stroke-width:0"
+           d="m 124,255 131,-50 133,50 -132,45 z" />
+        <path
+           id="line7"
+           d="M 124,255 256,205" />
+        <path
+           id="line8"
+           d="M 388,255 256,205" />
+      </g>
+      <!-- Strokes -->
+      <g
+         id="g10">
+        <path
+           id="line9"
+           d="m 124,255 132,45" />
+        <path
+           id="line10"
+           d="M 388,255 256,300" />
+      </g>
+    </g>
+    <!-- Pyramid -->
+    <g
+       stroke-width="6"
+       mask="url(#pyramid-edges)"
+       fill="currentColor"
+       id="g12">
+      <path
+         id="polygon11"
+         style="stroke:none"
+         d="m 196,236 60,20 60,-20 -60,-80 z" />
+    </g>
+    <!-- Lightbulb -->
+    <g
+       id="g13">
+      <path
+         d="       M256 90       C170 90 120 160 120 230       C120 290 160 330 190 350       L190 390       M256 90       C342 90 392 160 392 230       C392 290 352 330 322 350       L322 390     "
+         id="path12" />
+    </g>
+  </g>
+  <!-- Text -->
+  <g
+     id="g15">
+    <path
+       d="m 172.47999,442 v -9.28 h 7.36 v -37.44 h -7.36 V 386 h 28.8 q 5.12,0 8.88,1.76 3.84,1.68 5.92,4.88 2.16,3.12 2.16,7.52 v 0.8 q 0,3.84 -1.44,6.32 -1.44,2.4 -3.44,3.76 -1.92,1.28 -3.68,1.84 v 1.44 q 1.76,0.48 3.84,1.84 2.08,1.28 3.52,3.76 1.52,2.48 1.52,6.48 v 0.8 q 0,4.64 -2.16,8 -2.16,3.28 -6,5.04 -3.76,1.76 -8.8,1.76 z m 17.92,-9.6 h 9.92 q 3.44,0 5.52,-1.68 2.16,-1.68 2.16,-4.8 v -0.8 q 0,-3.12 -2.08,-4.8 -2.08,-1.68 -5.6,-1.68 h -9.92 z m 0,-23.36 h 9.76 q 3.28,0 5.36,-1.68 2.16,-1.68 2.16,-4.64 v -0.8 q 0,-3.04 -2.08,-4.64 -2.08,-1.68 -5.44,-1.68 h -9.76 z M 227.51995,442 v -56 h 10.08 v 56 z m 40.16006,1.12 q -5.92,0 -10.64,-2.4 -4.72,-2.4 -7.44,-6.96 -2.72,-4.56 -2.72,-10.96 v -1.28 q 0,-6.4 2.72,-10.96 2.72,-4.56 7.44,-6.96 4.72,-2.4 10.64,-2.4 5.92,0 10.64,2.4 4.72,2.4 7.44,6.96 2.72,4.56 2.72,10.96 v 1.28 q 0,6.4 -2.72,10.96 -2.72,4.56 -7.44,6.96 -4.72,2.4 -10.64,2.4 z m 0,-8.96 q 4.64,0 7.68,-2.96 3.04,-3.04 3.04,-8.64 v -0.8 q 0,-5.6 -3.04,-8.56 -2.96,-3.04 -7.68,-3.04 -4.64,0 -7.68,3.04 -3.04,2.96 -3.04,8.56 v 0.8 q 0,5.6 3.04,8.64 3.04,2.96 7.68,2.96 z m 28.15996,-11.84 v -1.28 q 0,-6.24 2.48,-10.64 2.48,-4.48 6.56,-6.8 4.16,-2.4 9.04,-2.4 5.44,0 8.24,1.92 2.8,1.92 4.08,4 h 1.44 v -4.8 h 9.92 v 46.72 q 0,4.08 -2.4,6.48 -2.4,2.48 -6.4,2.48 h -26.56 v -8.8 h 23.04 q 2.24,0 2.24,-2.4 v -10.32 h -1.44 q -0.8,1.28 -2.24,2.64 -1.44,1.28 -3.84,2.16 -2.4,0.88 -6.08,0.88 -4.88,0 -9.04,-2.32 -4.08,-2.4 -6.56,-6.8 -2.48,-4.48 -2.48,-10.72 z m 20.96,11.04 q 4.64,0 7.76,-2.96 3.12,-2.96 3.12,-8.32 v -0.8 q 0,-5.44 -3.12,-8.32 -3.04,-2.96 -7.76,-2.96 -4.64,0 -7.76,2.96 -3.12,2.88 -3.12,8.32 v 0.8 q 0,5.36 3.12,8.32 3.12,2.96 7.76,2.96 z"
+       id="text14"
+       style="font-weight:800;font-size:80px;font-family:'Space Grotesk';text-anchor:middle;fill:#000000;stroke-width:1"
+       aria-label="Blog" />
+  </g>
+</svg>

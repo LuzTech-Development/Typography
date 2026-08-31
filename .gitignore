@@ -1,2 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
 out/
+
+# Astro
+.astro/
+
+# Reference snapshot (pre-restructure assets, gitignored by design)
+.ref/
+
+# Old Editframe website (replaced by the root Astro site)
+website/
+
+# Old Remotion animation project (moved to .ref/animations)
+animations/
+
+# OS / editor
+.DS_Store
 *.dev.*
+*.log

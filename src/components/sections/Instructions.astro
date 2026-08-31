@@ -1,0 +1,81 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const s = dict.instructions.sections;
+
+const meshColors = [
+    { label: 'Top left', hex: '#00ff9d' },
+    { label: 'Top right', hex: '#69dd96' },
+    { label: 'Bottom left', hex: '#4665c3' },
+    { label: 'Bottom right', hex: '#1f6fef' }
+];
+---
+
+<section id="instructions" class="border-b border-white/[0.06] py-24">
+    <div class="container-editorial">
+        <p class="eyebrow">{dict.instructions.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{dict.instructions.title}</h2>
+        <p class="mt-6 max-w-2xl text-lg text-paper/75">{dict.instructions.lede}</p>
+
+        <div class="mt-12 grid gap-8 lg:grid-cols-2">
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{s.gettingAssets}</h3>
+                <p class="mt-4 text-paper/75">
+                    {locale === 'en-us'
+                        ? 'The easiest way to get the generated assets is to download them from the latest release. Release assets include icons.zip (generated icon files) and ICONSHEET.pdf (a printable icon sheet).'
+                        : 'A maneira mais fácil de obter os ativos gerados é baixá-los da última release. Os ativos da release incluem icons.zip (arquivos de ícones gerados) e ICONSHEET.pdf (uma folha de ícones imprimível).'}
+                </p>
+            </div>
+
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{s.typography}</h3>
+                <p class="mt-4 text-paper/75">
+                    {locale === 'en-us'
+                        ? 'The typography uses a mesh gradient background with the following colors. The font is Space Grotesk (weight 800 for the wordmark).'
+                        : 'A tipografia usa um fundo de gradiente mesh com as seguintes cores. A fonte é Space Grotesk (peso 800 para o wordmark).'}
+                </p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                    {
+                        meshColors.map(c => (
+                            <span class="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-sm">
+                                <span
+                                    class="inline-block h-3 w-3 rounded-full"
+                                    style={`background-color: ${c.hex}`}
+                                    aria-hidden="true"
+                                ></span>
+                                <span class="text-ink-muted">{c.label}</span>
+                                <span class="font-mono text-paper">{c.hex}</span>
+                            </span>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{s.requirements}</h3>
+                <p class="mt-4 text-paper/75">
+                    {locale === 'en-us'
+                        ? 'To regenerate assets locally, install ImageMagick (image processing), Inkscape (SVG-to-PNG conversion and text outlining), and a Unix-like environment. The Space Grotesk font is vendored, so it does not need to be installed system-wide.'
+                        : 'Para regenerar os ativos localmente, instale ImageMagick (processamento de imagem), Inkscape (conversão SVG-para-PNG e contorno de texto) e um ambiente Unix-like. A fonte Space Grotesk é vendida no repositório, então não precisa ser instalada no sistema.'}
+                </p>
+            </div>
+
+            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+                <h3 class="text-xl font-bold">{s.generateIcons}</h3>
+                <p class="mt-4 text-paper/75">
+                    {locale === 'en-us'
+                        ? 'Run the default generation command from the repository root. This processes SVG files in icons/ and writes generated files to out/.'
+                        : 'Execute o comando de geração padrão a partir da raiz do repositório. Isso processa os arquivos SVG em icons/ e grava os arquivos gerados em out/.'}
+                </p>
+                <pre class="mt-4 overflow-x-auto rounded-lg bg-ink p-4 font-mono text-sm text-luz-mint"><code>make</code></pre>
+            </div>
+        </div>
+    </div>
+</section>

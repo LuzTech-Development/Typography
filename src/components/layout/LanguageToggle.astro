@@ -1,0 +1,39 @@
+---
+import type { Locale } from '@/i18n';
+import { alternateHref, otherLocale, t } from '@/lib/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const other = otherLocale(locale);
+const href = alternateHref(Astro.url, other);
+const dict = t(locale);
+---
+
+<a
+    href={href}
+    data-preferred-locale={other}
+    class="stamp-num inline-flex items-center gap-2 border border-white/10 px-3 py-2 uppercase transition-colors hover:border-white/40"
+    aria-label={dict.a11y.languageSwitcher}
+>
+    <span class={locale === 'en-us' ? 'text-luz-mint' : 'text-ink-muted'}>EN</span>
+    <span aria-hidden="true" class="text-ink-muted">/</span>
+    <span class={locale === 'pt-br' ? 'text-luz-mint' : 'text-ink-muted'}>PT</span>
+</a>
+
+<script>
+    document.addEventListener('click', event => {
+        const link =
+            event.target instanceof Element
+                ? event.target.closest('[data-preferred-locale]')
+                : null;
+        if (!link) return;
+        const preferredLocale = link.getAttribute('data-preferred-locale');
+        if (!preferredLocale) return;
+        try {
+            localStorage.setItem('preferred-locale', preferredLocale);
+        } catch (_) {}
+    });
+</script>

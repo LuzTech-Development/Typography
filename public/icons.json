@@ -1,0 +1,328 @@
+{
+  "$schema": "https://ui.luztech.dev.br/icons.schema.json",
+  "site": "https://ui.luztech.dev.br",
+  "description": "LuzTech icon library. Every icon is available as an outlined SVG and as PNGs in multiple sizes, colors, and inverted variants.",
+  "urlPattern": "/icons/<variant>/<size>/[inverted/]<color>.png",
+  "variants": [
+    "clean",
+    "name",
+    "blog",
+    "nfse"
+  ],
+  "sizes": [
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "colors": [
+    "black",
+    "white",
+    "color"
+  ],
+  "icons": {
+    "clean": {
+      "svg": "/icons/clean.svg",
+      "png": {
+        "16x": {
+          "black": "/icons/clean/16x/black.png",
+          "white": "/icons/clean/16x/white.png",
+          "color": "/icons/clean/16x/color.png",
+          "inverted": {
+            "black": "/icons/clean/16x/inverted/black.png",
+            "white": "/icons/clean/16x/inverted/white.png",
+            "color": "/icons/clean/16x/inverted/color.png"
+          }
+        },
+        "32x": {
+          "black": "/icons/clean/32x/black.png",
+          "white": "/icons/clean/32x/white.png",
+          "color": "/icons/clean/32x/color.png",
+          "inverted": {
+            "black": "/icons/clean/32x/inverted/black.png",
+            "white": "/icons/clean/32x/inverted/white.png",
+            "color": "/icons/clean/32x/inverted/color.png"
+          }
+        },
+        "64x": {
+          "black": "/icons/clean/64x/black.png",
+          "white": "/icons/clean/64x/white.png",
+          "color": "/icons/clean/64x/color.png",
+          "inverted": {
+            "black": "/icons/clean/64x/inverted/black.png",
+            "white": "/icons/clean/64x/inverted/white.png",
+            "color": "/icons/clean/64x/inverted/color.png"
+          }
+        },
+        "128x": {
+          "black": "/icons/clean/128x/black.png",
+          "white": "/icons/clean/128x/white.png",
+          "color": "/icons/clean/128x/color.png",
+          "inverted": {
+            "black": "/icons/clean/128x/inverted/black.png",
+            "white": "/icons/clean/128x/inverted/white.png",
+            "color": "/icons/clean/128x/inverted/color.png"
+          }
+        },
+        "256x": {
+          "black": "/icons/clean/256x/black.png",
+          "white": "/icons/clean/256x/white.png",
+          "color": "/icons/clean/256x/color.png",
+          "inverted": {
+            "black": "/icons/clean/256x/inverted/black.png",
+            "white": "/icons/clean/256x/inverted/white.png",
+            "color": "/icons/clean/256x/inverted/color.png"
+          }
+        },
+        "512x": {
+          "black": "/icons/clean/512x/black.png",
+          "white": "/icons/clean/512x/white.png",
+          "color": "/icons/clean/512x/color.png",
+          "inverted": {
+            "black": "/icons/clean/512x/inverted/black.png",
+            "white": "/icons/clean/512x/inverted/white.png",
+            "color": "/icons/clean/512x/inverted/color.png"
+          }
+        },
+        "1024x": {
+          "black": "/icons/clean/1024x/black.png",
+          "white": "/icons/clean/1024x/white.png",
+          "color": "/icons/clean/1024x/color.png",
+          "inverted": {
+            "black": "/icons/clean/1024x/inverted/black.png",
+            "white": "/icons/clean/1024x/inverted/white.png",
+            "color": "/icons/clean/1024x/inverted/color.png"
+          }
+        }
+      }
+    },
+    "name": {
+      "svg": "/icons/name.svg",
+      "png": {
+        "16x": {
+          "black": "/icons/name/16x/black.png",
+          "white": "/icons/name/16x/white.png",
+          "color": "/icons/name/16x/color.png",
+          "inverted": {
+            "black": "/icons/name/16x/inverted/black.png",
+            "white": "/icons/name/16x/inverted/white.png",
+            "color": "/icons/name/16x/inverted/color.png"
+          }
+        },
+        "32x": {
+          "black": "/icons/name/32x/black.png",
+          "white": "/icons/name/32x/white.png",
+          "color": "/icons/name/32x/color.png",
+          "inverted": {
+            "black": "/icons/name/32x/inverted/black.png",
+            "white": "/icons/name/32x/inverted/white.png",
+            "color": "/icons/name/32x/inverted/color.png"
+          }
+        },
+        "64x": {
+          "black": "/icons/name/64x/black.png",
+          "white": "/icons/name/64x/white.png",
+          "color": "/icons/name/64x/color.png",
+          "inverted": {
+            "black": "/icons/name/64x/inverted/black.png",
+            "white": "/icons/name/64x/inverted/white.png",
+            "color": "/icons/name/64x/inverted/color.png"
+          }
+        },
+        "128x": {
+          "black": "/icons/name/128x/black.png",
+          "white": "/icons/name/128x/white.png",
+          "color": "/icons/name/128x/color.png",
+          "inverted": {
+            "black": "/icons/name/128x/inverted/black.png",
+            "white": "/icons/name/128x/inverted/white.png",
+            "color": "/icons/name/128x/inverted/color.png"
+          }
+        },
+        "256x": {
+          "black": "/icons/name/256x/black.png",
+          "white": "/icons/name/256x/white.png",
+          "color": "/icons/name/256x/color.png",
+          "inverted": {
+            "black": "/icons/name/256x/inverted/black.png",
+            "white": "/icons/name/256x/inverted/white.png",
+            "color": "/icons/name/256x/inverted/color.png"
+          }
+        },
+        "512x": {
+          "black": "/icons/name/512x/black.png",
+          "white": "/icons/name/512x/white.png",
+          "color": "/icons/name/512x/color.png",
+          "inverted": {
+            "black": "/icons/name/512x/inverted/black.png",
+            "white": "/icons/name/512x/inverted/white.png",
+            "color": "/icons/name/512x/inverted/color.png"
+          }
+        },
+        "1024x": {
+          "black": "/icons/name/1024x/black.png",
+          "white": "/icons/name/1024x/white.png",
+          "color": "/icons/name/1024x/color.png",
+          "inverted": {
+            "black": "/icons/name/1024x/inverted/black.png",
+            "white": "/icons/name/1024x/inverted/white.png",
+            "color": "/icons/name/1024x/inverted/color.png"
+          }
+        }
+      }
+    },
+    "blog": {
+      "svg": "/icons/blog.svg",
+      "png": {
+        "16x": {
+          "black": "/icons/blog/16x/black.png",
+          "white": "/icons/blog/16x/white.png",
+          "color": "/icons/blog/16x/color.png",
+          "inverted": {
+            "black": "/icons/blog/16x/inverted/black.png",
+            "white": "/icons/blog/16x/inverted/white.png",
+            "color": "/icons/blog/16x/inverted/color.png"
+          }
+        },
+        "32x": {
+          "black": "/icons/blog/32x/black.png",
+          "white": "/icons/blog/32x/white.png",
+          "color": "/icons/blog/32x/color.png",
+          "inverted": {
+            "black": "/icons/blog/32x/inverted/black.png",
+            "white": "/icons/blog/32x/inverted/white.png",
+            "color": "/icons/blog/32x/inverted/color.png"
+          }
+        },
+        "64x": {
+          "black": "/icons/blog/64x/black.png",
+          "white": "/icons/blog/64x/white.png",
+          "color": "/icons/blog/64x/color.png",
+          "inverted": {
+            "black": "/icons/blog/64x/inverted/black.png",
+            "white": "/icons/blog/64x/inverted/white.png",
+            "color": "/icons/blog/64x/inverted/color.png"
+          }
+        },
+        "128x": {
+          "black": "/icons/blog/128x/black.png",
+          "white": "/icons/blog/128x/white.png",
+          "color": "/icons/blog/128x/color.png",
+          "inverted": {
+            "black": "/icons/blog/128x/inverted/black.png",
+            "white": "/icons/blog/128x/inverted/white.png",
+            "color": "/icons/blog/128x/inverted/color.png"
+          }
+        },
+        "256x": {
+          "black": "/icons/blog/256x/black.png",
+          "white": "/icons/blog/256x/white.png",
+          "color": "/icons/blog/256x/color.png",
+          "inverted": {
+            "black": "/icons/blog/256x/inverted/black.png",
+            "white": "/icons/blog/256x/inverted/white.png",
+            "color": "/icons/blog/256x/inverted/color.png"
+          }
+        },
+        "512x": {
+          "black": "/icons/blog/512x/black.png",
+          "white": "/icons/blog/512x/white.png",
+          "color": "/icons/blog/512x/color.png",
+          "inverted": {
+            "black": "/icons/blog/512x/inverted/black.png",
+            "white": "/icons/blog/512x/inverted/white.png",
+            "color": "/icons/blog/512x/inverted/color.png"
+          }
+        },
+        "1024x": {
+          "black": "/icons/blog/1024x/black.png",
+          "white": "/icons/blog/1024x/white.png",
+          "color": "/icons/blog/1024x/color.png",
+          "inverted": {
+            "black": "/icons/blog/1024x/inverted/black.png",
+            "white": "/icons/blog/1024x/inverted/white.png",
+            "color": "/icons/blog/1024x/inverted/color.png"
+          }
+        }
+      }
+    },
+    "nfse": {
+      "svg": "/icons/nfse.svg",
+      "png": {
+        "16x": {
+          "black": "/icons/nfse/16x/black.png",
+          "white": "/icons/nfse/16x/white.png",
+          "color": "/icons/nfse/16x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/16x/inverted/black.png",
+            "white": "/icons/nfse/16x/inverted/white.png",
+            "color": "/icons/nfse/16x/inverted/color.png"
+          }
+        },
+        "32x": {
+          "black": "/icons/nfse/32x/black.png",
+          "white": "/icons/nfse/32x/white.png",
+          "color": "/icons/nfse/32x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/32x/inverted/black.png",
+            "white": "/icons/nfse/32x/inverted/white.png",
+            "color": "/icons/nfse/32x/inverted/color.png"
+          }
+        },
+        "64x": {
+          "black": "/icons/nfse/64x/black.png",
+          "white": "/icons/nfse/64x/white.png",
+          "color": "/icons/nfse/64x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/64x/inverted/black.png",
+            "white": "/icons/nfse/64x/inverted/white.png",
+            "color": "/icons/nfse/64x/inverted/color.png"
+          }
+        },
+        "128x": {
+          "black": "/icons/nfse/128x/black.png",
+          "white": "/icons/nfse/128x/white.png",
+          "color": "/icons/nfse/128x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/128x/inverted/black.png",
+            "white": "/icons/nfse/128x/inverted/white.png",
+            "color": "/icons/nfse/128x/inverted/color.png"
+          }
+        },
+        "256x": {
+          "black": "/icons/nfse/256x/black.png",
+          "white": "/icons/nfse/256x/white.png",
+          "color": "/icons/nfse/256x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/256x/inverted/black.png",
+            "white": "/icons/nfse/256x/inverted/white.png",
+            "color": "/icons/nfse/256x/inverted/color.png"
+          }
+        },
+        "512x": {
+          "black": "/icons/nfse/512x/black.png",
+          "white": "/icons/nfse/512x/white.png",
+          "color": "/icons/nfse/512x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/512x/inverted/black.png",
+            "white": "/icons/nfse/512x/inverted/white.png",
+            "color": "/icons/nfse/512x/inverted/color.png"
+          }
+        },
+        "1024x": {
+          "black": "/icons/nfse/1024x/black.png",
+          "white": "/icons/nfse/1024x/white.png",
+          "color": "/icons/nfse/1024x/color.png",
+          "inverted": {
+            "black": "/icons/nfse/1024x/inverted/black.png",
+            "white": "/icons/nfse/1024x/inverted/white.png",
+            "color": "/icons/nfse/1024x/inverted/color.png"
+          }
+        }
+      }
+    }
+  }
+}
