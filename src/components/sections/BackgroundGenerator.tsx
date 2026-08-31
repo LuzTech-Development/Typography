@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { Timegroup, usePlayback } from '@editframe/react';
+import type { EFTimegroupElement, FrameTaskInfo } from '@editframe/elements';
+import { SwirledMesh } from './SwirledMesh';
 
 // LuzTech brand palette, mapped to the four mesh corners (top-left, top-right,
 // bottom-left, bottom-right) exactly like meshgradient.com.
@@ -17,6 +20,120 @@ const SIZE_PRESETS = [
     { label: '3840×2160', width: 3840, height: 2160 }
 ] as const;
 
+type TabId = 'flat' | 'swirled' | 'animated';
+
+const PREVIEW_MAX_PIXEL_COUNT = 1280 * 720;
+const MIN_RENDER_OVERLAY_MS = 500;
+const STATIC_SWIRL_DURATION = 10;
+const STATIC_SWIRL_SPEED = 8;
+
+type PaperShaderHost = HTMLElement & {
+    paperShaderMount?: {
+        render: (t: number) => void;
+        setFrame: (f: number) => void;
+    };
+};
+
+function getPaperShaderHost(root: ParentNode | null): PaperShaderHost | null {
+    return (
+        (root?.querySelector(
+            '[data-swirled-mesh]'
+        ) as PaperShaderHost | null) ?? null
+    );
+}
+
+async function waitForCanvas(
+    root: ParentNode,
+    width: number,
+    height: number
+): Promise<HTMLCanvasElement> {
+    const deadline = Date.now() + 3000;
+    while (Date.now() < deadline) {
+        const canvas = root.querySelector('canvas');
+        if (canvas) {
+            await waitForRender(canvas, width, height);
+            return canvas;
+        }
+        await new Promise(r => requestAnimationFrame(r));
+    }
+    throw new Error('No canvas found.');
+}
+
+function previewFrameStyle(width: number, height: number) {
+    return {
+        aspectRatio: `${width} / ${height}`,
+        width: '100%',
+        maxWidth: `${60 * (width / height)}vh`,
+        maxHeight: '60vh'
+    };
+}
+
+function FullscreenRenderOverlay({
+    label,
+    progress
+}: {
+    label: string;
+    progress?: number | null;
+}) {
+    return (
+        <div className="bg-ink/95 fixed inset-0 z-[9999] flex items-center justify-center px-6 text-center backdrop-blur-sm">
+            <div>
+                <p className="stamp-num text-luz-mint">
+                    {progress == null
+                        ? label
+                        : `${label} ${Math.round(progress * 100)}%`}
+                </p>
+                <p className="text-paper/60 mt-3 text-sm">
+                    Rendering the full-resolution canvas…
+                </p>
+            </div>
+        </div>
+    );
+}
+
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function keepOverlayVisibleSince(startTime: number): Promise<void> {
+    const elapsed = performance.now() - startTime;
+    if (elapsed < MIN_RENDER_OVERLAY_MS) {
+        await delay(MIN_RENDER_OVERLAY_MS - elapsed);
+    }
+}
+
+function frameForStaticPosition(position: number): number {
+    return (position / 100) * STATIC_SWIRL_DURATION * 1000 * STATIC_SWIRL_SPEED;
+}
+
+function formatSeconds(time: number): string {
+    const safe = Number.isFinite(time) ? Math.max(0, time) : 0;
+    const minutes = Math.floor(safe / 60);
+    const seconds = Math.floor(safe % 60);
+    const tenths = Math.floor((safe % 1) * 10);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}.${tenths}`;
+}
+
+// Polls until the shader canvas reaches the target internal resolution (the
+// shader's ResizeObserver re-renders asynchronously after a resize), or times
+// out. Mirrors the reference project's `waitForRender`.
+async function waitForRender(
+    canvas: HTMLCanvasElement,
+    width: number,
+    height: number
+): Promise<void> {
+    const deadline = Date.now() + 3000;
+    while (Date.now() < deadline) {
+        if (canvas.width >= width && canvas.height >= height) {
+            await new Promise(r =>
+                requestAnimationFrame(() => requestAnimationFrame(r))
+            );
+            return;
+        }
+        await new Promise(r => setTimeout(r, 16));
+    }
+}
+
 interface BackgroundGeneratorProps {
     labels: {
         width: string;
@@ -26,6 +143,31 @@ interface BackgroundGeneratorProps {
         download: string;
         downloading: string;
         hint: string;
+        tabs: {
+            flat: string;
+            swirled: string;
+            animated: string;
+        };
+        swirled: {
+            hint: string;
+            distortion: string;
+            swirl: string;
+            scale: string;
+            position: string;
+        };
+        animated: {
+            hint: string;
+            fps: string;
+            duration: string;
+            speed: string;
+            alternate: string;
+            renderMp4: string;
+            rendering: string;
+            seconds: string;
+            play: string;
+            pause: string;
+            previewPosition: string;
+        };
     };
 }
 
@@ -212,18 +354,14 @@ function MeshCanvas({ width, height }: { width: number; height: number }) {
     );
 }
 
-export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
+// Shared size/ratio-lock state hook, reused by all three tabs so the
+// dimensions stay consistent across Flat, Swirled, and Animated.
+function useSizeState() {
     const [widthStr, setWidthStr] = useState<string>('1920');
     const [heightStr, setHeightStr] = useState<string>('1080');
     const [lockRatio, setLockRatio] = useState<boolean>(true);
-    const [exporting, setExporting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const previewRef = useRef<HTMLDivElement>(null);
     const ratioRef = useRef<number>(1920 / 1080);
 
-    // Effective numeric values, clamped to [1, 8192]. The inputs themselves are
-    // kept as strings so the user can clear them (empty/zero) while typing.
     const width = Math.max(1, Math.min(8192, Number(widthStr) || 1));
     const height = Math.max(1, Math.min(8192, Number(heightStr) || 1));
 
@@ -252,12 +390,203 @@ export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
     const toggleLock = () => {
         setLockRatio(prev => {
             const next = !prev;
-            if (next) {
-                ratioRef.current = width / height;
-            }
+            if (next) ratioRef.current = width / height;
             return next;
         });
     };
+
+    const normalizeWidth = () => {
+        if (!widthStr || Number(widthStr) < 1) {
+            setWidthStr('1');
+            if (lockRatio)
+                setHeightStr(
+                    String(Math.max(1, Math.round(1 / ratioRef.current)))
+                );
+        }
+    };
+
+    const normalizeHeight = () => {
+        if (!heightStr || Number(heightStr) < 1) {
+            setHeightStr('1');
+            if (lockRatio)
+                setWidthStr(
+                    String(Math.max(1, Math.round(1 * ratioRef.current)))
+                );
+        }
+    };
+
+    return {
+        widthStr,
+        heightStr,
+        width,
+        height,
+        lockRatio,
+        updateWidth,
+        updateHeight,
+        applyPreset,
+        toggleLock,
+        normalizeWidth,
+        normalizeHeight
+    };
+}
+
+// Shared size controls (presets + width/height + ratio lock), rendered by all
+// three tabs so the layout stays consistent.
+function SizeControls({
+    labels,
+    size
+}: {
+    labels: BackgroundGeneratorProps['labels'];
+    size: ReturnType<typeof useSizeState>;
+}) {
+    return (
+        <>
+            <div>
+                <label className="stamp-num text-ink-muted mb-2 block">
+                    {labels.size}
+                </label>
+                <div className="flex flex-wrap gap-2">
+                    {SIZE_PRESETS.map(p => {
+                        const active =
+                            size.width === p.width && size.height === p.height;
+                        return (
+                            <button
+                                key={p.label}
+                                onClick={() =>
+                                    size.applyPreset(p.width, p.height)
+                                }
+                                className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                    active
+                                        ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                        : 'text-paper/75 border-white/10 hover:border-white/30'
+                                }`}>
+                                {p.label}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+
+            <div>
+                <div className="mb-2 flex items-center justify-between">
+                    <label className="stamp-num text-ink-muted block">
+                        {labels.width} × {labels.height}
+                    </label>
+                    <button
+                        onClick={size.toggleLock}
+                        className={`stamp-num flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition ${
+                            size.lockRatio
+                                ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                : 'text-paper/75 border-white/10 hover:border-white/30'
+                        }`}
+                        aria-pressed={size.lockRatio}>
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true">
+                            {size.lockRatio ? (
+                                <>
+                                    <rect
+                                        x="3"
+                                        y="11"
+                                        width="18"
+                                        height="11"
+                                        rx="2"
+                                    />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </>
+                            ) : (
+                                <>
+                                    <rect
+                                        x="3"
+                                        y="11"
+                                        width="18"
+                                        height="11"
+                                        rx="2"
+                                    />
+                                    <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                                </>
+                            )}
+                        </svg>
+                        {labels.lockRatio}
+                    </button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <input
+                        type="number"
+                        min={1}
+                        max={8192}
+                        value={size.widthStr}
+                        onChange={e => size.updateWidth(e.target.value)}
+                        onBlur={size.normalizeWidth}
+                        className="text-paper focus:border-luz-mint w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm transition hover:border-white/30 focus:outline-none"
+                    />
+                    <input
+                        type="number"
+                        min={1}
+                        max={8192}
+                        value={size.heightStr}
+                        onChange={e => size.updateHeight(e.target.value)}
+                        onBlur={size.normalizeHeight}
+                        className="text-paper focus:border-luz-mint w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm transition hover:border-white/30 focus:outline-none"
+                    />
+                </div>
+            </div>
+        </>
+    );
+}
+
+// A small labeled slider, used by the Swirled and Animated tabs.
+function SliderField({
+    label,
+    value,
+    onChange,
+    min = 0,
+    max = 1,
+    step = 0.01,
+    formatValue = v => v.toFixed(2)
+}: {
+    label: string;
+    value: number;
+    onChange: (v: number) => void;
+    min?: number;
+    max?: number;
+    step?: number;
+    formatValue?: (value: number) => string;
+}) {
+    return (
+        <label className="block">
+            <span className="stamp-num text-ink-muted mb-2 flex items-center justify-between">
+                {label}
+                <span className="tabular text-paper/75">
+                    {formatValue(value)}
+                </span>
+            </span>
+            <input
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={value}
+                onChange={e => onChange(Number(e.target.value))}
+                className="accent-luz-mint w-full"
+            />
+        </label>
+    );
+}
+
+// The Flat tab: the existing meshgradient.com-compatible WebGL generator.
+function FlatTab({ labels }: { labels: BackgroundGeneratorProps['labels'] }) {
+    const size = useSizeState();
+    const [exporting, setExporting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const previewRef = useRef<HTMLDivElement>(null);
 
     const handleExport = async () => {
         if (!previewRef.current) return;
@@ -267,11 +596,11 @@ export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
             const canvas = previewRef.current.querySelector('canvas');
             if (!canvas) throw new Error('No canvas found.');
             const out = document.createElement('canvas');
-            out.width = width;
-            out.height = height;
+            out.width = size.width;
+            out.height = size.height;
             const ctx = out.getContext('2d');
             if (!ctx) throw new Error('Could not get 2D context.');
-            ctx.drawImage(canvas, 0, 0, width, height);
+            ctx.drawImage(canvas, 0, 0, size.width, size.height);
             const blob = await new Promise<Blob>((resolve, reject) => {
                 out.toBlob(
                     b =>
@@ -284,7 +613,7 @@ export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `luztech-background-${width}x${height}.png`;
+            a.download = `luztech-background-${size.width}x${size.height}.png`;
             a.click();
             URL.revokeObjectURL(url);
         } catch (e) {
@@ -296,164 +625,27 @@ export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
 
     return (
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-            {/* Preview */}
             <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
                 <div className="flex h-[60vh] w-full items-center justify-center">
                     <div
                         ref={previewRef}
                         className="overflow-hidden rounded-lg"
                         style={{
-                            aspectRatio: `${width} / ${height}`,
+                            aspectRatio: `${size.width} / ${size.height}`,
                             maxWidth: '100%',
                             maxHeight: '100%'
                         }}>
-                        <MeshCanvas width={width} height={height} />
+                        <MeshCanvas width={size.width} height={size.height} />
                     </div>
                 </div>
                 <p className="stamp-num text-ink-muted mt-4">
-                    {width}×{height} PNG
+                    {size.width}×{size.height} PNG
                 </p>
             </div>
 
-            {/* Controls */}
             <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
-                {/* Size presets */}
-                <div>
-                    <label className="stamp-num text-ink-muted mb-2 block">
-                        {labels.size}
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                        {SIZE_PRESETS.map(p => {
-                            const active =
-                                width === p.width && height === p.height;
-                            return (
-                                <button
-                                    key={p.label}
-                                    onClick={() =>
-                                        applyPreset(p.width, p.height)
-                                    }
-                                    className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                        active
-                                            ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                            : 'text-paper/75 border-white/10 hover:border-white/30'
-                                    }`}>
-                                    {p.label}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
+                <SizeControls labels={labels} size={size} />
 
-                {/* Custom dimensions with ratio lock */}
-                <div>
-                    <div className="mb-2 flex items-center justify-between">
-                        <label className="stamp-num text-ink-muted block">
-                            {labels.width} × {labels.height}
-                        </label>
-                        <button
-                            onClick={toggleLock}
-                            className={`stamp-num flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition ${
-                                lockRatio
-                                    ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                    : 'text-paper/75 border-white/10 hover:border-white/30'
-                            }`}
-                            aria-pressed={lockRatio}>
-                            <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                aria-hidden="true">
-                                {lockRatio ? (
-                                    <>
-                                        <rect
-                                            x="3"
-                                            y="11"
-                                            width="18"
-                                            height="11"
-                                            rx="2"
-                                        />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <rect
-                                            x="3"
-                                            y="11"
-                                            width="18"
-                                            height="11"
-                                            rx="2"
-                                        />
-                                        <path d="M7 11V7a5 5 0 0 1 9.9-1" />
-                                    </>
-                                )}
-                            </svg>
-                            {labels.lockRatio}
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <input
-                                type="number"
-                                min={1}
-                                max={8192}
-                                value={widthStr}
-                                onChange={e => updateWidth(e.target.value)}
-                                onBlur={() => {
-                                    if (!widthStr || Number(widthStr) < 1) {
-                                        setWidthStr('1');
-                                        if (lockRatio) {
-                                            setHeightStr(
-                                                String(
-                                                    Math.max(
-                                                        1,
-                                                        Math.round(
-                                                            1 / ratioRef.current
-                                                        )
-                                                    )
-                                                )
-                                            );
-                                        }
-                                    }
-                                }}
-                                className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm text-paper transition hover:border-white/30 focus:border-luz-mint focus:outline-none"
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type="number"
-                                min={1}
-                                max={8192}
-                                value={heightStr}
-                                onChange={e => updateHeight(e.target.value)}
-                                onBlur={() => {
-                                    if (!heightStr || Number(heightStr) < 1) {
-                                        setHeightStr('1');
-                                        if (lockRatio) {
-                                            setWidthStr(
-                                                String(
-                                                    Math.max(
-                                                        1,
-                                                        Math.round(
-                                                            1 * ratioRef.current
-                                                        )
-                                                    )
-                                                )
-                                            );
-                                        }
-                                    }
-                                }}
-                                className="w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm text-paper transition hover:border-white/30 focus:border-luz-mint focus:outline-none"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Actions */}
                 <div className="flex flex-wrap gap-3 pt-2">
                     <button
                         onClick={handleExport}
@@ -467,6 +659,515 @@ export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
 
                 <p className="text-ink-muted text-sm">{labels.hint}</p>
             </div>
+        </div>
+    );
+}
+
+// The Swirled tab: a static (single-frame) swirled mesh with simplified
+// controls, exported as PNG.
+function SwirledTab({
+    labels
+}: {
+    labels: BackgroundGeneratorProps['labels'];
+}) {
+    const size = useSizeState();
+    const [distortion, setDistortion] = useState(0.65);
+    const [swirl, setSwirl] = useState(0.3);
+    const [scale, setScale] = useState(0.7);
+    const [position, setPosition] = useState(0);
+    const [exporting, setExporting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const exportRef = useRef<HTMLDivElement>(null);
+    const positionFrame = frameForStaticPosition(position);
+
+    const handleExport = async () => {
+        const startTime = performance.now();
+        setExporting(true);
+        setError(null);
+        try {
+            await new Promise(r => requestAnimationFrame(r));
+            if (!exportRef.current) throw new Error('Export stage not ready.');
+            const canvas = await waitForCanvas(
+                exportRef.current,
+                size.width,
+                size.height
+            );
+
+            const mount = getPaperShaderHost(
+                exportRef.current
+            )?.paperShaderMount;
+            mount?.setFrame(positionFrame);
+            mount?.render(performance.now());
+
+            const out = document.createElement('canvas');
+            out.width = size.width;
+            out.height = size.height;
+            const ctx = out.getContext('2d');
+            if (!ctx) throw new Error('Could not get 2D context.');
+            ctx.drawImage(canvas, 0, 0, size.width, size.height);
+            const blob = await new Promise<Blob>((resolve, reject) => {
+                out.toBlob(
+                    b =>
+                        b
+                            ? resolve(b)
+                            : reject(new Error('PNG export failed.')),
+                    'image/png'
+                );
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `luztech-background-swirled-${size.width}x${size.height}.png`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            setError(e instanceof Error ? e.message : 'Export failed.');
+        } finally {
+            await keepOverlayVisibleSince(startTime);
+            setExporting(false);
+        }
+    };
+
+    return (
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+            {exporting && (
+                <>
+                    <FullscreenRenderOverlay label={labels.downloading} />
+                    <div
+                        ref={exportRef}
+                        aria-hidden="true"
+                        className="pointer-events-none fixed top-0 left-[-99999px] overflow-hidden"
+                        style={{ width: size.width, height: size.height }}>
+                        <SwirledMesh
+                            width={size.width}
+                            height={size.height}
+                            distortion={distortion}
+                            swirl={swirl}
+                            scale={scale}
+                            frame={positionFrame}
+                            speed={0}
+                        />
+                    </div>
+                </>
+            )}
+
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
+                <div className="flex h-[60vh] w-full items-center justify-center">
+                    <div
+                        className="relative overflow-hidden rounded-lg"
+                        style={previewFrameStyle(size.width, size.height)}>
+                        <SwirledMesh
+                            width={size.width}
+                            height={size.height}
+                            distortion={distortion}
+                            swirl={swirl}
+                            scale={scale}
+                            frame={positionFrame}
+                            speed={0}
+                            maxPixelCount={PREVIEW_MAX_PIXEL_COUNT}
+                        />
+                    </div>
+                </div>
+                <p className="stamp-num text-ink-muted mt-4">
+                    {size.width}×{size.height} PNG
+                </p>
+            </div>
+
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+                <SizeControls labels={labels} size={size} />
+
+                <SliderField
+                    label={labels.swirled.distortion}
+                    value={distortion}
+                    onChange={setDistortion}
+                />
+                <SliderField
+                    label={labels.swirled.swirl}
+                    value={swirl}
+                    onChange={setSwirl}
+                />
+                <SliderField
+                    label={labels.swirled.scale}
+                    value={scale}
+                    onChange={setScale}
+                    min={0.01}
+                    max={4}
+                />
+                <SliderField
+                    label={labels.swirled.position}
+                    value={position}
+                    onChange={setPosition}
+                    min={0}
+                    max={100}
+                    step={1}
+                    formatValue={v => `${Math.round(v)}%`}
+                />
+
+                <div className="flex flex-wrap gap-3 pt-2">
+                    <button
+                        onClick={handleExport}
+                        disabled={exporting}
+                        className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                        {exporting ? labels.downloading : labels.download}
+                    </button>
+                </div>
+
+                {error && <p className="text-sm text-red-400">{error}</p>}
+
+                <p className="text-ink-muted text-sm">{labels.swirled.hint}</p>
+            </div>
+        </div>
+    );
+}
+
+// The Animated tab: a swirled mesh rendered to MP4/GIF via Editframe's local
+// renderer. The mesh's `frame` is driven by the timegroup's clock so the
+// animation is deterministic and synced to the render.
+function AnimatedTab({
+    labels
+}: {
+    labels: BackgroundGeneratorProps['labels'];
+}) {
+    const size = useSizeState();
+    const [fps, setFps] = useState(60);
+    const [duration, setDuration] = useState(10);
+    const [speed, setSpeed] = useState(8);
+    const [alternate, setAlternate] = useState(true);
+    const [distortion, setDistortion] = useState(0.65);
+    const [swirl, setSwirl] = useState(0.3);
+    const [scale, setScale] = useState(0.7);
+
+    const [rendering, setRendering] = useState(false);
+    const [progress, setProgress] = useState<number | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const previewTimegroupRef = useRef<EFTimegroupElement>(null);
+    const renderTimegroupRef = useRef<EFTimegroupElement>(null);
+    const playback = usePlayback(previewTimegroupRef);
+
+    const frameForTime = (ownCurrentTime: number) => {
+        const total = duration;
+        const half = total / 2;
+        if (alternate && ownCurrentTime >= half) {
+            return (total - ownCurrentTime) * 1000 * speed;
+        }
+        return ownCurrentTime * 1000 * speed;
+    };
+
+    const handleFrame = ({ ownCurrentTime, element }: FrameTaskInfo) => {
+        const mount = getPaperShaderHost(element)?.paperShaderMount;
+        if (!mount) return;
+        mount.setFrame(frameForTime(ownCurrentTime));
+    };
+
+    const renderStage = (
+        <Timegroup
+            ref={renderTimegroupRef}
+            mode="fixed"
+            duration={`${duration}s`}
+            fps={fps}
+            onFrame={handleFrame}
+            className="block overflow-hidden"
+            style={{
+                width: size.width,
+                height: size.height
+            }}>
+            <SwirledMesh
+                width={size.width}
+                height={size.height}
+                distortion={distortion}
+                swirl={swirl}
+                scale={scale}
+                frame={0}
+                speed={0}
+            />
+        </Timegroup>
+    );
+
+    const waitForRenderStage = async () => {
+        const deadline = Date.now() + 3000;
+        while (Date.now() < deadline) {
+            const tg = renderTimegroupRef.current;
+            if (tg) {
+                await waitForCanvas(tg, size.width, size.height);
+                return tg;
+            }
+            await new Promise(r => requestAnimationFrame(r));
+        }
+        throw new Error('Render stage not ready.');
+    };
+
+    const handleRender = async () => {
+        const startTime = performance.now();
+        setRendering(true);
+        setProgress(0);
+        setError(null);
+        try {
+            playback.pause();
+            await new Promise(r => requestAnimationFrame(r));
+            const tg = await waitForRenderStage();
+            const { renderTimegroupToVideo } = await import(
+                '@editframe/elements'
+            );
+            const result = await renderTimegroupToVideo(tg, {
+                width: size.width,
+                height: size.height,
+                fps,
+                to: duration,
+                onProgress: p => setProgress(p.frame / p.totalFrames)
+            });
+            const blob = new Blob([result.buffer!], { type: result.mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `luztech-mesh-${size.width}x${size.height}-${duration}s.mp4`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            setError(e instanceof Error ? e.message : 'Render failed.');
+        } finally {
+            await keepOverlayVisibleSince(startTime);
+            setRendering(false);
+            setProgress(null);
+        }
+    };
+
+    const handlePreviewToggle = async () => {
+        if (playback.playing) {
+            playback.pause();
+            return;
+        }
+        if (playback.currentTime >= duration) {
+            await playback.seek(0);
+        }
+        playback.play();
+    };
+
+    const previewCurrentTime = Math.min(playback.currentTime, duration);
+
+    return (
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+            {rendering && (
+                <>
+                    <FullscreenRenderOverlay
+                        label={labels.animated.rendering}
+                        progress={progress}
+                    />
+                    <div
+                        aria-hidden="true"
+                        className="pointer-events-none fixed top-0 left-[-99999px] overflow-hidden"
+                        style={{ width: size.width, height: size.height }}>
+                        {renderStage}
+                    </div>
+                </>
+            )}
+
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
+                <div className="flex h-[60vh] w-full items-center justify-center">
+                    <Timegroup
+                        ref={previewTimegroupRef}
+                        mode="fixed"
+                        duration={`${duration}s`}
+                        fps={fps}
+                        onFrame={handleFrame}
+                        className="w-full max-w-full overflow-hidden"
+                        style={previewFrameStyle(size.width, size.height)}>
+                        <SwirledMesh
+                            width={size.width}
+                            height={size.height}
+                            distortion={distortion}
+                            swirl={swirl}
+                            scale={scale}
+                            frame={0}
+                            speed={0}
+                            maxPixelCount={PREVIEW_MAX_PIXEL_COUNT}
+                        />
+                    </Timegroup>
+                </div>
+                <div className="mt-5 w-full max-w-xl">
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={handlePreviewToggle}
+                            className="text-paper hover:border-luz-mint rounded-lg border border-white/10 px-4 py-2 text-sm transition">
+                            {playback.playing
+                                ? labels.animated.pause
+                                : labels.animated.play}
+                        </button>
+                        <input
+                            type="range"
+                            min={0}
+                            max={duration}
+                            step={1 / fps}
+                            value={previewCurrentTime}
+                            onChange={e =>
+                                playback.seek(Number(e.target.value))
+                            }
+                            className="accent-luz-mint flex-1"
+                            aria-label={labels.animated.previewPosition}
+                        />
+                        <span className="stamp-num text-ink-muted min-w-24 text-right">
+                            {formatSeconds(previewCurrentTime)} /{' '}
+                            {formatSeconds(duration)}
+                        </span>
+                    </div>
+                </div>
+                <p className="stamp-num text-ink-muted mt-4">
+                    {rendering
+                        ? progress !== null
+                            ? `${labels.animated.rendering} ${Math.round(progress * 100)}%`
+                            : labels.animated.rendering
+                        : `${size.width}×${size.height} · ${fps}fps · ${duration}${labels.animated.seconds}`}
+                </p>
+            </div>
+
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+                <SizeControls labels={labels} size={size} />
+
+                <div className="grid grid-cols-2 gap-4">
+                    <label className="block">
+                        <span className="stamp-num text-ink-muted mb-2 block">
+                            {labels.animated.fps}
+                        </span>
+                        <input
+                            type="number"
+                            min={1}
+                            max={120}
+                            value={fps}
+                            onChange={e =>
+                                setFps(
+                                    Math.max(
+                                        1,
+                                        Math.min(
+                                            120,
+                                            Number(e.target.value) || 1
+                                        )
+                                    )
+                                )
+                            }
+                            className="text-paper focus:border-luz-mint w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm transition hover:border-white/30 focus:outline-none"
+                        />
+                    </label>
+                    <label className="block">
+                        <span className="stamp-num text-ink-muted mb-2 block">
+                            {labels.animated.duration} (
+                            {labels.animated.seconds})
+                        </span>
+                        <input
+                            type="number"
+                            min={1}
+                            max={300}
+                            value={duration}
+                            onChange={e =>
+                                setDuration(
+                                    Math.max(
+                                        1,
+                                        Math.min(
+                                            300,
+                                            Number(e.target.value) || 1
+                                        )
+                                    )
+                                )
+                            }
+                            className="text-paper focus:border-luz-mint w-full rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm transition hover:border-white/30 focus:outline-none"
+                        />
+                    </label>
+                </div>
+
+                <SliderField
+                    label={labels.animated.speed}
+                    value={speed}
+                    onChange={setSpeed}
+                    min={0.1}
+                    max={8}
+                    step={0.1}
+                />
+
+                <label className="text-paper/75 flex items-center gap-2 text-sm">
+                    <input
+                        type="checkbox"
+                        checked={alternate}
+                        onChange={e => setAlternate(e.target.checked)}
+                        className="accent-luz-mint"
+                    />
+                    {labels.animated.alternate}
+                </label>
+
+                <SliderField
+                    label={labels.swirled.distortion}
+                    value={distortion}
+                    onChange={setDistortion}
+                />
+                <SliderField
+                    label={labels.swirled.swirl}
+                    value={swirl}
+                    onChange={setSwirl}
+                />
+                <SliderField
+                    label={labels.swirled.scale}
+                    value={scale}
+                    onChange={setScale}
+                    min={0.01}
+                    max={4}
+                />
+
+                <div className="flex flex-wrap gap-3 pt-2">
+                    <button
+                        onClick={handleRender}
+                        disabled={rendering}
+                        className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                        {rendering
+                            ? labels.animated.rendering
+                            : labels.animated.renderMp4}
+                    </button>
+                </div>
+
+                {error && <p className="text-sm text-red-400">{error}</p>}
+
+                <p className="text-ink-muted text-sm">{labels.animated.hint}</p>
+            </div>
+        </div>
+    );
+}
+
+export function BackgroundGenerator({ labels }: BackgroundGeneratorProps) {
+    const [tab, setTab] = useState<TabId>('flat');
+
+    const tabs: { id: TabId; label: string }[] = [
+        { id: 'flat', label: labels.tabs.flat },
+        { id: 'swirled', label: labels.tabs.swirled },
+        { id: 'animated', label: labels.tabs.animated }
+    ];
+
+    return (
+        <div>
+            {/* Sub-tabs */}
+            <div
+                role="tablist"
+                aria-label="Background type"
+                className="mb-8 flex flex-wrap gap-2">
+                {tabs.map(t => {
+                    const active = tab === t.id;
+                    return (
+                        <button
+                            key={t.id}
+                            role="tab"
+                            aria-selected={active}
+                            onClick={() => setTab(t.id)}
+                            className={`rounded-lg border px-5 py-2.5 text-sm font-medium transition ${
+                                active
+                                    ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                    : 'text-paper/75 border-white/10 hover:border-white/30'
+                            }`}>
+                            {t.label}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {tab === 'flat' && <FlatTab labels={labels} />}
+            {tab === 'swirled' && <SwirledTab labels={labels} />}
+            {tab === 'animated' && <AnimatedTab labels={labels} />}
         </div>
     );
 }

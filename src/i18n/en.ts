@@ -160,6 +160,11 @@ export const en = {
         eyebrow: 'Backgrounds',
         title: 'Mesh gradient generator',
         lede: 'Generate a LuzTech mesh gradient background at any size. Pick the dimensions and download a PNG — no swirl, just the smooth brand gradient.',
+        tabs: {
+            flat: 'Flat',
+            swirled: 'Swirled',
+            animated: 'Animated'
+        },
         download: {
             width: 'Width',
             height: 'Height',
@@ -168,6 +173,26 @@ export const en = {
             download: 'Download PNG',
             downloading: 'Generating…',
             hint: 'The gradient uses the official LuzTech palette. Output is a PNG at the exact pixel size you choose.'
+        },
+        swirled: {
+            hint: 'A gentle, flowing mesh with a soft swirl. Adjust the intensity to taste — the palette stays on-brand.',
+            distortion: 'Distortion',
+            swirl: 'Swirl',
+            scale: 'Scale',
+            position: 'Position'
+        },
+        animated: {
+            hint: 'Render the swirled mesh as a looping video. Tune the motion and export an MP4 or GIF.',
+            fps: 'FPS',
+            duration: 'Duration',
+            speed: 'Speed',
+            alternate: 'Alternate direction',
+            renderMp4: 'Render MP4',
+            rendering: 'Rendering…',
+            seconds: 's',
+            play: 'Play',
+            pause: 'Pause',
+            previewPosition: 'Preview position'
         }
     },
     footer: {

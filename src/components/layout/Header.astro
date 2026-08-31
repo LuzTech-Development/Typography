@@ -47,17 +47,15 @@ const isActive = (href: string) => {
                 aria-hidden="true">
                 <path
                     d="M256 90 C170 90 120 160 120 230 C120 290 160 330 190 350 L190 390 M256 90 C342 90 392 160 392 230 C392 290 352 330 322 350 L322 390"
-                />
+                ></path>
                 <path
                     d="M124 255 L255 205 L388 255 L256 300 Z"
                     fill="currentColor"
-                    stroke="none"
-                />
+                    stroke="none"></path>
                 <path
                     d="M196 236 L256 256 L316 236 L256 156 Z"
                     fill="currentColor"
-                    stroke="none"
-                />
+                    stroke="none"></path>
             </svg>
             <span class="stamp-num">LuzTech Typography</span>
         </a>
@@ -88,7 +86,7 @@ const isActive = (href: string) => {
             <button
                 type="button"
                 id="menu-toggle"
-                class="flex h-10 w-10 items-center justify-center border border-white/10 text-paper transition-colors hover:border-white/40 md:hidden"
+                class="text-paper flex h-10 w-10 items-center justify-center border border-white/10 transition-colors hover:border-white/40 md:hidden"
                 aria-label={dict.a11y.openMenu}
                 aria-expanded="false"
                 aria-controls="mobile-menu">
@@ -101,9 +99,9 @@ const isActive = (href: string) => {
                     stroke-width="2"
                     stroke-linecap="round"
                     aria-hidden="true">
-                    <line x1="3" y1="5" x2="17" y2="5" />
-                    <line x1="3" y1="10" x2="17" y2="10" />
-                    <line x1="3" y1="15" x2="17" y2="15" />
+                    <line x1="3" y1="5" x2="17" y2="5"></line>
+                    <line x1="3" y1="10" x2="17" y2="10"></line>
+                    <line x1="3" y1="15" x2="17" y2="15"></line>
                 </svg>
             </button>
         </div>
@@ -111,7 +109,7 @@ const isActive = (href: string) => {
 
     <div
         id="mobile-menu"
-        class="hidden border-t border-white/6 bg-ink/95 backdrop-blur-md md:hidden">
+        class="bg-ink/95 hidden border-t border-white/6 backdrop-blur-md md:hidden">
         <nav class="container-editorial flex flex-col py-4" aria-label="Mobile">
             {
                 navItems.map(item => {
@@ -119,13 +117,13 @@ const isActive = (href: string) => {
                     return active ? (
                         <span
                             aria-current="page"
-                            class="stamp-num border-b border-white/6 py-3 text-luz-mint uppercase">
+                            class="stamp-num text-luz-mint border-b border-white/6 py-3 uppercase">
                             {item.label}
                         </span>
                     ) : (
                         <a
                             href={item.href}
-                            class="stamp-num border-b border-white/6 py-3 text-ink-muted uppercase transition-colors hover:text-paper">
+                            class="stamp-num text-ink-muted hover:text-paper border-b border-white/6 py-3 uppercase transition-colors">
                             {item.label}
                         </a>
                     );

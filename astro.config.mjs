@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { vitePluginEditframe } from '@editframe/vite-plugin';
 
 // https://astro.build/config
 export default defineConfig({
@@ -35,7 +36,16 @@ export default defineConfig({
     })
   ],
   vite: {
-    plugins: [tailwindcss()],
+    build: {
+      chunkSizeWarningLimit: 550
+    },
+    plugins: [
+      tailwindcss(),
+      vitePluginEditframe({
+        root: './src',
+        cacheRoot: './cache'
+      })
+    ],
     resolve: {
       dedupe: ['react', 'react-dom'],
       alias: {

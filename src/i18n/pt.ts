@@ -162,6 +162,11 @@ export const pt: En = {
         eyebrow: 'Fundos',
         title: 'Gerador de mesh gradient',
         lede: 'Gere um fundo em mesh gradient da LuzTech em qualquer tamanho. Escolha as dimensões e baixe um PNG — sem swirl, apenas o gradiente suave da marca.',
+        tabs: {
+            flat: 'Plano',
+            swirled: 'Espiralado',
+            animated: 'Animado'
+        },
         download: {
             width: 'Largura',
             height: 'Altura',
@@ -170,6 +175,26 @@ export const pt: En = {
             download: 'Baixar PNG',
             downloading: 'Gerando…',
             hint: 'O gradiente usa a paleta oficial da LuzTech. A saída é um PNG no tamanho exato em pixels que você escolher.'
+        },
+        swirled: {
+            hint: 'Um mesh suave e fluido com um leve espiral. Ajuste a intensidade a gosto — a paleta permanece fiel à marca.',
+            distortion: 'Distorção',
+            swirl: 'Espiral',
+            scale: 'Escala',
+            position: 'Posição'
+        },
+        animated: {
+            hint: 'Renderize o mesh espiralado como um vídeo em loop. Ajuste o movimento e exporte um MP4 ou GIF.',
+            fps: 'FPS',
+            duration: 'Duração',
+            speed: 'Velocidade',
+            alternate: 'Alternar direção',
+            renderMp4: 'Renderizar MP4',
+            rendering: 'Renderizando…',
+            seconds: 's',
+            play: 'Reproduzir',
+            pause: 'Pausar',
+            previewPosition: 'Posição da prévia'
         }
     },
     footer: {

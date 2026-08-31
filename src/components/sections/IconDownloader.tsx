@@ -115,7 +115,9 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
                         previewMarkup ? (
                             <div
                                 className="h-full w-full"
-                                dangerouslySetInnerHTML={{ __html: previewMarkup }}
+                                dangerouslySetInnerHTML={{
+                                    __html: previewMarkup
+                                }}
                             />
                         ) : (
                             <span className="text-ink-muted text-sm">
@@ -189,7 +191,7 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
                                 disabled={format === 'svg'}
                                 className={`rounded-lg border px-3 py-2 text-sm transition ${
                                     format === 'svg'
-                                        ? 'cursor-not-allowed border-white/5 text-ink-muted/40'
+                                        ? 'text-ink-muted/40 cursor-not-allowed border-white/5'
                                         : size === s
                                           ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
                                           : 'text-paper/75 border-white/10 hover:border-white/30'
@@ -206,70 +208,70 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
                         {labels.color}
                     </label>
                     <div className="min-h-11">
-                    {format === 'svg' ? (
-                        <div className="flex flex-wrap items-center gap-2">
-                            <button
-                                onClick={() => setSvgHex('#000000')}
-                                className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                    svgHex === '#000000'
-                                        ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'text-paper/75 border-white/10 hover:border-white/30'
-                                }`}>
-                                {labels.colors.black}
-                            </button>
-                            <button
-                                onClick={() => setSvgHex('#ffffff')}
-                                className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                    svgHex === '#ffffff'
-                                        ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'text-paper/75 border-white/10 hover:border-white/30'
-                                }`}>
-                                {labels.colors.white}
-                            </button>
-                            <span
-                                className="mx-2 h-6 w-px bg-white/10"
-                                aria-hidden="true"
-                            />
-                            <input
-                                type="color"
-                                value={svgHex}
-                                onChange={e => setSvgHex(e.target.value)}
-                                className="h-11 w-16 cursor-pointer rounded-lg border border-white/10 bg-transparent p-1 transition hover:border-white/30"
-                                aria-label={labels.colors.color}
-                            />
-                            <span className="font-mono text-sm text-paper/75 uppercase">
-                                {svgHex}
-                            </span>
-                        </div>
-                    ) : (
-                        <div className="flex flex-wrap items-center gap-2">
-                            {ICON_COLORS.map(c => (
+                        {format === 'svg' ? (
+                            <div className="flex flex-wrap items-center gap-2">
                                 <button
-                                    key={c}
-                                    onClick={() => setColor(c)}
+                                    onClick={() => setSvgHex('#000000')}
                                     className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                        color === c
+                                        svgHex === '#000000'
                                             ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
                                             : 'text-paper/75 border-white/10 hover:border-white/30'
                                     }`}>
-                                    {labels.colors[c]}
+                                    {labels.colors.black}
                                 </button>
-                            ))}
-                            <span
-                                className="mx-2 h-6 w-px bg-white/10"
-                                aria-hidden="true"
-                            />
-                            <button
-                                onClick={() => setInverted(!inverted)}
-                                className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                    inverted
-                                        ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'text-paper/75 border-white/10 hover:border-white/30'
-                                }`}>
-                                {labels.colors.inverted}
-                            </button>
-                        </div>
-                    )}
+                                <button
+                                    onClick={() => setSvgHex('#ffffff')}
+                                    className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                        svgHex === '#ffffff'
+                                            ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                            : 'text-paper/75 border-white/10 hover:border-white/30'
+                                    }`}>
+                                    {labels.colors.white}
+                                </button>
+                                <span
+                                    className="mx-2 h-6 w-px bg-white/10"
+                                    aria-hidden="true"
+                                />
+                                <input
+                                    type="color"
+                                    value={svgHex}
+                                    onChange={e => setSvgHex(e.target.value)}
+                                    className="h-11 w-16 cursor-pointer rounded-lg border border-white/10 bg-transparent p-1 transition hover:border-white/30"
+                                    aria-label={labels.colors.color}
+                                />
+                                <span className="text-paper/75 font-mono text-sm uppercase">
+                                    {svgHex}
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="flex flex-wrap items-center gap-2">
+                                {ICON_COLORS.map(c => (
+                                    <button
+                                        key={c}
+                                        onClick={() => setColor(c)}
+                                        className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                            color === c
+                                                ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                                : 'text-paper/75 border-white/10 hover:border-white/30'
+                                        }`}>
+                                        {labels.colors[c]}
+                                    </button>
+                                ))}
+                                <span
+                                    className="mx-2 h-6 w-px bg-white/10"
+                                    aria-hidden="true"
+                                />
+                                <button
+                                    onClick={() => setInverted(!inverted)}
+                                    className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                        inverted
+                                            ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                            : 'text-paper/75 border-white/10 hover:border-white/30'
+                                    }`}>
+                                    {labels.colors.inverted}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
