@@ -1,0 +1,104 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const l = dict.licenses;
+
+const licenses = [
+    {
+        title: l.mit.title,
+        subtitle: l.mit.subtitle,
+        can: l.mit.can,
+        cannot: l.mit.cannot,
+        canItems: l.mit.canItems,
+        cannotItems: l.mit.cannotItems,
+        fullText: l.mit.fullText,
+        href: 'https://github.com/LuzTech-Development/Typography/blob/master/LICENSE'
+    },
+    {
+        title: l.ofl.title,
+        subtitle: l.ofl.subtitle,
+        can: l.ofl.can,
+        cannot: l.ofl.cannot,
+        canItems: l.ofl.canItems,
+        cannotItems: l.ofl.cannotItems,
+        fullText: l.ofl.fullText,
+        href: 'https://github.com/LuzTech-Development/Typography/blob/master/public/fonts/OFL.txt'
+    },
+    {
+        title: l.trademark.title,
+        subtitle: l.trademark.subtitle,
+        can: l.trademark.can,
+        cannot: l.trademark.cannot,
+        canItems: l.trademark.canItems,
+        cannotItems: l.trademark.cannotItems,
+        fullText: l.trademark.fullText,
+        href: 'https://github.com/LuzTech-Development/Typography/blob/master/TRADEMARKS.md'
+    }
+];
+---
+
+<section class="py-14 md:py-20">
+    <div class="container-editorial">
+        <p class="eyebrow">{l.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">{l.title}</h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">{l.lede}</p>
+
+        <div class="mt-10 grid gap-6 md:mt-12 md:gap-8 lg:grid-cols-3">
+            {
+                licenses.map(lic => (
+                    <div class="bg-ink-soft flex flex-col rounded-xl border border-white/[0.08] p-6 md:p-8">
+                        <h3 class="text-xl font-bold">{lic.title}</h3>
+                        <p class="text-luz-mint mt-1 text-sm">{lic.subtitle}</p>
+
+                        <h4 class="text-luz-mint mt-6 text-sm font-semibold">
+                            {lic.can}
+                        </h4>
+                        <ul class="mt-2 space-y-2">
+                            {lic.canItems.map(item => (
+                                <li class="text-paper/75 flex gap-2 text-sm">
+                                    <span
+                                        class="text-luz-mint"
+                                        aria-hidden="true">
+                                        ✓
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <h4 class="mt-6 text-sm font-semibold text-red-400">
+                            {lic.cannot}
+                        </h4>
+                        <ul class="mt-2 space-y-2">
+                            {lic.cannotItems.map(item => (
+                                <li class="text-paper/75 flex gap-2 text-sm">
+                                    <span
+                                        class="text-red-400"
+                                        aria-hidden="true">
+                                        ✕
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <a
+                            href={lic.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="stamp-num text-luz-mint mt-auto pt-6 hover:underline">
+                            {lic.fullText} →
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

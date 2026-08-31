@@ -1,0 +1,83 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+import { FontPreview } from './FontPreview.tsx';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const f = dict.font;
+
+const weights = [
+    { label: f.weights.light, weight: 300 },
+    { label: f.weights.regular, weight: 400 },
+    { label: f.weights.medium, weight: 500 },
+    { label: f.weights.semibold, weight: 600 },
+    { label: f.weights.bold, weight: 700 },
+    { label: f.weights.extrabold, weight: 800 }
+];
+
+const sizes = [
+    { label: f.sizes.caption, cls: 'text-xs' },
+    { label: f.sizes.body, cls: 'text-base' },
+    { label: f.sizes.subtitle, cls: 'text-2xl' },
+    { label: f.sizes.heading, cls: 'text-4xl' },
+    { label: f.sizes.display, cls: 'text-6xl' }
+];
+---
+
+<section class="py-14 md:py-20">
+    <div class="container-editorial">
+        <p class="eyebrow">{f.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">{f.title}</h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">{f.lede}</p>
+
+        <!-- Preview -->
+        <div class="mt-10 md:mt-12">
+            <FontPreview
+                client:load
+                labels={{
+                    title: f.preview.title,
+                    placeholder: f.preview.placeholder,
+                    defaultText: f.preview.defaultText,
+                    weightsTitle: f.weights.title,
+                    sizesTitle: f.sizes.title
+                }}
+                weights={weights}
+                sizes={sizes}
+            />
+        </div>
+
+        <!-- Download -->
+        <div class="bg-ink-soft mt-8 rounded-xl border border-white/8 p-8">
+            <h3 class="text-xl font-bold">{f.download.title}</h3>
+            <p class="text-ink-muted mt-2 text-sm">{f.download.officialHint}</p>
+            <div class="mt-6 flex flex-wrap gap-4">
+                <a
+                    href="https://fonts.google.com/specimen/Space+Grotesk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--primary">
+                    {f.download.googleFonts}
+                </a>
+                <a
+                    href="https://github.com/floriankarsten/space-grotesk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--ghost">
+                    {f.download.github}
+                </a>
+                <a
+                    href="/fonts/OFL.txt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--ghost">
+                    {f.download.license}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

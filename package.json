@@ -1,0 +1,50 @@
+{
+  "name": "@luztech/typography",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "author": "LuzTech Development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuzTech-Development/Typography"
+  },
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "scripts": {
+    "dev": "node scripts/generate-assets-if-stale.mjs && astro dev",
+    "build": "node scripts/generate-icon-manifest.mjs && node scripts/build-assets.mjs && node scripts/generate-icon-zip.mjs && node scripts/generate-llm-files.mjs && astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "sync": "astro sync",
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/mdx": "^7.0.6",
+    "@astrojs/react": "^6.0.3",
+    "@astrojs/sitemap": "3.7.3",
+    "@editframe/elements": "0.59.41",
+    "@editframe/react": "0.59.41",
+    "@editframe/vite-plugin": "0.59.41",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "@paper-design/shaders-react": "0.0.80",
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "archiver": "^8.0.0",
+    "astro": "^7.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-tailwindcss": "^0.8.1"
+  }
+}

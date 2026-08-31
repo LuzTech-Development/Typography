@@ -1,192 +1,131 @@
 # LuzTech Typography
 
-LuzTech Typography is the home for LuzTech visual identity source files, generated icon outputs, typography guidance, and animated brand backgrounds.
+[![Astro](https://img.shields.io/badge/Astro-7-ff5d01?logo=astro&logoColor=white)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Font: SIL OFL 1.1](https://img.shields.io/badge/Font-SIL%20OFL%201.1-lightgrey.svg)](assets/fonts/OFL.txt)
+[![Brand: Trademark](https://img.shields.io/badge/Brand-Trademark-black.svg)](TRADEMARKS.md)
 
-Use this repository when you need official LuzTech typography assets, generated icon packages, iconsheets, or the source files and scripts used to reproduce them.
+Official reference website for the LuzTech visual identity — icons, typography,
+licenses, and brand assets. Built with Astro and deployed to Azure Static Web
+Apps.
 
-## Summary
+## Live site
 
-- [Useful links](#useful-links)
-- [What you can do with this repository](#what-you-can-do-with-this-repository)
-- [For users: getting the assets](#for-users-getting-the-assets)
-- [Typography details](#typography-details)
-- [Requirements for development](#requirements-for-development)
-- [Generate icons locally](#generate-icons-locally)
-- [Work with animations](#work-with-animations)
-- [Repository structure](#repository-structure)
-- [Legal and trademark notice](#legal-and-trademark-notice)
+- English: <https://ui.luztech.dev.br/en-us/>
+- Português: <https://ui.luztech.dev.br/pt-br/>
 
-## Useful links
+## Features
 
-[Go to Summary](#summary)
+- Bi-lingual reference site (English and Portuguese) with locale-aware routing
+- Downloadable icon library across four variants, seven sizes, three colors,
+  and an inverted option — served from stable, predictable URLs
+- Outlined SVGs and per-size PNGs generated at build time from the source SVGs
+- "Download all" ZIP of the full icon set generated at build time
+- Space Grotesk font preview with live weight and size controls
+- In-house mesh gradient background generator (PNG, swirled, and animated
+  video export) built on WebGL shaders
+- LLM-ready reference files: `llms.txt`, `llms-full.txt`, and `icons.json`
+- Sitemap, SEO metadata, and locale-aware 404 handling
 
-- [Latest release](https://github.com/LuzTech-Development/Typography/releases/latest) — download the newest generated assets.
-- [All releases](https://github.com/LuzTech-Development/Typography/releases) — browse previous generated asset packages.
-- [Trademark notice and visual identity usage rules](TRADEMARKS.md) — read this before using LuzTech names, logos, icons, typography outputs, or other brand assets.
-- [License](LICENSE) — source code, scripts, and automation files are licensed under MIT unless otherwise stated.
-- [Animations project](animations/) — Remotion project for animated mesh-gradient visuals.
+## Tech stack
 
-## What you can do with this repository
+- [Astro](https://astro.build/) (static output)
+- [React](https://react.dev/) islands for interactive sections
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) via
+  `@fontsource-variable/space-grotesk`
+- [Editframe](https://editframe.com/) for animated background video export
+- [@paper-design/shaders-react](https://www.paper.design/shaders) for the
+  mesh gradient renderer
 
-[Go to Summary](#summary)
+## Pages
 
-You can use this repository to:
+The site is a multi-page reference, with each section on its own route:
 
-- Download ready-to-use LuzTech icon assets from the [latest release](https://github.com/LuzTech-Development/Typography/releases/latest).
-- Use the unmodified SVG source files in [`icons/`](icons/) directly.
-- Regenerate PNG icons and icon sheets from the SVG sources.
-- Inspect the official typography style, including the font, colors, and mesh-gradient design.
-- Render animated brand backgrounds using the Remotion project in [`animations/`](animations/).
-- Reference LuzTech visual identity materials in documentation, articles, integrations, or compatibility references.
+- **Instructions** (`/`) — the home page. A sober overview of the site's
+  purpose and quick links to the other pages.
+- **Licenses** (`/licenses/`) — MIT (source code), SIL OFL 1.1 (Space Grotesk
+  font), and the LuzTech trademark/brand-use rules, summarized as "you can /
+  you cannot" with links to the full files.
+- **Icons** (`/icons/`) — a download tool: pick a variant, format (SVG/PNG),
+  color (SVG) or size (PNG), and download — or grab everything as a ZIP.
+- **Font** (`/font/`) — Space Grotesk with a live text preview across weights
+  and sizes, plus links to the official download page.
+- **Backgrounds** (`/backgrounds/`) — an in-house mesh gradient generator for
+  LuzTech-branded backgrounds. Pick dimensions and download a PNG, generate a
+  static swirled variant, or export an animated video. The renderer is built
+  in-house on top of WebGL shaders; the flat mesh gradient technique is
+  inspired by [meshgradient.com](https://meshgradient.com/).
 
-Before using LuzTech brand assets, read [`TRADEMARKS.md`](TRADEMARKS.md). The source code and scripts may be MIT-licensed, but the LuzTech name, logo, icons, typography outputs, generated visual identity files, and other brand materials have additional trademark and brand-use restrictions. Unmodified SVG sources from `icons/` may be used directly; modified versions intended to represent LuzTech require prior approval.
+## Icon URLs
 
-## For users: getting the assets
+Every icon is available at a stable, predictable URL:
 
-[Go to Summary](#summary)
+```
+/icons/<variant>/<size>/[inverted/]<color>.png
+```
 
-The easiest way to get the generated assets is to download them from the [latest release](https://github.com/LuzTech-Development/Typography/releases/latest).
+- **Variants**: `clean`, `name`, `blog`, `nfse`
+- **Sizes**: `16`, `32`, `64`, `128`, `256`, `512`, `1024`
+- **Colors**: `black`, `white`, `color`
+- **Inverted**: optional `inverted/` segment
 
-Release assets may include:
+Outlined SVGs are available at `/icons/<variant>.svg`.
 
-- `icons.zip` — generated icon files.
-- `ICONSHEET.pdf` — a printable icon sheet.
+The full machine-readable map is at `/icons.json`.
 
-If you only need the officially generated files, prefer the release downloads instead of running the build scripts locally.
+## LLM-ready files
 
-## Typography details
+- `/llms.txt` — concise site overview and icon library summary.
+- `/llms-full.txt` — full listing of every icon URL.
+- `/icons.json` — structured JSON map of variants, sizes, colors, and URLs.
 
-[Go to Summary](#summary)
-
-The typography uses a mesh gradient background with the following colors:
-
-<ul>
-    <li>Top left: #00ff9d
-        <img src="https://dummyimage.com/8x8/00ff9d/00ff9d" alt="#00ff9d" style="display: inline" />
-    </li>
-    <li>Top right: #69dd96
-        <img src="https://dummyimage.com/8x8/69dd96/69dd96" alt="#69dd96" style="display: inline" />
-    </li>
-    <li>Bottom left: #4665c3
-        <img src="https://dummyimage.com/8x8/4665c3/4665c3" alt="#4665c3" style="display: inline" />
-    </li>
-    <li>Bottom right: #1f6fef
-        <img src="https://dummyimage.com/8x8/1f6fef/1f6fef" alt="#1f6fef" style="display: inline" />
-    </li>
-</ul>
-
-The mesh gradient was created with [Mesh Gradient Generator](https://meshgradient.com/). The background gradient itself is not a LuzTech trademark; it is generated by that third-party tool.
-
-The font used in the typography is [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk), a variable font available from Google Fonts.
-
-The weight used in the `name` version of the typography is `800`.
-
-The Space Grotesk TrueType file is vendored in [`assets/fonts/`](assets/fonts/) under its original [SIL Open Font License 1.1](assets/fonts/OFL.txt) so the build is fully reproducible without requiring the font to be installed system-wide. The build wires it into Inkscape via a temporary fontconfig configuration, and the source files listing the font's authors and contributors are preserved alongside the license in the same directory.
-
-The source SVGs in [`icons/`](icons/) still reference `font-family="Space Grotesk"` on their `<text>` elements so they remain editable in vector tools. The build outputs (`out/<variant>.svg`) have those `<text>` elements converted to `<path>` outlines, so the generated SVGs render identically on any machine, with or without Space Grotesk installed.
-
-## Requirements for development
-
-[Go to Summary](#summary)
-
-To regenerate assets locally, install:
-
-- [ImageMagick](https://imagemagick.org/) for image processing.
-- [Inkscape](https://inkscape.org/) for SVG-to-PNG conversion and for outlining `<text>` into `<path>` elements during the build. On macOS, the easiest way to install it is `brew install --cask inkscape`, which registers the `inkscape` CLI in `PATH` automatically. If you install Inkscape from the DMG instead, remember that the CLI lives at `/Applications/Inkscape.app/Contents/MacOS/inkscape` and needs to be either added to your `PATH` or invoked through `open -a Inkscape` for GUI use.
-- A Unix-like environment, such as Linux, macOS, or Windows Subsystem for Linux, to run the shell scripts.
-
-The Space Grotesk font itself does **not** need to be installed on your system — it is vendored in [`assets/fonts/`](assets/fonts/) and the build wires it into Inkscape through a temporary fontconfig configuration.
-
-To work on animations, install:
-
-- [Node.js](https://nodejs.org/).
-- [pnpm](https://pnpm.io/).
-
-## Generate icons locally
-
-[Go to Summary](#summary)
-
-Run the default generation command from the repository root:
+## Getting started
 
 ```bash
-make
+pnpm install
+pnpm dev          # live preview at http://localhost:3000
+pnpm build        # regenerate icons + ZIP + LLM files, then type-check + build
+pnpm preview      # preview the production build
 ```
 
-This runs [`scripts/generate.sh`](scripts/generate.sh), which processes SVG files in [`icons/`](icons/) and writes generated files to `out/`.
+The `dev` script auto-regenerates icon assets when the source SVGs in [`icons/`](icons/) are stale. The `build` script always runs the full pipeline.
 
-To generate only selected variants, pass the variant names after `generate`:
+## Icon generation pipeline
 
-```bash
-make generate clean name
-```
+The icon source SVGs live in [`icons/`](icons/). The PNG outputs, outlined SVGs, and the "download all" ZIP are **generated at build time** (not committed to git). Generation requires **Inkscape**, **ImageMagick**, and **fontconfig** on the host machine.
 
-For each requested variant, the generator runs the supporting scripts that create PNG outputs, size variants, and the icon sheet.
+`pnpm build` runs the pipeline end-to-end:
 
-## Work with animations
+1. `scripts/generate-icon-manifest.mjs` — enumerates the source SVGs and
+   builds the icon manifest consumed by the site.
+2. `scripts/build-assets.mjs` — outlines text and renders PNGs from the source
+   SVGs, then copies them into `public/icons/`.
+3. `scripts/generate-icon-zip.mjs` — packages `public/icons/` into
+   `public/luztech-icons.zip`.
+4. `scripts/generate-llm-files.mjs` — regenerates `llms.txt`, `llms-full.txt`,
+   and `icons.json`.
+5. `astro check && astro build` — type-checks and builds the site.
 
-[Go to Summary](#summary)
+## Branding
 
-The [`animations/`](animations/) directory contains a [Remotion](https://www.remotion.dev/) project for rendering animated LuzTech mesh-gradient visuals.
+This repository **is** the source of truth for LuzTech typography, colors,
+and brand guidance.
 
-From the `animations/` directory, install dependencies:
+## License
 
-```bash
-cd animations
-pnpm i
-```
+This repository uses a **layered license**:
 
-Start the Remotion preview studio:
+- **Source code** (Astro components, scripts, styles, configuration) —
+  [MIT License](LICENSE).
+- **Space Grotesk font** (`assets/fonts/`, `public/fonts/`) —
+  [SIL Open Font License 1.1](assets/fonts/OFL.txt).
+- **LuzTech brand assets** (name, logo, icons, typography outputs, mesh
+  gradient backgrounds) — **not** covered by MIT. See
+  [`TRADEMARKS.md`](TRADEMARKS.md) for the full "you can / you cannot"
+  brand-use rules.
 
-```bash
-pnpm run dev
-```
-
-Run checks for the animation project:
-
-```bash
-pnpm run lint
-```
-
-Render the video with Remotion:
-
-```bash
-pnpm exec remotion render
-```
-
-The main composition is configured in [`animations/src/Root.tsx`](animations/src/Root.tsx). It currently uses a 1920×1080 canvas, 60 FPS, a 60-second duration, and the LuzTech mesh-gradient colors. The gradient implementation lives in [`animations/src/MeshGradient.tsx`](animations/src/MeshGradient.tsx).
-
-Useful animation settings include:
-
-- `DURATION_SECONDS` — total animation length.
-- `FPS` — frames per second.
-- `SPEED` — gradient animation speed.
-- `ALTERNATE` — whether the animation reverses direction halfway through.
-- `SHOW_LOGO` — whether the LuzTech logo is shown over the gradient.
-- `WIDTH` and `HEIGHT` — render resolution.
-
-After changing these values, preview with `pnpm run dev` before rendering the final video.
-
-## Repository structure
-
-[Go to Summary](#summary)
-
-```text
-.
-├── animations/       # Remotion animation project
-├── assets/           # Shared assets: gradient background, vendored fonts (with OFL license), iconsheet template
-├── icons/            # Source SVG icon variants (editable, reference Space Grotesk by name)
-├── out/              # Generated outputs, when created locally (includes outlined <path>-only SVGs)
-├── scripts/          # Asset generation scripts
-├── LICENSE           # MIT license for source code and scripts
-├── Makefile          # Convenience commands for generation
-├── README.md         # Project overview and usage guide
-└── TRADEMARKS.md     # LuzTech visual identity and trademark notice
-```
-
-## Legal and trademark notice
-
-[Go to Summary](#summary)
-
-The source code, scripts, and automation files in this repository are licensed under the [MIT License](LICENSE), unless otherwise stated.
-
-The LuzTech name, logo, icons, typography outputs, generated visual identity files, and other materials representing the LuzTech brand are **not** licensed under MIT. The mesh-gradient background is generated by the third-party [Mesh Gradient Generator](https://meshgradient.com/) tool and is not itself a LuzTech trademark. Unmodified SVG source files from [`icons/`](icons/) may be used directly. Modified versions of LuzTech visual assets intended to represent LuzTech, or any use that implies endorsement or official association, require prior approval. Read [`TRADEMARKS.md`](TRADEMARKS.md) for full details.
+If you reference LuzTech icons or typography in your own work, please credit
+**LuzTech Development** and link back to <https://ui.luztech.dev.br>.

@@ -58,4 +58,16 @@ if [ ! -f "$OUTPUT_SVG" ]; then
     exit 1
 fi
 
+# Inkscape resolves `fill="currentColor"` on the outlined text to a hardcoded
+# `#000000`. Restore it to `currentColor` so the text follows the same color
+# as the rest of the mark (the masks use the `black`/`white` keywords, which
+# are left untouched).
+if sed --version >/dev/null 2>&1; then
+    # GNU sed (Linux CI)
+    sed -i 's/fill:#000000/fill:currentColor/g' "$OUTPUT_SVG"
+else
+    # BSD sed (macOS)
+    sed -i '' 's/fill:#000000/fill:currentColor/g' "$OUTPUT_SVG"
+fi
+
 echo "==> Wrote outlined SVG to $OUTPUT_SVG"

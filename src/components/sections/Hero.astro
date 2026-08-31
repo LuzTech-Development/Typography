@@ -1,0 +1,32 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section class="relative overflow-hidden border-b border-white/6">
+    <div
+        class="pointer-events-none absolute inset-0 opacity-15"
+        style="background: radial-gradient(ellipse at 20% 20%, #00ff9d33, transparent 50%), radial-gradient(ellipse at 80% 30%, #1f6fef33, transparent 50%), radial-gradient(ellipse at 50% 80%, #4665c333, transparent 50%)"
+        aria-hidden="true">
+    </div>
+    <div
+        class="container-editorial relative flex min-h-[55vh] flex-col justify-center py-16 text-center md:min-h-[60vh] md:py-28 md:text-left">
+        <p class="eyebrow">{dict.hero.eyebrow}</p>
+        <h1
+            class="display-heading mx-auto mt-6 max-w-4xl text-balance md:mx-0"
+            style="font-size: clamp(2rem, 6vw, 4.5rem)">
+            {dict.hero.title}
+        </h1>
+        <p
+            class="text-paper/75 mx-auto mt-6 max-w-2xl text-base md:mx-0 md:mt-8 md:text-lg">
+            {dict.hero.lede}
+        </p>
+    </div>
+</section>

@@ -1,0 +1,133 @@
+---
+import type { Locale } from '@/i18n';
+import { localePrefix, t } from '@/lib/i18n';
+import LanguageToggle from './LanguageToggle.astro';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const p = localePrefix(locale);
+
+const navItems = [
+    { href: `${p}/`, label: dict.nav.instructions },
+    { href: `${p}/licenses/`, label: dict.nav.licenses },
+    { href: `${p}/icons/`, label: dict.nav.icons },
+    { href: `${p}/font/`, label: dict.nav.font },
+    { href: `${p}/backgrounds/`, label: dict.nav.backgrounds }
+];
+
+// Normalize the current pathname (strip trailing slash) to match nav hrefs.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => {
+    const normalized = href.replace(/\/+$/, '') || '/';
+    return normalized === currentPath;
+};
+---
+
+<header
+    class="bg-ink/80 fixed inset-x-0 top-0 z-40 border-b border-white/6 backdrop-blur-md">
+    <div
+        class="container-editorial flex h-16 items-center justify-between gap-3 md:h-20">
+        <a
+            href={`${p}/`}
+            class="flex min-w-0 items-center gap-3 transition-opacity hover:opacity-80"
+            aria-label="LuzTech Typography">
+            <img
+                src="/icons/clean/256x/white.png"
+                alt=""
+                width="256"
+                height="256"
+                class="h-10 w-10 shrink-0 md:h-12 md:w-12"
+                aria-hidden="true"
+                loading="eager"
+                decoding="async"
+            />
+            <span class="stamp-num truncate">LuzTech Typography</span>
+        </a>
+
+        <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+            {
+                navItems.map(item => {
+                    const active = isActive(item.href);
+                    return active ? (
+                        <span
+                            aria-current="page"
+                            class="stamp-num text-luz-mint uppercase">
+                            {item.label}
+                        </span>
+                    ) : (
+                        <a
+                            href={item.href}
+                            class="stamp-num text-ink-muted hover:text-paper uppercase transition-colors">
+                            {item.label}
+                        </a>
+                    );
+                })
+            }
+        </nav>
+
+        <div class="flex items-center gap-3">
+            <LanguageToggle locale={locale} />
+            <button
+                type="button"
+                id="menu-toggle"
+                class="text-paper flex h-10 w-10 items-center justify-center border border-white/10 transition-colors hover:border-white/40 md:hidden"
+                aria-label={dict.a11y.openMenu}
+                aria-expanded="false"
+                aria-controls="mobile-menu">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true">
+                    <line x1="3" y1="5" x2="17" y2="5"></line>
+                    <line x1="3" y1="10" x2="17" y2="10"></line>
+                    <line x1="3" y1="15" x2="17" y2="15"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div
+        id="mobile-menu"
+        class="bg-ink/95 hidden border-t border-white/6 backdrop-blur-md md:hidden">
+        <nav class="container-editorial flex flex-col py-4" aria-label="Mobile">
+            {
+                navItems.map(item => {
+                    const active = isActive(item.href);
+                    return active ? (
+                        <span
+                            aria-current="page"
+                            class="stamp-num text-luz-mint border-b border-white/6 py-3 uppercase">
+                            {item.label}
+                        </span>
+                    ) : (
+                        <a
+                            href={item.href}
+                            class="stamp-num text-ink-muted hover:text-paper border-b border-white/6 py-3 uppercase transition-colors">
+                            {item.label}
+                        </a>
+                    );
+                })
+            }
+        </nav>
+    </div>
+</header>
+
+<script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden') === false;
+            toggle.setAttribute('aria-expanded', String(open));
+        });
+    }
+</script>

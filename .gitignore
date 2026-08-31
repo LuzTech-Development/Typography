@@ -1,2 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
 out/
+
+# Generated assets (regenerated at build time)
+public/icons/
+public/luztech-icons.zip
+public/lastGenerated.txt
+src/lib/icons.generated.ts
+public/icons.json
+public/llms.txt
+public/llms-full.txt
+
+# Astro
+.astro/
+
+# Reference snapshot (pre-restructure assets, gitignored by design)
+.ref/
+
+# Old Editframe website (replaced by the root Astro site)
+website/
+
+# Old Remotion animation project (moved to .ref/animations)
+animations/
+
+# OS / editor
+.DS_Store
 *.dev.*
+*.log

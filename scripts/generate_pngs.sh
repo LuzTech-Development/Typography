@@ -30,7 +30,7 @@ inkscape "$INPUT_SVG" -w 1024 -o "$OUTPUT_DIR/black.png"
 
 echo "==> Creating white and color variants..."
 
-imagemagick "$OUTPUT_DIR/black.png" -negate "$OUTPUT_DIR/white.png"
+imagemagick -size 1024x1024 "xc:white" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/white.png"
 imagemagick "$BACKGROUND_IMAGE" '(' "$OUTPUT_DIR/black.png" -alpha extract ')' -compose CopyOpacity -composite "$OUTPUT_DIR/color.png"
 
 echo "==> Creating inverted variants..."

@@ -1,0 +1,93 @@
+---
+/**
+ * Root landing page.
+ *
+ * This page never renders content — it redirects visitors to the locale
+ * that best matches their browser preferences, defaulting to English.
+ */
+import { localePaths } from '@/i18n';
+
+const defaultTarget = `${localePaths['en-us']}/`;
+const supportedJson = JSON.stringify(localePaths);
+const siteURL = Astro.site ?? new URL('/', Astro.url);
+const ptHref = new URL(localePaths['pt-br'] + '/', siteURL).href;
+const enHref = new URL(localePaths['en-us'] + '/', siteURL).href;
+const canonicalHref = new URL('/', siteURL).href;
+const alternates = [
+    { hreflang: 'en', href: enHref, label: 'English' },
+    { hreflang: 'pt-BR', href: ptHref, label: 'Português' }
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="noindex" />
+
+        <title>LuzTech Typography</title>
+        <meta name="title" content="LuzTech Typography" />
+        <meta
+            name="description"
+            content="Official LuzTech visual identity reference: icons, typography, licenses, and brand assets."
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="canonical" href={canonicalHref} />
+        <link rel="alternate" hreflang="en" href={enHref} />
+        <link rel="alternate" hreflang="pt-BR" href={ptHref} />
+        <link rel="alternate" hreflang="x-default" href={enHref} />
+
+        <meta http-equiv="refresh" content={`0; url=${defaultTarget}`} />
+        <script is:inline define:vars={{ supportedJson, defaultTarget }}>
+            (function () {
+                try {
+                    var localeToPath = JSON.parse(supportedJson);
+                    var stored = null;
+                    try {
+                        stored = localStorage.getItem('preferred-locale');
+                    } catch (_) {}
+                    function pick(tag) {
+                        if (!tag) return null;
+                        if (localeToPath[tag]) return tag;
+                        var lower = tag.toLowerCase();
+                        if (lower.indexOf('pt') === 0) return 'pt-br';
+                        if (lower.indexOf('en') === 0) return 'en-us';
+                        return null;
+                    }
+                    var target = pick(stored);
+                    var candidates =
+                        (navigator.languages && navigator.languages.length
+                            ? navigator.languages
+                            : [navigator.language]) || [];
+                    if (!target) {
+                        for (var i = 0; i < candidates.length; i++) {
+                            target = pick(candidates[i]);
+                            if (target) break;
+                        }
+                    }
+                    if (!target) target = 'en-us';
+                    var path = localeToPath[target] || defaultTarget;
+                    location.replace(path + '/');
+                } catch (_) {
+                    location.replace(defaultTarget);
+                }
+            })();
+        </script>
+    </head>
+    <body>
+        <noscript>
+            <h1>LuzTech Typography</h1>
+            <p>Select a language / Selecione um idioma:</p>
+            <ul>
+                {
+                    alternates.map(alt => (
+                        <li>
+                            <a href={alt.href}>{alt.label}</a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </noscript>
+    </body>
+</html>

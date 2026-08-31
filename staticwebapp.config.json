@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json.schemastore.org/staticwebapp.config.json",
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/icons/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/fonts/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/_astro/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/favicon.svg",
+      "headers": {
+        "cache-control": "public, max-age=86400"
+      }
+    },
+    {
+      "route": "/robots.txt",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "route": "/llms.txt",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "route": "/llms-full.txt",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "route": "/icons.json",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "route": "/sitemap-index.xml",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "application/xml; charset=utf-8"
+      }
+    },
+    {
+      "route": "/sitemap-*.xml",
+      "headers": {
+        "cache-control": "public, max-age=3600",
+        "content-type": "application/xml; charset=utf-8"
+      }
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/404.html",
+    "exclude": [
+      "/icons/*",
+      "/fonts/*",
+      "/_astro/*",
+      "/robots.txt",
+      "/llms.txt",
+      "/llms-full.txt",
+      "/icons.json",
+      "/sitemap-index.xml",
+      "/sitemap-*.xml",
+      "/*.{png,jpg,jpeg,gif,svg,webp,ico,avif,js,css,map,txt,xml,woff,woff2,ttf,otf,json}"
+    ]
+  },
+  "mimeTypes": {
+    ".mjs": "text/javascript",
+    ".webmanifest": "application/manifest+json",
+    ".xml": "application/xml"
+  },
+  "globalHeaders": {
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-frame-options": "DENY"
+  },
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/404.html",
+      "statusCode": 404
+    }
+  }
+}

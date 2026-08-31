@@ -1,0 +1,122 @@
+@import '@fontsource-variable/space-grotesk/index.css';
+
+@import 'tailwindcss';
+
+/* --- Design tokens (Tailwind v4 @theme -> utility classes) ---------------- */
+@theme {
+    /* LuzTech mesh gradient palette (see Typography guidelines) */
+    --color-luz-mint: #00ff9d;
+    --color-luz-jade: #69dd96;
+    --color-luz-slate: #4665c3;
+    --color-luz-blue: #1f6fef;
+
+    --color-ink: #0a0d10;
+    --color-ink-soft: #12161b;
+    --color-ink-line: #1e242c;
+    --color-ink-muted: #8a94a3;
+
+    --color-paper: #f5f4ef;
+    --color-paper-dim: #d9d7cc;
+
+    --font-display:
+        'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+    --font-sans:
+        'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+
+    --tracking-stamp: 0.22em;
+
+    --text-eyebrow: 0.72rem;
+    --text-eyebrow--line-height: 1;
+    --text-eyebrow--letter-spacing: 0.22em;
+}
+
+@layer base {
+    :root {
+        color-scheme: dark;
+        --grid-max: 1400px;
+    }
+
+    html {
+        background-color: var(--color-ink);
+        color: var(--color-paper);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        font-feature-settings: 'ss01', 'ss02', 'cv11';
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    ::selection {
+        background-color: var(--color-luz-mint);
+        color: var(--color-ink);
+    }
+}
+
+@layer components {
+    .container-editorial {
+        width: 100%;
+        max-width: var(--grid-max);
+        margin-inline: auto;
+        padding-inline: 1rem;
+    }
+
+    @media (min-width: 768px) {
+        .container-editorial {
+            padding-inline: 1.5rem;
+        }
+    }
+
+    .eyebrow {
+        font-size: var(--text-eyebrow);
+        line-height: var(--text-eyebrow--line-height);
+        letter-spacing: var(--text-eyebrow--letter-spacing);
+        text-transform: uppercase;
+        color: var(--color-luz-mint);
+    }
+
+    .stamp-num {
+        font-size: 0.72rem;
+        letter-spacing: var(--tracking-stamp);
+        text-transform: uppercase;
+    }
+
+    .display-heading {
+        font-family: var(--font-display);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn--primary {
+        background-color: var(--color-luz-mint);
+        color: var(--color-ink);
+    }
+
+    .btn--primary:hover {
+        background-color: var(--color-luz-jade);
+    }
+
+    .btn--ghost {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--color-paper);
+    }
+
+    .btn--ghost:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+}
