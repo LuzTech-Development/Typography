@@ -175,6 +175,16 @@ export const en = {
             downloading: 'Generating…',
             hint: 'The gradient uses the official LuzTech palette. Output is a PNG at the exact pixel size you choose.'
         },
+        colors: {
+            title: 'Colors',
+            hint: 'The four corners use these fixed brand colors. Click any swatch to copy its hex value.',
+            copy: 'Copy hex',
+            copied: 'Copied',
+            topLeft: 'Top left',
+            topRight: 'Top right',
+            bottomLeft: 'Bottom left',
+            bottomRight: 'Bottom right'
+        },
         swirled: {
             hint: 'A gentle, flowing mesh with a soft swirl. Adjust the intensity to taste — the palette stays on-brand.',
             distortion: 'Distortion',
