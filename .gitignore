@@ -8,6 +8,7 @@ out/
 # Generated assets (regenerated at build time)
 public/icons/
 public/luztech-icons.zip
+public/lastGenerated.txt
 public/icons.json
 public/llms.txt
 public/llms-full.txt

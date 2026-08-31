@@ -115,6 +115,8 @@ export const pt: En = {
                 'Todas as variantes em SVG e PNG, organizadas em pastas.',
             copyUrl: 'Copiar URL',
             copied: 'Copiado!',
+            copyUrlDisabled:
+                'O SVG usa currentColor — a URL copiada aponta para o arquivo bruto, não para a cor exibida aqui.',
             svg: 'SVG',
             png: 'PNG',
             colors: {
@@ -123,9 +125,7 @@ export const pt: En = {
                 color: 'Cor',
                 inverted: 'Invertido'
             }
-        },
-        urlPattern: 'Padrão de URL',
-        urlPatternHint: 'URLs estáveis para cada ícone, tamanho e cor.'
+        }
     },
     font: {
         eyebrow: 'Fonte',
