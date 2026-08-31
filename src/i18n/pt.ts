@@ -16,10 +16,7 @@ export const pt: En = {
     hero: {
         eyebrow: 'Identidade Visual LuzTech',
         title: 'Tudo o que você precisa para trabalhar com a LuzTech.',
-        lede: 'Uma referência prática para designers internos e externos. Baixe os ícones oficiais, pré-visualize a tipografia Space Grotesk e entenda exatamente o que pode e o que não pode fazer com a marca.',
-        ctaIcons: 'Baixar ícones',
-        ctaFont: 'Pré-visualizar a fonte',
-        ctaLicenses: 'Ler as licenças'
+        lede: 'Uma referência prática para designers internos e externos. Baixe os ícones oficiais, pré-visualize a tipografia Space Grotesk e entenda exatamente o que pode e o que não pode fazer com a marca.'
     },
     instructions: {
         eyebrow: 'Instruções',
@@ -32,12 +29,16 @@ export const pt: En = {
             font: 'Fonte',
             fontText:
                 'Space Grotesk é a tipografia oficial da LuzTech. Pré-visualize em todos os pesos e tamanhos na página Fonte e baixe da fonte oficial.',
+            backgrounds: 'Fundos',
+            backgroundsText:
+                'Gere fundos com mesh gradient da marca LuzTech. Escolha o tamanho e baixe um PNG, adicione um espiral suave ou exporte um vídeo animado em loop.',
             licenses: 'Licenças',
             licensesText:
                 'O código-fonte é licenciado sob MIT, a fonte sob SIL OFL 1.1 e os ativos de marca têm restrições de marca registrada. Leia a página Licenças para o detalhamento claro.',
-            regenerate: 'Regenerar ativos localmente',
-            regenerateText:
-                'Os SVGs de origem dos ícones ficam no diretório icons/. Para regenerar as saídas PNG e os SVGs contornados, execute make na raiz do repositório (requer ImageMagick e Inkscape).'
+            source: 'Código aberto no GitHub',
+            sourceText:
+                'Este site é totalmente open source. Explore o código, abra uma issue ou sugira melhorias no repositório — sem precisar configurar nada localmente.',
+            sourceCta: 'Ver o repositório no GitHub'
         },
         quickLinks: 'Links rápidos'
     },

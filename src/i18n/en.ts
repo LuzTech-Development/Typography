@@ -14,10 +14,7 @@ export const en = {
     hero: {
         eyebrow: 'LuzTech Visual Identity',
         title: 'Everything you need to work with LuzTech.',
-        lede: 'A practical reference for internal and external designers. Download the official icons, preview the Space Grotesk typeface, and understand exactly what you can and cannot do with the brand.',
-        ctaIcons: 'Download icons',
-        ctaFont: 'Preview the font',
-        ctaLicenses: 'Read the licenses'
+        lede: 'A practical reference for internal and external designers. Download the official icons, preview the Space Grotesk typeface, and understand exactly what you can and cannot do with the brand.'
     },
     instructions: {
         eyebrow: 'Instructions',
@@ -30,12 +27,16 @@ export const en = {
             font: 'Font',
             fontText:
                 'Space Grotesk is the official LuzTech typeface. Preview it in every weight and size on the Font page, and download it from the official source.',
+            backgrounds: 'Backgrounds',
+            backgroundsText:
+                'Generate LuzTech-branded mesh gradient backgrounds. Choose the size and download a PNG, add a soft swirl, or export a looping animated video.',
             licenses: 'Licenses',
             licensesText:
                 'The source code is MIT-licensed, the font is SIL OFL 1.1, and the brand assets carry trademark restrictions. Read the Licenses page for the clear breakdown.',
-            regenerate: 'Regenerate assets locally',
-            regenerateText:
-                'The icon source SVGs live in the icons/ directory. To regenerate the PNG outputs and outlined SVGs, run make from the repository root (requires ImageMagick and Inkscape).'
+            source: 'Open source on GitHub',
+            sourceText:
+                'This site is fully open source. Browse the code, report an issue, or suggest an improvement in the repository — no local setup required to explore.',
+            sourceCta: 'View the repository on GitHub'
         },
         quickLinks: 'Quick links'
     },

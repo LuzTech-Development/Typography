@@ -11,6 +11,8 @@ const dict = t(locale);
 const s = dict.instructions.sections;
 const p = localePrefix(locale);
 
+const repoUrl = 'https://github.com/LuzTech-Development/Typography';
+
 const cards = [
     {
         title: s.icons,
@@ -23,6 +25,12 @@ const cards = [
         text: s.fontText,
         href: `${p}/font/`,
         cta: dict.nav.font
+    },
+    {
+        title: s.backgrounds,
+        text: s.backgroundsText,
+        href: `${p}/backgrounds/`,
+        cta: dict.nav.backgrounds
     },
     {
         title: s.licenses,
@@ -43,7 +51,8 @@ const cards = [
             {dict.instructions.lede}
         </p>
 
-        <div class="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
+        <div
+            class="mt-10 grid gap-4 md:mt-12 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
             {
                 cards.map(card => (
                     <a
@@ -63,10 +72,15 @@ const cards = [
 
         <div
             class="bg-ink-soft mt-10 rounded-xl border border-white/8 p-6 md:mt-12 md:p-8">
-            <h3 class="text-xl font-bold">{s.regenerate}</h3>
-            <p class="text-paper/75 mt-4">{s.regenerateText}</p>
-            <pre
-                class="bg-ink text-luz-mint mt-4 overflow-x-auto rounded-lg p-4 font-mono text-sm"><code>make</code></pre>
+            <h3 class="text-xl font-bold">{s.source}</h3>
+            <p class="text-paper/75 mt-4">{s.sourceText}</p>
+            <a
+                href={repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="border-luz-mint/40 text-luz-mint hover:bg-luz-mint/10 mt-6 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition">
+                {s.sourceCta} →
+            </a>
         </div>
     </div>
 </section>

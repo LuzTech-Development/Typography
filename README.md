@@ -1,24 +1,51 @@
 # LuzTech Typography
 
-LuzTech Typography is the official reference website for the LuzTech visual
-identity: icons, typography, licenses, and brand assets.
+[![Astro](https://img.shields.io/badge/Astro-7-ff5d01?logo=astro&logoColor=white)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Font: SIL OFL 1.1](https://img.shields.io/badge/Font-SIL%20OFL%201.1-lightgrey.svg)](assets/fonts/OFL.txt)
+[![Brand: Trademark](https://img.shields.io/badge/Brand-Trademark-black.svg)](TRADEMARKS.md)
 
-The site is statically generated with [Astro](https://astro.build), bi-lingual
-(English and Portuguese), and deployed to Azure Static Web Apps. It exposes
-LLM-ready files (`llms.txt`, `llms-full.txt`, `icons.json`) and stable,
-predictable URLs for every icon.
+Official reference website for the LuzTech visual identity — icons, typography,
+licenses, and brand assets. Built with Astro and deployed to Azure Static Web
+Apps.
 
 ## Live site
 
 - English: <https://ui.luztech.dev.br/en-us/>
 - Português: <https://ui.luztech.dev.br/pt-br/>
 
+## Features
+
+- Bi-lingual reference site (English and Portuguese) with locale-aware routing
+- Downloadable icon library across four variants, seven sizes, three colors,
+  and an inverted option — served from stable, predictable URLs
+- Outlined SVGs and per-size PNGs generated at build time from the source SVGs
+- "Download all" ZIP of the full icon set generated at build time
+- Space Grotesk font preview with live weight and size controls
+- In-house mesh gradient background generator (PNG, swirled, and animated
+  video export) built on WebGL shaders
+- LLM-ready reference files: `llms.txt`, `llms-full.txt`, and `icons.json`
+- Sitemap, SEO metadata, and locale-aware 404 handling
+
+## Tech stack
+
+- [Astro](https://astro.build/) (static output)
+- [React](https://react.dev/) islands for interactive sections
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) via
+  `@fontsource-variable/space-grotesk`
+- [Editframe](https://editframe.com/) for animated background video export
+- [@paper-design/shaders-react](https://www.paper.design/shaders) for the
+  mesh gradient renderer
+
 ## Pages
 
 The site is a multi-page reference, with each section on its own route:
 
-- **Instructions** (`/`) — the home page. A sober overview of the site's purpose
-  and quick links to the other pages.
+- **Instructions** (`/`) — the home page. A sober overview of the site's
+  purpose and quick links to the other pages.
 - **Licenses** (`/licenses/`) — MIT (source code), SIL OFL 1.1 (Space Grotesk
   font), and the LuzTech trademark/brand-use rules, summarized as "you can /
   you cannot" with links to the full files.
@@ -55,7 +82,7 @@ The full machine-readable map is at `/icons.json`.
 - `/llms-full.txt` — full listing of every icon URL.
 - `/icons.json` — structured JSON map of variants, sizes, colors, and URLs.
 
-## Development
+## Getting started
 
 ```bash
 pnpm install
@@ -64,48 +91,41 @@ pnpm build        # regenerate icons + ZIP + LLM files, then type-check + build
 pnpm preview      # preview the production build
 ```
 
-## Icon generation
+The `dev` script auto-regenerates icon assets when the source SVGs in [`icons/`](icons/) are stale. The `build` script always runs the full pipeline.
 
-The icon source SVGs live in [`icons/`](icons/). The PNG outputs, outlined SVGs,
-and the "download all" ZIP are **generated at build time** (not committed to
-git). `pnpm build` runs the full pipeline:
+## Icon generation pipeline
 
-1. `scripts/build-assets.mjs` — outlines text and renders PNGs from the source
-   SVGs (requires Inkscape, ImageMagick, and fontconfig), then copies them into
-   `public/icons/`.
-2. `scripts/generate-icon-zip.mjs` — packages `public/icons/` into
+The icon source SVGs live in [`icons/`](icons/). The PNG outputs, outlined SVGs, and the "download all" ZIP are **generated at build time** (not committed to git). Generation requires **Inkscape**, **ImageMagick**, and **fontconfig** on the host machine.
+
+`pnpm build` runs the pipeline end-to-end:
+
+1. `scripts/generate-icon-manifest.mjs` — enumerates the source SVGs and
+   builds the icon manifest consumed by the site.
+2. `scripts/build-assets.mjs` — outlines text and renders PNGs from the source
+   SVGs, then copies them into `public/icons/`.
+3. `scripts/generate-icon-zip.mjs` — packages `public/icons/` into
    `public/luztech-icons.zip`.
-3. `scripts/generate-llm-files.mjs` — regenerates `llms.txt`, `llms-full.txt`,
+4. `scripts/generate-llm-files.mjs` — regenerates `llms.txt`, `llms-full.txt`,
    and `icons.json`.
+5. `astro check && astro build` — type-checks and builds the site.
 
-To regenerate just the icons locally (without the site build), run:
+## Branding
 
-```bash
-make
-```
+This repository **is** the source of truth for LuzTech typography, colors,
+and brand guidance.
 
-## Repository structure
+## License
 
-```text
-.
-├── src/                    # Astro source (pages, components, i18n, styles)
-├── public/                 # Static assets (fonts, LLM files; icons generated at build)
-├── icons/                  # Source SVG icon variants (editable)
-├── assets/                 # Vendored fonts and background
-├── scripts/                # Build-time asset generation + LLM file scripts
-├── astro.config.mjs        # Astro configuration (i18n, sitemap, integrations)
-├── staticwebapp.config.json# Azure Static Web Apps configuration
-├── LICENSE                 # MIT license for source code and scripts
-├── TRADEMARKS.md           # LuzTech visual identity and trademark notice
-└── Makefile                # Convenience commands for icon generation
-```
+This repository uses a **layered license**:
 
-## Legal and trademark notice
+- **Source code** (Astro components, scripts, styles, configuration) —
+  [MIT License](LICENSE).
+- **Space Grotesk font** (`assets/fonts/`, `public/fonts/`) —
+  [SIL Open Font License 1.1](assets/fonts/OFL.txt).
+- **LuzTech brand assets** (name, logo, icons, typography outputs, mesh
+  gradient backgrounds) — **not** covered by MIT. See
+  [`TRADEMARKS.md`](TRADEMARKS.md) for the full "you can / you cannot"
+  brand-use rules.
 
-The source code, scripts, and automation files are licensed under the
-[MIT License](LICENSE), unless otherwise stated.
-
-The LuzTech name, logo, icons, typography outputs, and brand materials are
-**not** licensed under MIT. Read [`TRADEMARKS.md`](TRADEMARKS.md) for the full
-brand-use rules. The Space Grotesk font is licensed under the
-[SIL Open Font License 1.1](assets/fonts/OFL.txt).
+If you reference LuzTech icons or typography in your own work, please credit
+**LuzTech Development** and link back to <https://ui.luztech.dev.br>.
