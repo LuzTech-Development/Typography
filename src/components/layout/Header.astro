@@ -15,8 +15,16 @@ const navItems = [
     { href: `${p}/`, label: dict.nav.instructions },
     { href: `${p}/licenses/`, label: dict.nav.licenses },
     { href: `${p}/icons/`, label: dict.nav.icons },
-    { href: `${p}/font/`, label: dict.nav.font }
+    { href: `${p}/font/`, label: dict.nav.font },
+    { href: `${p}/backgrounds/`, label: dict.nav.backgrounds }
 ];
+
+// Normalize the current pathname (strip trailing slash) to match nav hrefs.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => {
+    const normalized = href.replace(/\/+$/, '') || '/';
+    return normalized === currentPath;
+};
 ---
 
 <header
@@ -56,13 +64,22 @@ const navItems = [
 
         <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
             {
-                navItems.map(item => (
-                    <a
-                        href={item.href}
-                        class="stamp-num text-ink-muted hover:text-paper uppercase transition-colors">
-                        {item.label}
-                    </a>
-                ))
+                navItems.map(item => {
+                    const active = isActive(item.href);
+                    return active ? (
+                        <span
+                            aria-current="page"
+                            class="stamp-num text-luz-mint uppercase">
+                            {item.label}
+                        </span>
+                    ) : (
+                        <a
+                            href={item.href}
+                            class="stamp-num text-ink-muted hover:text-paper uppercase transition-colors">
+                            {item.label}
+                        </a>
+                    );
+                })
             }
         </nav>
 
@@ -97,13 +114,22 @@ const navItems = [
         class="hidden border-t border-white/6 bg-ink/95 backdrop-blur-md md:hidden">
         <nav class="container-editorial flex flex-col py-4" aria-label="Mobile">
             {
-                navItems.map(item => (
-                    <a
-                        href={item.href}
-                        class="stamp-num border-b border-white/6 py-3 text-ink-muted uppercase transition-colors hover:text-paper">
-                        {item.label}
-                    </a>
-                ))
+                navItems.map(item => {
+                    const active = isActive(item.href);
+                    return active ? (
+                        <span
+                            aria-current="page"
+                            class="stamp-num border-b border-white/6 py-3 text-luz-mint uppercase">
+                            {item.label}
+                        </span>
+                    ) : (
+                        <a
+                            href={item.href}
+                            class="stamp-num border-b border-white/6 py-3 text-ink-muted uppercase transition-colors hover:text-paper">
+                            {item.label}
+                        </a>
+                    );
+                })
             }
         </nav>
     </div>

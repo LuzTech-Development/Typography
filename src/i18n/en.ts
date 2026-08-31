@@ -8,7 +8,8 @@ export const en = {
         instructions: 'Instructions',
         licenses: 'Licenses',
         icons: 'Icons',
-        font: 'Font'
+        font: 'Font',
+        backgrounds: 'Backgrounds'
     },
     hero: {
         eyebrow: 'LuzTech Visual Identity',
@@ -153,6 +154,20 @@ export const en = {
             googleFonts: 'Google Fonts',
             github: 'GitHub repository',
             license: 'SIL Open Font License 1.1'
+        }
+    },
+    backgrounds: {
+        eyebrow: 'Backgrounds',
+        title: 'Mesh gradient generator',
+        lede: 'Generate a LuzTech mesh gradient background at any size. Pick the dimensions and download a PNG — no swirl, just the smooth brand gradient.',
+        download: {
+            width: 'Width',
+            height: 'Height',
+            size: 'Size',
+            lockRatio: 'Lock ratio',
+            download: 'Download PNG',
+            downloading: 'Generating…',
+            hint: 'The gradient uses the official LuzTech palette. Output is a PNG at the exact pixel size you choose.'
         }
     },
     footer: {

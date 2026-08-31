@@ -1,0 +1,41 @@
+---
+import type { Locale } from '@/i18n';
+import { t } from '@/lib/i18n';
+import { BackgroundGenerator } from './BackgroundGenerator.tsx';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const d = dict.backgrounds.download;
+---
+
+<section class="py-20">
+    <div class="container-editorial">
+        <p class="eyebrow">{dict.backgrounds.eyebrow}</p>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">
+            {dict.backgrounds.title}
+        </h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-lg">
+            {dict.backgrounds.lede}
+        </p>
+
+        <!-- Generator -->
+        <div class="mt-12">
+            <BackgroundGenerator
+                client:load
+                labels={{
+                    width: d.width,
+                    height: d.height,
+                    size: d.size,
+                    lockRatio: d.lockRatio,
+                    download: d.download,
+                    downloading: d.downloading,
+                    hint: d.hint
+                }}
+            />
+        </div>
+    </div>
+</section>
