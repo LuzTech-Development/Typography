@@ -7,11 +7,11 @@ import {
 } from '@editframe/elements';
 import { SwirledMesh } from './SwirledMesh';
 
-const DEFAULT_COLORS = {
-    tl: '#4665c3',
-    tr: '#1f6fef',
-    bl: '#00ff9d',
-    br: '#69dd96'
+export const BACKGROUND_COLORS = {
+    tl: '#00ff9d',
+    tr: '#69dd96',
+    bl: '#4665c3',
+    br: '#1f6fef'
 } as const;
 
 const SIZE_PRESETS = [
@@ -335,10 +335,10 @@ function MeshCanvas({ width, height }: { width: number; height: number }) {
         // Color mapping matches meshgradient.com's `draw()`:
         //   u_color1 = bl -> P0, u_color2 = br -> P1,
         //   u_color3 = tl -> P2, u_color4 = tr -> P3.
-        setColor('u_color0', DEFAULT_COLORS.bl);
-        setColor('u_color1', DEFAULT_COLORS.br);
-        setColor('u_color2', DEFAULT_COLORS.tl);
-        setColor('u_color3', DEFAULT_COLORS.tr);
+        setColor('u_color0', BACKGROUND_COLORS.bl);
+        setColor('u_color1', BACKGROUND_COLORS.br);
+        setColor('u_color2', BACKGROUND_COLORS.tl);
+        setColor('u_color3', BACKGROUND_COLORS.tr);
 
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(0, 0, 0, 1);
