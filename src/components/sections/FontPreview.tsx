@@ -32,15 +32,15 @@ export function FontPreview({ labels, weights, sizes }: FontPreviewProps) {
             </div>
 
             {/* Weights */}
-            <div className="bg-ink-soft rounded-xl border border-white/[0.08] p-8">
+            <div className="bg-ink-soft rounded-xl border border-white/8 p-6 md:p-8">
                 <h3 className="text-xl font-bold">{labels.weightsTitle}</h3>
                 <div className="mt-6 space-y-4">
                     {weights.map(w => (
                         <div
                             key={w.weight}
-                            className="flex items-baseline justify-between gap-4 border-b border-white/[0.06] pb-3">
+                            className="flex flex-col gap-1 border-b border-white/6 pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                             <span
-                                className="truncate text-2xl"
+                                className="truncate text-xl sm:text-2xl"
                                 style={{ fontWeight: w.weight }}>
                                 {text || '\u00a0'}
                             </span>
@@ -53,13 +53,13 @@ export function FontPreview({ labels, weights, sizes }: FontPreviewProps) {
             </div>
 
             {/* Sizes */}
-            <div className="bg-ink-soft rounded-xl border border-white/[0.08] p-8">
+            <div className="bg-ink-soft rounded-xl border border-white/8 p-6 md:p-8">
                 <h3 className="text-xl font-bold">{labels.sizesTitle}</h3>
                 <div className="mt-6 space-y-4">
                     {sizes.map(s => (
                         <div
                             key={s.cls}
-                            className="flex items-baseline justify-between gap-4 border-b border-white/[0.06] pb-3">
+                            className="flex flex-col gap-1 border-b border-white/6 pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                             <span className={`${s.cls} truncate font-semibold`}>
                                 {text || '\u00a0'}
                             </span>

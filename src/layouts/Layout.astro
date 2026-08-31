@@ -9,10 +9,18 @@ interface Props {
     locale: Locale;
     title?: string;
     description?: string;
+    /** Optional relative or absolute URL for the Open Graph / Twitter image. */
+    ogImage?: string;
     noIndex?: boolean;
 }
 
-const { locale, title, description, noIndex = false } = Astro.props;
+const {
+    locale,
+    title,
+    description,
+    ogImage = locale === 'pt-br' ? '/og-image-pt.png' : '/og-image-en.png',
+    noIndex = false
+} = Astro.props;
 
 const dict = t(locale);
 const pageTitle = title ?? dict.meta.title;
@@ -21,6 +29,8 @@ const pageDesc = description ?? dict.meta.description;
 const siteURL = Astro.site ?? new URL('/', Astro.url);
 const withTrailingSlash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const canonical = new URL(withTrailingSlash(Astro.url.pathname), siteURL).href;
+const ogImageURL = new URL(ogImage, siteURL).href;
+const ogImageAlt = dict.meta.title;
 
 const alt = otherLocale(locale);
 const altHref = new URL(
@@ -40,7 +50,7 @@ const orgJsonLd = {
     '@type': 'Organization',
     name: 'LuzTech Development',
     url: siteURL.href,
-    logo: new URL('/favicon.svg', siteURL).href
+    logo: new URL('/icons/typography/1024x/inverted/color.png', siteURL).href
 };
 
 const websiteJsonLd = {
@@ -83,6 +93,11 @@ const websiteJsonLd = {
 
         <link rel="canonical" href={canonical} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link
+            rel="apple-touch-icon"
+            href="/icons/typography/256x/inverted/color.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="LuzTech Typography" />
         <link rel="sitemap" href="/sitemap-index.xml" />
 
         <link rel="alternate" hreflang={htmlLang} href={selfHref} />
@@ -96,11 +111,19 @@ const websiteJsonLd = {
         <meta property="og:url" content={canonical} />
         <meta property="og:locale" content={ogLocale} />
         <meta property="og:locale:alternate" content={ogLocaleAlt} />
+        <meta property="og:image" content={ogImageURL} />
+        <meta property="og:image:secure_url" content={ogImageURL} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={ogImageAlt} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={canonical} />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image" content={ogImageURL} />
+        <meta name="twitter:image:alt" content={ogImageAlt} />
 
         <script
             type="application/ld+json"
@@ -120,7 +143,7 @@ const websiteJsonLd = {
             {dict.a11y.skipToContent}
         </a>
         <Header locale={locale} />
-        <main id="main">
+        <main id="main" class="pt-16 md:pt-20">
             <slot />
         </main>
         <Footer locale={locale} />

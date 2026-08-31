@@ -44,16 +44,16 @@ const licenses = [
 ];
 ---
 
-<section class="py-20">
+<section class="py-14 md:py-20">
     <div class="container-editorial">
         <p class="eyebrow">{l.eyebrow}</p>
         <h2 class="display-heading mt-4 text-3xl md:text-4xl">{l.title}</h2>
-        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{l.lede}</p>
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">{l.lede}</p>
 
-        <div class="mt-12 grid gap-8 lg:grid-cols-3">
+        <div class="mt-10 grid gap-6 md:mt-12 md:gap-8 lg:grid-cols-3">
             {
                 licenses.map(lic => (
-                    <div class="bg-ink-soft flex flex-col rounded-xl border border-white/[0.08] p-8">
+                    <div class="bg-ink-soft flex flex-col rounded-xl border border-white/[0.08] p-6 md:p-8">
                         <h3 class="text-xl font-bold">{lic.title}</h3>
                         <p class="text-luz-mint mt-1 text-sm">{lic.subtitle}</p>
 

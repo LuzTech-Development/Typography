@@ -102,11 +102,11 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
     };
 
     return (
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
             {/* Preview */}
-            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-6 md:p-8">
                 <div
-                    className="flex h-72 w-72 items-center justify-center rounded-lg"
+                    className="flex aspect-square w-full max-w-xs items-center justify-center rounded-lg sm:max-w-sm lg:max-w-none lg:h-72 lg:w-72"
                     style={{
                         background:
                             'conic-gradient(#1e242c 0 25%, #12161b 0 50%, #1e242c 0 75%, #12161b 0) 0 0 / 24px 24px'
@@ -135,7 +135,7 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
             </div>
 
             {/* Controls */}
-            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-6 md:p-8">
                 {/* Variant */}
                 <div>
                     <label className="stamp-num text-ink-muted mb-2 block">
@@ -276,20 +276,25 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
                 </div>
 
                 {/* Actions */}
-                <div className="flex flex-wrap gap-3 pt-2">
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
                     {format === 'svg' ? (
                         <button
                             onClick={downloadSvg}
                             disabled={!svgMarkup}
-                            className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                            className="btn btn--primary justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:justify-start">
                             {labels.download}
                         </button>
                     ) : (
-                        <a href={pngSrc} download className="btn btn--primary">
+                        <a
+                            href={pngSrc}
+                            download
+                            className="btn btn--primary justify-center sm:justify-start">
                             {labels.download}
                         </a>
                     )}
-                    <button onClick={copyUrl} className="btn btn--ghost">
+                    <button
+                        onClick={copyUrl}
+                        className="btn btn--ghost justify-center sm:justify-start">
                         {copied ? labels.copied : labels.copyUrl}
                     </button>
                 </div>

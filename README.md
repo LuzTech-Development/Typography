@@ -26,6 +26,11 @@ The site is a multi-page reference, with each section on its own route:
   color (SVG) or size (PNG), and download — or grab everything as a ZIP.
 - **Font** (`/font/`) — Space Grotesk with a live text preview across weights
   and sizes, plus links to the official download page.
+- **Backgrounds** (`/backgrounds/`) — an in-house mesh gradient generator for
+  LuzTech-branded backgrounds. Pick dimensions and download a PNG, generate a
+  static swirled variant, or export an animated video. The renderer is built
+  in-house on top of WebGL shaders; the flat mesh gradient technique is
+  inspired by [meshgradient.com](https://meshgradient.com/).
 
 ## Icon URLs
 

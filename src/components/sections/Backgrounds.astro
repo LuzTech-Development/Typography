@@ -12,18 +12,18 @@ const dict = t(locale);
 const d = dict.backgrounds.download;
 ---
 
-<section class="py-20">
+<section class="py-14 md:py-20">
     <div class="container-editorial">
         <p class="eyebrow">{dict.backgrounds.eyebrow}</p>
         <h2 class="display-heading mt-4 text-3xl md:text-4xl">
             {dict.backgrounds.title}
         </h2>
-        <p class="text-paper/75 mt-6 max-w-2xl text-lg">
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">
             {dict.backgrounds.lede}
         </p>
 
         <!-- Generator -->
-        <div class="mt-12">
+        <div class="mt-10 md:mt-12">
             <BackgroundGenerator
                 client:load
                 labels={{

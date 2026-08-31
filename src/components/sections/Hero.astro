@@ -11,30 +11,41 @@ const dict = t(locale);
 const p = localePrefix(locale);
 ---
 
-<section class="relative overflow-hidden border-b border-white/[0.06]">
+<section class="relative overflow-hidden border-b border-white/6">
     <div
         class="pointer-events-none absolute inset-0 opacity-15"
         style="background: radial-gradient(ellipse at 20% 20%, #00ff9d33, transparent 50%), radial-gradient(ellipse at 80% 30%, #1f6fef33, transparent 50%), radial-gradient(ellipse at 50% 80%, #4665c333, transparent 50%)"
         aria-hidden="true">
     </div>
     <div
-        class="container-editorial relative flex min-h-[60vh] flex-col justify-center py-28">
+        class="container-editorial relative flex min-h-[55vh] flex-col justify-center py-16 text-center md:min-h-[60vh] md:py-28 md:text-left">
         <p class="eyebrow">{dict.hero.eyebrow}</p>
         <h1
-            class="display-heading mt-6 max-w-4xl text-balance"
-            style="font-size: clamp(2.25rem, 6vw, 4.5rem)">
+            class="display-heading mx-auto mt-6 max-w-4xl text-balance md:mx-0"
+            style="font-size: clamp(2rem, 6vw, 4.5rem)">
             {dict.hero.title}
         </h1>
-        <p class="text-paper/75 mt-8 max-w-2xl text-lg">{dict.hero.lede}</p>
-        <div class="mt-10 flex flex-wrap gap-4">
-            <a href={`${p}/icons/`} class="btn btn--primary"
-                >{dict.hero.ctaIcons}</a
-            >
-            <a href={`${p}/font/`} class="btn btn--ghost">{dict.hero.ctaFont}</a
-            >
-            <a href={`${p}/licenses/`} class="btn btn--ghost"
-                >{dict.hero.ctaLicenses}</a
-            >
+        <p
+            class="text-paper/75 mx-auto mt-6 max-w-2xl text-base md:mx-0 md:mt-8 md:text-lg">
+            {dict.hero.lede}
+        </p>
+        <div
+            class="mx-auto mt-8 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4 md:mx-0 md:mt-10">
+            <a
+                href={`${p}/icons/`}
+                class="btn btn--primary justify-center sm:justify-start">
+                {dict.hero.ctaIcons}
+            </a>
+            <a
+                href={`${p}/font/`}
+                class="btn btn--ghost justify-center sm:justify-start">
+                {dict.hero.ctaFont}
+            </a>
+            <a
+                href={`${p}/licenses/`}
+                class="btn btn--ghost justify-center sm:justify-start">
+                {dict.hero.ctaLicenses}
+            </a>
         </div>
     </div>
 </section>

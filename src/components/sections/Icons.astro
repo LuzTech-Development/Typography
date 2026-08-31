@@ -12,16 +12,16 @@ const dict = t(locale);
 const d = dict.icons.download;
 ---
 
-<section class="py-20">
+<section class="py-14 md:py-20">
     <div class="container-editorial">
         <p class="eyebrow">{dict.icons.eyebrow}</p>
         <h2 class="display-heading mt-4 text-3xl md:text-4xl">
             {dict.icons.title}
         </h2>
-        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{dict.icons.lede}</p>
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">{dict.icons.lede}</p>
 
         <!-- Downloader -->
-        <div class="mt-12">
+        <div class="mt-10 md:mt-12">
             <IconDownloader
                 client:load
                 labels={{
@@ -44,12 +44,15 @@ const d = dict.icons.download;
 
         <!-- Download all -->
         <div
-            class="bg-ink-soft mt-8 flex flex-col items-start gap-4 rounded-xl border border-white/[0.08] p-8 md:flex-row md:items-center md:justify-between">
-            <div>
+            class="bg-ink-soft mt-8 flex flex-col items-stretch gap-4 rounded-xl border border-white/[0.08] p-6 md:flex-row md:items-center md:justify-between md:p-8">
+            <div class="text-center md:text-left">
                 <h3 class="text-xl font-bold">{d.downloadAll}</h3>
                 <p class="text-ink-muted mt-2 text-sm">{d.downloadAllHint}</p>
             </div>
-            <a href="/luztech-icons.zip" download class="btn btn--primary">
+            <a
+                href="/luztech-icons.zip"
+                download
+                class="btn btn--primary justify-center md:justify-start">
                 {d.downloadAll}
             </a>
         </div>

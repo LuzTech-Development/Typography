@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Timegroup, usePlayback } from '@editframe/react';
-import type { EFTimegroupElement, FrameTaskInfo } from '@editframe/elements';
+import {
+    renderTimegroupToVideo,
+    type EFTimegroupElement,
+    type FrameTaskInfo
+} from '@editframe/elements';
 import { SwirledMesh } from './SwirledMesh';
 
-// LuzTech brand palette, mapped to the four mesh corners (top-left, top-right,
-// bottom-left, bottom-right) exactly like meshgradient.com.
 const DEFAULT_COLORS = {
     tl: '#4665c3',
     tr: '#1f6fef',
@@ -76,7 +78,7 @@ function FullscreenRenderOverlay({
     progress?: number | null;
 }) {
     return (
-        <div className="bg-ink/95 fixed inset-0 z-[9999] flex items-center justify-center px-6 text-center backdrop-blur-sm">
+        <div className="bg-ink/95 fixed inset-0 z-9999 flex items-center justify-center px-6 text-center backdrop-blur-sm">
             <div>
                 <p className="stamp-num text-luz-mint">
                     {progress == null
@@ -624,9 +626,9 @@ function FlatTab({ labels }: { labels: BackgroundGeneratorProps['labels'] }) {
     };
 
     return (
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
-                <div className="flex h-[60vh] w-full items-center justify-center">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-6 md:p-8">
+                <div className="flex h-[45vh] w-full items-center justify-center md:h-[60vh]">
                     <div
                         ref={previewRef}
                         className="overflow-hidden rounded-lg"
@@ -643,14 +645,14 @@ function FlatTab({ labels }: { labels: BackgroundGeneratorProps['labels'] }) {
                 </p>
             </div>
 
-            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-6 md:p-8">
                 <SizeControls labels={labels} size={size} />
 
-                <div className="flex flex-wrap gap-3 pt-2">
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
                     <button
                         onClick={handleExport}
                         disabled={exporting}
-                        className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                        className="btn btn--primary justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:justify-start">
                         {exporting ? labels.downloading : labels.download}
                     </button>
                 </div>
@@ -729,7 +731,7 @@ function SwirledTab({
     };
 
     return (
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
             {exporting && (
                 <>
                     <FullscreenRenderOverlay label={labels.downloading} />
@@ -751,8 +753,8 @@ function SwirledTab({
                 </>
             )}
 
-            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
-                <div className="flex h-[60vh] w-full items-center justify-center">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-6 md:p-8">
+                <div className="flex h-[45vh] w-full items-center justify-center md:h-[60vh]">
                     <div
                         className="relative overflow-hidden rounded-lg"
                         style={previewFrameStyle(size.width, size.height)}>
@@ -773,7 +775,7 @@ function SwirledTab({
                 </p>
             </div>
 
-            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-6 md:p-8">
                 <SizeControls labels={labels} size={size} />
 
                 <SliderField
@@ -803,11 +805,11 @@ function SwirledTab({
                     formatValue={v => `${Math.round(v)}%`}
                 />
 
-                <div className="flex flex-wrap gap-3 pt-2">
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
                     <button
                         onClick={handleExport}
                         disabled={exporting}
-                        className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                        className="btn btn--primary justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:justify-start">
                         {exporting ? labels.downloading : labels.download}
                     </button>
                 </div>
@@ -906,9 +908,6 @@ function AnimatedTab({
             playback.pause();
             await new Promise(r => requestAnimationFrame(r));
             const tg = await waitForRenderStage();
-            const { renderTimegroupToVideo } = await import(
-                '@editframe/elements'
-            );
             const result = await renderTimegroupToVideo(tg, {
                 width: size.width,
                 height: size.height,
@@ -946,7 +945,7 @@ function AnimatedTab({
     const previewCurrentTime = Math.min(playback.currentTime, duration);
 
     return (
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
             {rendering && (
                 <>
                     <FullscreenRenderOverlay
@@ -962,8 +961,8 @@ function AnimatedTab({
                 </>
             )}
 
-            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
-                <div className="flex h-[60vh] w-full items-center justify-center">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-6 md:p-8">
+                <div className="flex h-[45vh] w-full items-center justify-center md:h-[60vh]">
                     <Timegroup
                         ref={previewTimegroupRef}
                         mode="fixed"
@@ -1021,7 +1020,7 @@ function AnimatedTab({
                 </p>
             </div>
 
-            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-6 md:p-8">
                 <SizeControls labels={labels} size={size} />
 
                 <div className="grid grid-cols-2 gap-4">
@@ -1111,11 +1110,11 @@ function AnimatedTab({
                     max={4}
                 />
 
-                <div className="flex flex-wrap gap-3 pt-2">
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
                     <button
                         onClick={handleRender}
                         disabled={rendering}
-                        className="btn btn--primary disabled:cursor-not-allowed disabled:opacity-50">
+                        className="btn btn--primary justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:justify-start">
                         {rendering
                             ? labels.animated.rendering
                             : labels.animated.renderMp4}

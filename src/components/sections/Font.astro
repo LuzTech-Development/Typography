@@ -29,14 +29,14 @@ const sizes = [
 ];
 ---
 
-<section class="py-20">
+<section class="py-14 md:py-20">
     <div class="container-editorial">
         <p class="eyebrow">{f.eyebrow}</p>
         <h2 class="display-heading mt-4 text-3xl md:text-4xl">{f.title}</h2>
-        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{f.lede}</p>
+        <p class="text-paper/75 mt-6 max-w-2xl text-base md:text-lg">{f.lede}</p>
 
         <!-- Preview -->
-        <div class="mt-12">
+        <div class="mt-10 md:mt-12">
             <FontPreview
                 client:load
                 labels={{
@@ -52,7 +52,7 @@ const sizes = [
         </div>
 
         <!-- Download -->
-        <div class="bg-ink-soft mt-8 rounded-xl border border-white/[0.08] p-8">
+        <div class="bg-ink-soft mt-8 rounded-xl border border-white/8 p-8">
             <h3 class="text-xl font-bold">{f.download.title}</h3>
             <p class="text-ink-muted mt-2 text-sm">{f.download.officialHint}</p>
             <div class="mt-6 flex flex-wrap gap-4">
