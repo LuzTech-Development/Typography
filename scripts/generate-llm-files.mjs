@@ -5,17 +5,24 @@
 // These files are also committed so the site works without a build step, but
 // this script keeps them in sync with src/lib/icons.ts.
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 const publicDir = join(root, 'public');
+const iconsDir = join(root, 'icons');
 
 const SITE = 'https://ui.luztech.dev.br';
 
-const variants = ['clean', 'name', 'blog', 'nfse'];
+// Discover variants from the source SVGs (single source of truth).
+const TEXT_RE = /<text\b[^>]*>([^<]+)<\/text>/;
+const variants = readdirSync(iconsDir)
+    .filter(f => f.endsWith('.svg'))
+    .map(f => f.replace(/\.svg$/, ''))
+    .sort();
+
 const sizes = [16, 32, 64, 128, 256, 512, 1024];
 const colors = ['black', 'white', 'color'];
 

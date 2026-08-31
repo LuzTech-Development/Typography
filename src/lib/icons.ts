@@ -3,8 +3,14 @@
 // The generated PNG outputs live under `public/icons/<variant>/<size>/[inverted/]<color>.png`
 // and the outlined SVGs under `public/icons/<variant>.svg`. This module mirrors that
 // layout so the UI, the `icons.json` map, and `llms.txt` all stay in sync.
+//
+// The list of variants is derived from the `icons/*.svg` files at build time
+// (see `scripts/generate-icon-manifest.mjs`), so adding a new SVG requires no
+// manual edits here.
 
-export type IconVariant = 'clean' | 'name' | 'blog' | 'nfse';
+import { GENERATED_ICON_VARIANTS } from './icons.generated';
+
+export type IconVariant = string;
 
 export type IconColor = 'black' | 'white' | 'color';
 
@@ -12,18 +18,11 @@ export type IconSize = 16 | 32 | 64 | 128 | 256 | 512 | 1024;
 
 export interface IconVariantMeta {
     id: IconVariant;
-    /** Human-readable label key (resolved via the i18n dictionary). */
-    labelKey: 'clean' | 'name' | 'blog' | 'nfse';
-    /** Whether the variant includes a text wordmark (vs. the clean mark). */
-    hasText: boolean;
+    /** Display label derived from the SVG's `<text>` (or the filename). */
+    label: string;
 }
 
-export const ICON_VARIANTS: IconVariantMeta[] = [
-    { id: 'clean', labelKey: 'clean', hasText: false },
-    { id: 'name', labelKey: 'name', hasText: true },
-    { id: 'blog', labelKey: 'blog', hasText: true },
-    { id: 'nfse', labelKey: 'nfse', hasText: true }
-];
+export const ICON_VARIANTS: IconVariantMeta[] = GENERATED_ICON_VARIANTS;
 
 export const ICON_SIZES: IconSize[] = [16, 32, 64, 128, 256, 512, 1024];
 

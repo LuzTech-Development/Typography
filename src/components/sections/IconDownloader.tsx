@@ -21,17 +21,20 @@ interface IconDownloaderProps {
         downloadAllHint: string;
         copyUrl: string;
         copied: string;
-        copyUrlDisabled: string;
+        copyUrlWarning: string;
         svg: string;
         png: string;
         colors: Record<IconColor, string> & { inverted: string };
     };
-    variantLabels: Record<IconVariant, string>;
 }
 
 type Format = 'svg' | 'png';
 
-export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
+const VARIANT_LABELS = Object.fromEntries(
+    ICON_VARIANTS.map(v => [v.id, v.label])
+) as Record<IconVariant, string>;
+
+export function IconDownloader({ labels }: IconDownloaderProps) {
     const [variant, setVariant] = useState<IconVariant>('clean');
     const [format, setFormat] = useState<Format>('svg');
     const [size, setSize] = useState<IconSize>(512);
@@ -82,7 +85,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
             );
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-        } catch (_) {}
+        } catch {}
     };
 
     const downloadSvg = () => {
@@ -101,7 +104,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
     return (
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
             {/* Preview */}
-            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/[0.08] p-8">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-8">
                 <div
                     className="flex h-72 w-72 items-center justify-center rounded-lg"
                     style={{
@@ -122,7 +125,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                     ) : (
                         <img
                             src={pngSrc}
-                            alt={variantLabels[variant]}
+                            alt={VARIANT_LABELS[variant]}
                             className="h-full w-full"
                         />
                     )}
@@ -130,7 +133,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
             </div>
 
             {/* Controls */}
-            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/[0.08] p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/8 p-8">
                 {/* Variant */}
                 <div>
                     <label className="stamp-num text-ink-muted mb-2 block">
@@ -146,7 +149,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                                         ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
                                         : 'text-paper/75 border-white/10 hover:border-white/30'
                                 }`}>
-                                {variantLabels[v.id]}
+                                {VARIANT_LABELS[v.id]}
                             </button>
                         ))}
                     </div>
@@ -202,6 +205,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                     <label className="stamp-num text-ink-muted mb-2 block">
                         {labels.color}
                     </label>
+                    <div className="min-h-11">
                     {format === 'svg' ? (
                         <div className="flex flex-wrap items-center gap-2">
                             <button
@@ -266,6 +270,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                             </button>
                         </div>
                     )}
+                    </div>
                 </div>
 
                 {/* Actions */}
@@ -293,7 +298,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                         format === 'svg' ? 'opacity-100' : 'opacity-0'
                     }`}
                     aria-hidden={format !== 'svg'}>
-                    {labels.copyUrlDisabled}
+                    {labels.copyUrlWarning}
                 </p>
             </div>
         </div>

@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "node scripts/generate-assets-if-stale.mjs && astro dev",
-    "build": "node scripts/build-assets.mjs && node scripts/generate-icon-zip.mjs && node scripts/generate-llm-files.mjs && astro check && astro build",
+    "build": "node scripts/generate-icon-manifest.mjs && node scripts/build-assets.mjs && node scripts/generate-icon-zip.mjs && node scripts/generate-llm-files.mjs && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "sync": "astro sync",

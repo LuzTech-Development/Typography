@@ -9,6 +9,7 @@ out/
 public/icons/
 public/luztech-icons.zip
 public/lastGenerated.txt
+src/lib/icons.generated.ts
 public/icons.json
 public/llms.txt
 public/llms-full.txt

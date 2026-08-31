@@ -98,12 +98,6 @@ export const pt: En = {
         eyebrow: 'Ícones',
         title: 'Biblioteca de ícones',
         lede: 'Baixe cada variante de ícone em SVG ou PNG. Escolha uma variante, selecione um formato e baixe — ou pegue tudo de uma vez.',
-        variants: {
-            clean: 'Marca limpa',
-            name: 'Wordmark',
-            blog: 'Blog',
-            nfse: 'NFSe'
-        },
         download: {
             variant: 'Variante',
             format: 'Formato',
@@ -115,7 +109,7 @@ export const pt: En = {
                 'Todas as variantes em SVG e PNG, organizadas em pastas.',
             copyUrl: 'Copiar URL',
             copied: 'Copiado!',
-            copyUrlDisabled:
+            copyUrlWarning:
                 'O SVG usa currentColor — a URL copiada aponta para o arquivo bruto, não para a cor exibida aqui.',
             svg: 'SVG',
             png: 'PNG',

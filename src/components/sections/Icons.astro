@@ -10,13 +10,6 @@ interface Props {
 const { locale } = Astro.props;
 const dict = t(locale);
 const d = dict.icons.download;
-
-const variantLabels = {
-    clean: dict.icons.variants.clean,
-    name: dict.icons.variants.name,
-    blog: dict.icons.variants.blog,
-    nfse: dict.icons.variants.nfse
-} as const;
 ---
 
 <section class="py-20">
@@ -41,12 +34,11 @@ const variantLabels = {
                     downloadAllHint: d.downloadAllHint,
                     copyUrl: d.copyUrl,
                     copied: d.copied,
-                    copyUrlDisabled: d.copyUrlDisabled,
+                    copyUrlWarning: d.copyUrlWarning,
                     svg: d.svg,
                     png: d.png,
                     colors: d.colors
                 }}
-                variantLabels={variantLabels}
             />
         </div>
 

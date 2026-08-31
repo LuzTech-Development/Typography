@@ -96,12 +96,6 @@ export const en = {
         eyebrow: 'Icons',
         title: 'Icon library',
         lede: 'Download each icon variant in SVG or PNG. Pick a variant, choose a format, and download — or grab everything at once.',
-        variants: {
-            clean: 'Clean mark',
-            name: 'Wordmark',
-            blog: 'Blog',
-            nfse: 'NFSe'
-        },
         download: {
             variant: 'Variant',
             format: 'Format',
@@ -113,7 +107,7 @@ export const en = {
                 'Every variant in SVG and PNG, organized in folders.',
             copyUrl: 'Copy URL',
             copied: 'Copied!',
-            copyUrlDisabled:
+            copyUrlWarning:
                 'The SVG uses currentColor — the copied URL points to the raw file, not the color shown here.',
             svg: 'SVG',
             png: 'PNG',
