@@ -962,14 +962,14 @@ function AnimatedTab({
             )}
 
             <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/8 p-6 md:p-8">
-                <div className="flex h-[45vh] w-full items-center justify-center md:h-[60vh]">
+                <div className="flex min-h-[260px] w-full items-center justify-center md:min-h-[60vh]">
                     <Timegroup
                         ref={previewTimegroupRef}
                         mode="fixed"
                         duration={`${duration}s`}
                         fps={fps}
                         onFrame={handleFrame}
-                        className="w-full max-w-full overflow-hidden"
+                        className="block w-full max-w-full overflow-hidden rounded-lg"
                         style={previewFrameStyle(size.width, size.height)}>
                         <SwirledMesh
                             width={size.width}
@@ -984,11 +984,11 @@ function AnimatedTab({
                     </Timegroup>
                 </div>
                 <div className="mt-5 w-full max-w-xl">
-                    <div className="flex items-center gap-3">
+                    <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 sm:flex">
                         <button
                             type="button"
                             onClick={handlePreviewToggle}
-                            className="text-paper hover:border-luz-mint rounded-lg border border-white/10 px-4 py-2 text-sm transition">
+                            className="text-paper hover:border-luz-mint rounded-lg border border-white/10 px-4 py-2 text-sm transition sm:shrink-0">
                             {playback.playing
                                 ? labels.animated.pause
                                 : labels.animated.play}
@@ -1002,10 +1002,10 @@ function AnimatedTab({
                             onChange={e =>
                                 playback.seek(Number(e.target.value))
                             }
-                            className="accent-luz-mint flex-1"
+                            className="accent-luz-mint min-w-0"
                             aria-label={labels.animated.previewPosition}
                         />
-                        <span className="stamp-num text-ink-muted min-w-24 text-right">
+                        <span className="stamp-num text-ink-muted col-span-2 min-h-4 text-right tabular-nums sm:col-span-1 sm:min-w-24">
                             {formatSeconds(previewCurrentTime)} /{' '}
                             {formatSeconds(duration)}
                         </span>
