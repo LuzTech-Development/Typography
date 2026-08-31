@@ -1,53 +1,63 @@
 name: Azure Static Web Apps CI/CD
 
 on:
-    push:
-        branches:
-            - master
-    workflow_dispatch:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 concurrency:
-    group: azure-swa-${{ github.ref }}
-    cancel-in-progress: true
+  group: azure-swa-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    build_and_deploy:
-        runs-on: ubuntu-latest
-        name: Build and Deploy
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                  submodules: true
-                  lfs: false
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  run_install: false
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 22
-                  cache: pnpm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-            # `pnpm run build` runs astro check + astro build, so `dist/`
-            # already contains the fully populated site. We tell the SWA
-            # action to skip its own build step with `skip_app_build: true`
-            # and just upload what we produced.
-            - name: Build
-              run: pnpm run build
+      # The icon generation pipeline (outlined SVGs + PNGs) requires
+      # Inkscape, ImageMagick, and fontconfig. These are installed here
+      # so `pnpm run build` can regenerate the assets from the source
+      # SVGs in `icons/`.
+      - name: Install icon generation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes inkscape imagemagick fontconfig
 
-            - name: Deploy
-              id: builddeploy
-              uses: Azure/static-web-apps-deploy@v1
-              with:
-                  azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-                  repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  action: upload
-                  app_location: 'dist'
-                  output_location: ''
-                  skip_app_build: true
-                  production_branch: master
+      # `pnpm run build` regenerates the icons, produces the ZIP, and
+      # runs astro check + astro build, so `dist/` already contains the
+      # fully populated site. We tell the SWA action to skip its own
+      # build step with `skip_app_build: true` and just upload what we
+      # produced.
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: 'dist'
+          output_location: ''
+          skip_app_build: true
+          production_branch: master

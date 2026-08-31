@@ -9,80 +9,96 @@ interface Props {
 const { locale } = Astro.props;
 const dict = t(locale);
 const l = dict.licenses;
+
+const licenses = [
+    {
+        title: l.mit.title,
+        subtitle: l.mit.subtitle,
+        can: l.mit.can,
+        cannot: l.mit.cannot,
+        canItems: l.mit.canItems,
+        cannotItems: l.mit.cannotItems,
+        fullText: l.mit.fullText,
+        href: 'https://github.com/LuzTech-Development/Typography/blob/master/LICENSE'
+    },
+    {
+        title: l.ofl.title,
+        subtitle: l.ofl.subtitle,
+        can: l.ofl.can,
+        cannot: l.ofl.cannot,
+        canItems: l.ofl.canItems,
+        cannotItems: l.ofl.cannotItems,
+        fullText: l.ofl.fullText,
+        href: '/fonts/OFL.txt'
+    },
+    {
+        title: l.trademark.title,
+        subtitle: l.trademark.subtitle,
+        can: l.trademark.can,
+        cannot: l.trademark.cannot,
+        canItems: l.trademark.canItems,
+        cannotItems: l.trademark.cannotItems,
+        fullText: l.trademark.fullText,
+        href: 'https://github.com/LuzTech-Development/Typography/blob/master/TRADEMARKS.md'
+    }
+];
 ---
 
-<section id="licenses" class="border-b border-white/[0.06] py-24">
+<section class="py-20">
     <div class="container-editorial">
         <p class="eyebrow">{l.eyebrow}</p>
-        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{l.title}</h2>
-        <p class="mt-6 max-w-2xl text-lg text-paper/75">{l.lede}</p>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">{l.title}</h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{l.lede}</p>
 
         <div class="mt-12 grid gap-8 lg:grid-cols-3">
-            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-                <h3 class="text-xl font-bold">{l.mit.title}</h3>
-                <p class="mt-1 text-sm text-luz-mint">{l.mit.subtitle}</p>
-                <p class="mt-4 text-paper/75">{l.mit.summary}</p>
-                <ul class="mt-4 space-y-2">
-                    {
-                        l.mit.points.map(point => (
-                            <li class="flex gap-2 text-sm text-paper/75">
-                                <span class="text-luz-mint" aria-hidden="true">✓</span>
-                                <span>{point}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
+            {
+                licenses.map(lic => (
+                    <div class="bg-ink-soft flex flex-col rounded-xl border border-white/[0.08] p-8">
+                        <h3 class="text-xl font-bold">{lic.title}</h3>
+                        <p class="text-luz-mint mt-1 text-sm">{lic.subtitle}</p>
 
-            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-                <h3 class="text-xl font-bold">{l.ofl.title}</h3>
-                <p class="mt-1 text-sm text-luz-mint">{l.ofl.subtitle}</p>
-                <p class="mt-4 text-paper/75">{l.ofl.summary}</p>
-                <ul class="mt-4 space-y-2">
-                    {
-                        l.ofl.points.map(point => (
-                            <li class="flex gap-2 text-sm text-paper/75">
-                                <span class="text-luz-mint" aria-hidden="true">✓</span>
-                                <span>{point}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
+                        <h4 class="text-luz-mint mt-6 text-sm font-semibold">
+                            {lic.can}
+                        </h4>
+                        <ul class="mt-2 space-y-2">
+                            {lic.canItems.map(item => (
+                                <li class="text-paper/75 flex gap-2 text-sm">
+                                    <span
+                                        class="text-luz-mint"
+                                        aria-hidden="true">
+                                        ✓
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
 
-            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-                <h3 class="text-xl font-bold">{l.trademark.title}</h3>
-                <p class="mt-1 text-sm text-luz-mint">{l.trademark.subtitle}</p>
-                <p class="mt-4 text-paper/75">{l.trademark.summary}</p>
+                        <h4 class="mt-6 text-sm font-semibold text-red-400">
+                            {lic.cannot}
+                        </h4>
+                        <ul class="mt-2 space-y-2">
+                            {lic.cannotItems.map(item => (
+                                <li class="text-paper/75 flex gap-2 text-sm">
+                                    <span
+                                        class="text-red-400"
+                                        aria-hidden="true">
+                                        ✕
+                                    </span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
 
-                <h4 class="mt-6 text-sm font-semibold text-luz-mint">
-                    {l.trademark.permitted.title}
-                </h4>
-                <ul class="mt-2 space-y-2">
-                    {
-                        l.trademark.permitted.items.map(item => (
-                            <li class="flex gap-2 text-sm text-paper/75">
-                                <span class="text-luz-mint" aria-hidden="true">✓</span>
-                                <span>{item}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-
-                <h4 class="mt-6 text-sm font-semibold text-red-400">
-                    {l.trademark.restricted.title}
-                </h4>
-                <ul class="mt-2 space-y-2">
-                    {
-                        l.trademark.restricted.items.map(item => (
-                            <li class="flex gap-2 text-sm text-paper/75">
-                                <span class="text-red-400" aria-hidden="true">✕</span>
-                                <span>{item}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
+                        <a
+                            href={lic.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="stamp-num text-luz-mint mt-auto pt-6 hover:underline">
+                            {lic.fullText} →
+                        </a>
+                    </div>
+                ))
+            }
         </div>
     </div>
 </section>

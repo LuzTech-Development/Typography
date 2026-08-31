@@ -3,15 +3,21 @@ import Layout from '@/layouts/Layout.astro';
 const locale = 'en-us';
 ---
 
-<Layout locale={locale} title="404 · LuzTech Typography" description="Page not found.">
-    <section class="container-editorial flex min-h-[70vh] flex-col justify-center py-32">
+<Layout
+    locale={locale}
+    title="404 · LuzTech Typography"
+    description="Page not found.">
+    <section
+        class="container-editorial flex min-h-[70vh] flex-col justify-center py-32">
         <p class="eyebrow">404</p>
-        <h1 class="display-heading mt-6" style="font-size: clamp(3rem, 12vw, 8rem)">
+        <h1
+            class="display-heading mt-6"
+            style="font-size: clamp(3rem, 12vw, 8rem)">
             Page<br />not found.
         </h1>
-        <p class="mt-8 max-w-md text-lg text-paper/75">
-            The link you followed does not exist (or no longer exists). Head back to
-            the start to explore the LuzTech visual identity reference.
+        <p class="text-paper/75 mt-8 max-w-md text-lg">
+            The link you followed does not exist (or no longer exists). Head
+            back to the start to explore the LuzTech visual identity reference.
         </p>
         <p class="mt-10">
             <a class="btn btn--primary" href="/en-us/">Back to home</a>

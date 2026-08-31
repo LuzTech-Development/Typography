@@ -16,11 +16,14 @@ const dict = t(locale);
     href={href}
     data-preferred-locale={other}
     class="stamp-num inline-flex items-center gap-2 border border-white/10 px-3 py-2 uppercase transition-colors hover:border-white/40"
-    aria-label={dict.a11y.languageSwitcher}
->
-    <span class={locale === 'en-us' ? 'text-luz-mint' : 'text-ink-muted'}>EN</span>
+    aria-label={dict.a11y.languageSwitcher}>
+    <span class={locale === 'en-us' ? 'text-luz-mint' : 'text-ink-muted'}
+        >EN</span
+    >
     <span aria-hidden="true" class="text-ink-muted">/</span>
-    <span class={locale === 'pt-br' ? 'text-luz-mint' : 'text-ink-muted'}>PT</span>
+    <span class={locale === 'pt-br' ? 'text-luz-mint' : 'text-ink-muted'}
+        >PT</span
+    >
 </a>
 
 <script>

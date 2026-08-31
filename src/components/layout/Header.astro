@@ -12,22 +12,20 @@ const dict = t(locale);
 const p = localePrefix(locale);
 
 const navItems = [
-    { href: `${p}/#instructions`, label: dict.nav.instructions },
-    { href: `${p}/#licenses`, label: dict.nav.licenses },
-    { href: `${p}/#icons`, label: dict.nav.icons },
-    { href: `${p}/#font`, label: dict.nav.font }
+    { href: `${p}/`, label: dict.nav.instructions },
+    { href: `${p}/licenses/`, label: dict.nav.licenses },
+    { href: `${p}/icons/`, label: dict.nav.icons },
+    { href: `${p}/font/`, label: dict.nav.font }
 ];
 ---
 
 <header
-    class="fixed inset-x-0 top-0 z-40 border-b border-white/6 bg-ink/70 backdrop-blur-md"
->
+    class="bg-ink/70 fixed inset-x-0 top-0 z-40 border-b border-white/6 backdrop-blur-md">
     <div class="container-editorial flex h-16 items-center justify-between">
         <a
             href={`${p}/`}
             class="flex items-center gap-3 transition-opacity hover:opacity-80"
-            aria-label="LuzTech Typography"
-        >
+            aria-label="LuzTech Typography">
             <img
                 src="/icons/clean.svg"
                 alt=""
@@ -45,8 +43,7 @@ const navItems = [
                 navItems.map(item => (
                     <a
                         href={item.href}
-                        class="stamp-num uppercase text-ink-muted transition-colors hover:text-paper"
-                    >
+                        class="stamp-num text-ink-muted hover:text-paper uppercase transition-colors">
                         {item.label}
                     </a>
                 ))

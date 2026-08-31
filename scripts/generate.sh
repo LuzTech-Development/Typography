@@ -30,6 +30,4 @@ for file in "${VARIANTS[@]}"; do
     bash "$SCRIPT_PATH/generate_sizes.sh" "$VARIANT_NAME"
 done
 
-bash "$SCRIPT_PATH/generate_iconsheet.sh" "${VARIANTS[@]}"
-
 echo "==> Finished"

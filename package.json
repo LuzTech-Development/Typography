@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "node scripts/build-assets.mjs && node scripts/generate-icon-zip.mjs && node scripts/generate-llm-files.mjs && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "sync": "astro sync",
@@ -31,6 +31,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "archiver": "^8.0.0",
     "astro": "^7.2.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

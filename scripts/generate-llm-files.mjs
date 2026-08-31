@@ -69,12 +69,12 @@ const llms = `# LuzTech Typography
 - English: ${SITE}/en-us/
 - Português: ${SITE}/pt-br/
 
-## Sections
+## Pages
 
-- Instructions: ${SITE}/en-us/#instructions
-- Licenses: ${SITE}/en-us/#licenses
-- Icons: ${SITE}/en-us/#icons
-- Font & Resources: ${SITE}/en-us/#font
+- Instructions (home): ${SITE}/en-us/
+- Licenses: ${SITE}/en-us/licenses/
+- Icons: ${SITE}/en-us/icons/
+- Font: ${SITE}/en-us/font/
 
 ## Icon library
 
@@ -93,6 +93,10 @@ Full icon map: ${SITE}/icons.json
 - Space Grotesk (variable font, SIL Open Font License 1.1)
 - Google Fonts: https://fonts.google.com/specimen/Space+Grotesk
 - GitHub: https://github.com/floriankarsten/space-grotesk
+
+## Download all icons
+
+- ZIP archive: ${SITE}/luztech-icons.zip
 
 ## Licenses
 

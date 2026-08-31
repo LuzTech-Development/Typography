@@ -2,94 +2,100 @@ export const en = {
     meta: {
         title: 'LuzTech Typography — Visual identity reference',
         description:
-            'Official LuzTech visual identity reference: icons, typography, licenses, and brand assets. Download icons in SVG and PNG, explore the Space Grotesk font, and read the usage rules.'
+            'Official LuzTech visual identity reference for designers: icons, typography, and licenses. Download icons in SVG and PNG, preview the Space Grotesk font, and read the usage rules.'
     },
     nav: {
         instructions: 'Instructions',
         licenses: 'Licenses',
         icons: 'Icons',
-        font: 'Font & Resources'
+        font: 'Font'
     },
     hero: {
         eyebrow: 'LuzTech Visual Identity',
-        title: 'Typography & brand assets, documented.',
-        lede: 'The official reference for LuzTech icons, typography, and visual identity. Download ready-to-use assets, understand what you can and cannot do, and explore the Space Grotesk font.',
-        ctaIcons: 'Browse icons',
-        ctaInstructions: 'Read the instructions'
+        title: 'Everything you need to work with LuzTech.',
+        lede: 'A practical reference for internal and external designers. Download the official icons, preview the Space Grotesk typeface, and understand exactly what you can and cannot do with the brand.',
+        ctaIcons: 'Download icons',
+        ctaFont: 'Preview the font',
+        ctaLicenses: 'Read the licenses'
     },
     instructions: {
         eyebrow: 'Instructions',
         title: 'How to use this reference',
-        lede: 'Everything you need to work with LuzTech typography and brand assets — from downloading icons to regenerating them locally.',
+        lede: 'A quick guide to the resources available here and how to work with them.',
         sections: {
-            summary: 'Summary',
-            gettingAssets: 'Getting the assets',
-            typography: 'Typography details',
-            requirements: 'Requirements for development',
-            generateIcons: 'Generate icons locally',
-            animations: 'Work with animations',
-            structure: 'Repository structure',
-            legal: 'Legal and trademark notice'
-        }
+            icons: 'Icons',
+            iconsText:
+                'Download each icon variant as SVG or PNG, in any size and color. Use the Icons page to pick a variant, format, and size — or download everything at once as a ZIP.',
+            font: 'Font',
+            fontText:
+                'Space Grotesk is the official LuzTech typeface. Preview it in every weight and size on the Font page, and download it from the official source.',
+            licenses: 'Licenses',
+            licensesText:
+                'The source code is MIT-licensed, the font is SIL OFL 1.1, and the brand assets carry trademark restrictions. Read the Licenses page for the clear breakdown.',
+            regenerate: 'Regenerate assets locally',
+            regenerateText:
+                'The icon source SVGs live in the icons/ directory. To regenerate the PNG outputs and outlined SVGs, run make from the repository root (requires ImageMagick and Inkscape).'
+        },
+        quickLinks: 'Quick links'
     },
     licenses: {
         eyebrow: 'Licenses',
         title: 'What you can and cannot do',
-        lede: 'The source code is MIT-licensed, but the LuzTech brand assets have additional trademark restrictions. Here is the clear breakdown.',
+        lede: 'Three licenses apply to this repository. Here is the direct summary of each.',
         mit: {
             title: 'MIT License',
             subtitle: 'Source code, scripts, and automation files',
-            summary:
-                'You may use, copy, modify, merge, publish, distribute, sublicense, and sell the source code and scripts, provided the copyright and permission notices are included.',
-            points: [
-                'Applies to source code, scripts, and automation files only.',
-                'Free to use, modify, and redistribute — even commercially.',
-                'Must retain the original copyright and permission notice.',
-                'Provided "as is", without warranty of any kind.'
-            ]
+            can: 'You can',
+            cannot: 'You cannot',
+            canItems: [
+                'Use, copy, modify, and redistribute the code',
+                'Use it commercially',
+                'Sublicense and sell derivative works'
+            ],
+            cannotItems: [
+                'Remove the copyright and permission notice',
+                'Hold the authors liable (provided "as is")'
+            ],
+            fullText: 'Read the full MIT license'
         },
         ofl: {
             title: 'SIL Open Font License 1.1',
             subtitle: 'Space Grotesk font',
-            summary:
-                'Space Grotesk is licensed under the SIL Open Font License 1.1. You may use, study, modify, and redistribute the font freely, as long as it is not sold by itself.',
-            points: [
-                'The font may be bundled, embedded, and redistributed with software.',
-                'Derivative fonts must not use the reserved name "Space Grotesk".',
-                'The font cannot be sold on its own.',
-                'Documents created with the font are not subject to the license.'
-            ]
+            can: 'You can',
+            cannot: 'You cannot',
+            canItems: [
+                'Use, study, and modify the font',
+                'Bundle and embed it with software',
+                'Redistribute it freely'
+            ],
+            cannotItems: [
+                'Sell the font on its own',
+                'Use the reserved name "Space Grotesk" for derivatives'
+            ],
+            fullText: 'Read the full OFL license'
         },
         trademark: {
             title: 'Trademark & brand usage',
             subtitle: 'LuzTech name, logo, icons, and visual identity',
-            summary:
-                'The LuzTech name, logo, icons, typography outputs, and brand materials are NOT MIT-licensed. They carry additional trademark and brand-use restrictions.',
-            permitted: {
-                title: 'Permitted use',
-                items: [
-                    'Referencing LuzTech',
-                    'Linking to LuzTech',
-                    'Identifying LuzTech as the source or owner',
-                    'Showing unmodified brand assets in documentation, articles, presentations, integrations, or compatibility references',
-                    'Using the unmodified SVG source files from icons/ directly'
-                ]
-            },
-            restricted: {
-                title: 'Restricted use (requires prior written approval)',
-                items: [
-                    'Modifying brand assets and using the modified version to represent LuzTech',
-                    'Creating derivative logos, icons, or typography that imply official approval',
-                    'Using modified assets to identify, represent, impersonate, or suggest endorsement',
-                    'Using brand assets in a way that may confuse users about official status'
-                ]
-            }
+            can: 'You can',
+            cannot: 'You cannot',
+            canItems: [
+                'Reference and link to LuzTech',
+                'Show unmodified brand assets in documentation and integrations',
+                'Use the unmodified SVG source files directly'
+            ],
+            cannotItems: [
+                'Modify brand assets to represent LuzTech',
+                'Create derivative logos that imply official approval',
+                'Use assets in a way that confuses users about official status'
+            ],
+            fullText: 'Read the full trademark notice'
         }
     },
     icons: {
         eyebrow: 'Icons',
         title: 'Icon library',
-        lede: 'Download each icon variant in SVG or PNG, at any size, in black, white, color, or inverted. Every icon has a stable, predictable URL.',
+        lede: 'Download each icon variant in SVG or PNG. Pick a variant, choose a format, and download — or grab everything at once.',
         variants: {
             clean: 'Clean mark',
             name: 'Wordmark',
@@ -97,10 +103,14 @@ export const en = {
             nfse: 'NFSe'
         },
         download: {
+            variant: 'Variant',
             format: 'Format',
             size: 'Size',
             color: 'Color',
             download: 'Download',
+            downloadAll: 'Download all (ZIP)',
+            downloadAllHint:
+                'Every variant in SVG and PNG, organized in folders.',
             copyUrl: 'Copy URL',
             copied: 'Copied!',
             svg: 'SVG',
@@ -116,9 +126,14 @@ export const en = {
         urlPatternHint: 'Stable URLs for every icon, size, and color.'
     },
     font: {
-        eyebrow: 'Font & Resources',
+        eyebrow: 'Font',
         title: 'Space Grotesk',
         lede: 'The official LuzTech typeface. A variable font available in multiple weights, used across the visual identity.',
+        preview: {
+            title: 'Preview',
+            placeholder: 'Type something to preview…',
+            defaultText: 'LuzTech'
+        },
         weights: {
             title: 'Weights',
             light: 'Light (300)',
@@ -139,19 +154,11 @@ export const en = {
         download: {
             title: 'Download',
             official: 'Official download page',
-            officialHint: 'Get Space Grotesk from Google Fonts or the official GitHub repository.',
+            officialHint:
+                'Get Space Grotesk from Google Fonts or the official GitHub repository.',
             googleFonts: 'Google Fonts',
             github: 'GitHub repository',
             license: 'SIL Open Font License 1.1'
-        },
-        resources: {
-            title: 'Resources',
-            meshGradient: 'Mesh Gradient Generator',
-            meshGradientHint: 'The third-party tool used to create the LuzTech mesh gradient.',
-            releases: 'Latest release',
-            releasesHint: 'Download the newest generated asset packages.',
-            repository: 'GitHub repository',
-            repositoryHint: 'Browse the source files and generation scripts.'
         }
     },
     footer: {

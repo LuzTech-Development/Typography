@@ -12,10 +12,13 @@ import {
 
 interface IconDownloaderProps {
     labels: {
+        variant: string;
         format: string;
         size: string;
         color: string;
         download: string;
+        downloadAll: string;
+        downloadAllHint: string;
         copyUrl: string;
         copied: string;
         svg: string;
@@ -40,22 +43,29 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
             ? svgUrl(variant)
             : pngUrl(variant, size, color, inverted);
 
-    const downloadUrl = url;
-
     const copyUrl = async () => {
         try {
             await navigator.clipboard.writeText(
-                new URL(downloadUrl, window.location.origin).href
+                new URL(url, window.location.origin).href
             );
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (_) {}
     };
 
+    // For SVG, the color is applied via `currentColor` (the SVG uses
+    // `stroke="currentColor"` / `fill="currentColor"`).
+    const svgColor =
+        color === 'white'
+            ? '#f5f4ef'
+            : color === 'color'
+              ? '#00ff9d'
+              : '#0a0d10';
+
     return (
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
             {/* Preview */}
-            <div className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+            <div className="bg-ink-soft flex flex-col items-center justify-center rounded-xl border border-white/[0.08] p-8">
                 <div
                     className="flex h-64 w-64 items-center justify-center rounded-lg"
                     style={{
@@ -65,32 +75,31 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                                 : color === 'color'
                                   ? 'transparent'
                                   : '#f5f4ef'
-                    }}
-                >
+                    }}>
                     {format === 'svg' ? (
                         <img
-                            src={downloadUrl}
+                            src={url}
                             alt={variantLabels[variant]}
                             className="h-48 w-48"
-                            style={{ color: color === 'white' ? '#f5f4ef' : '#0a0d10' }}
+                            style={{ color: svgColor }}
                         />
                     ) : (
                         <img
-                            src={downloadUrl}
+                            src={url}
                             alt={variantLabels[variant]}
                             className="h-48 w-48"
                         />
                     )}
                 </div>
-                <p className="mt-4 font-mono text-sm text-ink-muted">{downloadUrl}</p>
+                <p className="text-ink-muted mt-4 font-mono text-sm">{url}</p>
             </div>
 
             {/* Controls */}
-            <div className="space-y-6 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+            <div className="bg-ink-soft space-y-6 rounded-xl border border-white/[0.08] p-8">
                 {/* Variant */}
                 <div>
-                    <label className="stamp-num mb-2 block text-ink-muted">
-                        {variantLabels[variant]}
+                    <label className="stamp-num text-ink-muted mb-2 block">
+                        {labels.variant}
                     </label>
                     <div className="flex flex-wrap gap-2">
                         {ICON_VARIANTS.map(v => (
@@ -100,9 +109,8 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                                 className={`rounded-lg border px-4 py-2 text-sm transition ${
                                     variant === v.id
                                         ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'border-white/10 text-paper/75 hover:border-white/30'
-                                }`}
-                            >
+                                        : 'text-paper/75 border-white/10 hover:border-white/30'
+                                }`}>
                                 {variantLabels[v.id]}
                             </button>
                         ))}
@@ -111,7 +119,7 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
 
                 {/* Format */}
                 <div>
-                    <label className="stamp-num mb-2 block text-ink-muted">
+                    <label className="stamp-num text-ink-muted mb-2 block">
                         {labels.format}
                     </label>
                     <div className="flex gap-2">
@@ -122,43 +130,18 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                                 className={`rounded-lg border px-4 py-2 text-sm uppercase transition ${
                                     format === f
                                         ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'border-white/10 text-paper/75 hover:border-white/30'
-                                }`}
-                            >
+                                        : 'text-paper/75 border-white/10 hover:border-white/30'
+                                }`}>
                                 {f === 'svg' ? labels.svg : labels.png}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* Size (PNG only) */}
-                {format === 'png' && (
+                {/* Color (SVG only) */}
+                {format === 'svg' && (
                     <div>
-                        <label className="stamp-num mb-2 block text-ink-muted">
-                            {labels.size}
-                        </label>
-                        <div className="flex flex-wrap gap-2">
-                            {ICON_SIZES.map(s => (
-                                <button
-                                    key={s}
-                                    onClick={() => setSize(s)}
-                                    className={`rounded-lg border px-3 py-2 text-sm transition ${
-                                        size === s
-                                            ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                            : 'border-white/10 text-paper/75 hover:border-white/30'
-                                    }`}
-                                >
-                                    {s}px
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Color (PNG only) */}
-                {format === 'png' && (
-                    <div>
-                        <label className="stamp-num mb-2 block text-ink-muted">
+                        <label className="stamp-num text-ink-muted mb-2 block">
                             {labels.color}
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -169,33 +152,72 @@ export function IconDownloader({ labels, variantLabels }: IconDownloaderProps) {
                                     className={`rounded-lg border px-4 py-2 text-sm transition ${
                                         color === c
                                             ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                            : 'border-white/10 text-paper/75 hover:border-white/30'
-                                    }`}
-                                >
+                                            : 'text-paper/75 border-white/10 hover:border-white/30'
+                                    }`}>
                                     {labels.colors[c]}
                                 </button>
                             ))}
-                            <button
-                                onClick={() => setInverted(!inverted)}
-                                className={`rounded-lg border px-4 py-2 text-sm transition ${
-                                    inverted
-                                        ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
-                                        : 'border-white/10 text-paper/75 hover:border-white/30'
-                                }`}
-                            >
-                                {labels.colors.inverted}
-                            </button>
                         </div>
                     </div>
                 )}
 
+                {/* Size + Color (PNG only) */}
+                {format === 'png' && (
+                    <>
+                        <div>
+                            <label className="stamp-num text-ink-muted mb-2 block">
+                                {labels.size}
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {ICON_SIZES.map(s => (
+                                    <button
+                                        key={s}
+                                        onClick={() => setSize(s)}
+                                        className={`rounded-lg border px-3 py-2 text-sm transition ${
+                                            size === s
+                                                ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                                : 'text-paper/75 border-white/10 hover:border-white/30'
+                                        }`}>
+                                        {s}px
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="stamp-num text-ink-muted mb-2 block">
+                                {labels.color}
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {ICON_COLORS.map(c => (
+                                    <button
+                                        key={c}
+                                        onClick={() => setColor(c)}
+                                        className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                            color === c
+                                                ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                                : 'text-paper/75 border-white/10 hover:border-white/30'
+                                        }`}>
+                                        {labels.colors[c]}
+                                    </button>
+                                ))}
+                                <button
+                                    onClick={() => setInverted(!inverted)}
+                                    className={`rounded-lg border px-4 py-2 text-sm transition ${
+                                        inverted
+                                            ? 'border-luz-mint bg-luz-mint/10 text-luz-mint'
+                                            : 'text-paper/75 border-white/10 hover:border-white/30'
+                                    }`}>
+                                    {labels.colors.inverted}
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+
                 {/* Actions */}
                 <div className="flex flex-wrap gap-3 pt-2">
-                    <a
-                        href={downloadUrl}
-                        download
-                        className="btn btn--primary"
-                    >
+                    <a href={url} download className="btn btn--primary">
                         {labels.download}
                     </a>
                     <button onClick={copyUrl} className="btn btn--ghost">

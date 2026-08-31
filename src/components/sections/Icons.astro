@@ -1,7 +1,6 @@
 ---
 import type { Locale } from '@/i18n';
 import { t } from '@/lib/i18n';
-import { ICON_VARIANTS, svgUrl } from '@/lib/icons';
 import { IconDownloader } from './IconDownloader.tsx';
 
 interface Props {
@@ -20,50 +19,26 @@ const variantLabels = {
 } as const;
 ---
 
-<section id="icons" class="border-b border-white/[0.06] py-24">
+<section class="py-20">
     <div class="container-editorial">
         <p class="eyebrow">{dict.icons.eyebrow}</p>
-        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{dict.icons.title}</h2>
-        <p class="mt-6 max-w-2xl text-lg text-paper/75">{dict.icons.lede}</p>
-
-        <!-- Gallery -->
-        <div class="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4">
-            {
-                ICON_VARIANTS.map(v => (
-                    <a
-                        href={`#icon-${v.id}`}
-                        class="group flex flex-col items-center gap-4 rounded-xl border border-white/[0.08] bg-ink-soft p-6 transition hover:border-luz-mint/40"
-                    >
-                        <img
-                            src={svgUrl(v.id)}
-                            alt={variantLabels[v.id]}
-                            class="h-24 w-24 text-paper transition group-hover:scale-105"
-                            style="color: var(--color-paper)"
-                        />
-                        <span class="stamp-num text-ink-muted group-hover:text-paper">
-                            {variantLabels[v.id]}
-                        </span>
-                    </a>
-                ))
-            }
-        </div>
-
-        <!-- URL pattern -->
-        <div class="mt-12 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-            <h3 class="text-lg font-bold">{dict.icons.urlPattern}</h3>
-            <p class="mt-2 text-sm text-ink-muted">{dict.icons.urlPatternHint}</p>
-            <pre class="mt-4 overflow-x-auto rounded-lg bg-ink p-4 font-mono text-sm text-luz-mint"><code>/icons/&lt;variant&gt;/&lt;size&gt;/[inverted/]&lt;color&gt;.png</code></pre>
-        </div>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">
+            {dict.icons.title}
+        </h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{dict.icons.lede}</p>
 
         <!-- Downloader -->
-        <div id="icon-downloader" class="mt-12">
+        <div class="mt-12">
             <IconDownloader
                 client:load
                 labels={{
+                    variant: d.variant,
                     format: d.format,
                     size: d.size,
                     color: d.color,
                     download: d.download,
+                    downloadAll: d.downloadAll,
+                    downloadAllHint: d.downloadAllHint,
                     copyUrl: d.copyUrl,
                     copied: d.copied,
                     svg: d.svg,
@@ -72,6 +47,28 @@ const variantLabels = {
                 }}
                 variantLabels={variantLabels}
             />
+        </div>
+
+        <!-- Download all -->
+        <div
+            class="bg-ink-soft mt-8 flex flex-col items-start gap-4 rounded-xl border border-white/[0.08] p-8 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h3 class="text-xl font-bold">{d.downloadAll}</h3>
+                <p class="text-ink-muted mt-2 text-sm">{d.downloadAllHint}</p>
+            </div>
+            <a href="/luztech-icons.zip" download class="btn btn--primary">
+                {d.downloadAll}
+            </a>
+        </div>
+
+        <!-- URL pattern -->
+        <div class="bg-ink-soft mt-8 rounded-xl border border-white/[0.08] p-8">
+            <h3 class="text-lg font-bold">{dict.icons.urlPattern}</h3>
+            <p class="text-ink-muted mt-2 text-sm">
+                {dict.icons.urlPatternHint}
+            </p>
+            <pre
+                class="bg-ink text-luz-mint mt-4 overflow-x-auto rounded-lg p-4 font-mono text-sm"><code>/icons/&lt;variant&gt;/&lt;size&gt;/[inverted/]&lt;color&gt;.png</code></pre>
         </div>
     </div>
 </section>

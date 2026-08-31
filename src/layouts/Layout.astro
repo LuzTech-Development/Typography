@@ -12,12 +12,7 @@ interface Props {
     noIndex?: boolean;
 }
 
-const {
-    locale,
-    title,
-    description,
-    noIndex = false
-} = Astro.props;
+const { locale, title, description, noIndex = false } = Astro.props;
 
 const dict = t(locale);
 const pageTitle = title ?? dict.meta.title;
@@ -28,7 +23,10 @@ const withTrailingSlash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const canonical = new URL(withTrailingSlash(Astro.url.pathname), siteURL).href;
 
 const alt = otherLocale(locale);
-const altHref = new URL(withTrailingSlash(alternateHref(Astro.url, alt)), siteURL).href;
+const altHref = new URL(
+    withTrailingSlash(alternateHref(Astro.url, alt)),
+    siteURL
+).href;
 const selfHref = new URL(withTrailingSlash(Astro.url.pathname), siteURL).href;
 const xDefaultHref = new URL('/en-us/', siteURL).href;
 
@@ -76,7 +74,10 @@ const websiteJsonLd = {
             noIndex ? (
                 <meta name="robots" content="noindex,nofollow" />
             ) : (
-                <meta name="robots" content="index,follow,max-image-preview:large" />
+                <meta
+                    name="robots"
+                    content="index,follow,max-image-preview:large"
+                />
             )
         }
 
@@ -115,8 +116,7 @@ const websiteJsonLd = {
     <body>
         <a
             href="#main"
-            class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
-        >
+            class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50">
             {dict.a11y.skipToContent}
         </a>
         <Header locale={locale} />

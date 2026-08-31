@@ -5,6 +5,13 @@ node_modules/
 dist/
 out/
 
+# Generated assets (regenerated at build time)
+public/icons/
+public/luztech-icons.zip
+public/icons.json
+public/llms.txt
+public/llms-full.txt
+
 # Astro
 .astro/
 

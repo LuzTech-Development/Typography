@@ -13,15 +13,19 @@ predictable URLs for every icon.
 - English: <https://ui.luztech.dev.br/en-us/>
 - Português: <https://ui.luztech.dev.br/pt-br/>
 
-## Sections
+## Pages
 
-- **Instructions** — how to use the reference and regenerate assets locally.
-- **Licenses** — MIT (source code), SIL OFL 1.1 (Space Grotesk font), and the
-  LuzTech trademark/brand-use rules.
-- **Icons** — download each variant in SVG or PNG, at any size, in black, white,
-  color, or inverted.
-- **Font & Resources** — Space Grotesk in multiple weights and sizes, with links
-  to the official download page.
+The site is a multi-page reference, with each section on its own route:
+
+- **Instructions** (`/`) — the home page. A sober overview of the site's purpose
+  and quick links to the other pages.
+- **Licenses** (`/licenses/`) — MIT (source code), SIL OFL 1.1 (Space Grotesk
+  font), and the LuzTech trademark/brand-use rules, summarized as "you can /
+  you cannot" with links to the full files.
+- **Icons** (`/icons/`) — a download tool: pick a variant, format (SVG/PNG),
+  color (SVG) or size (PNG), and download — or grab everything as a ZIP.
+- **Font** (`/font/`) — Space Grotesk with a live text preview across weights
+  and sizes, plus links to the official download page.
 
 ## Icon URLs
 
@@ -51,32 +55,39 @@ The full machine-readable map is at `/icons.json`.
 ```bash
 pnpm install
 pnpm dev          # live preview at http://localhost:3000
-pnpm build        # type-check + static build to dist/
+pnpm build        # regenerate icons + ZIP + LLM files, then type-check + build
 pnpm preview      # preview the production build
 ```
 
-## Regenerating icons
+## Icon generation
 
-The icon source SVGs live in [`icons/`](icons/). To regenerate the PNG outputs
-and outlined SVGs, run:
+The icon source SVGs live in [`icons/`](icons/). The PNG outputs, outlined SVGs,
+and the "download all" ZIP are **generated at build time** (not committed to
+git). `pnpm build` runs the full pipeline:
+
+1. `scripts/build-assets.mjs` — outlines text and renders PNGs from the source
+   SVGs (requires Inkscape, ImageMagick, and fontconfig), then copies them into
+   `public/icons/`.
+2. `scripts/generate-icon-zip.mjs` — packages `public/icons/` into
+   `public/luztech-icons.zip`.
+3. `scripts/generate-llm-files.mjs` — regenerates `llms.txt`, `llms-full.txt`,
+   and `icons.json`.
+
+To regenerate just the icons locally (without the site build), run:
 
 ```bash
 make
 ```
-
-This requires ImageMagick and Inkscape (see the Instructions section on the
-site for details). The generated outputs are written to `out/` and copied into
-`public/icons/` for the site.
 
 ## Repository structure
 
 ```text
 .
 ├── src/                    # Astro source (pages, components, i18n, styles)
-├── public/                 # Static assets (icons, fonts, LLM files)
+├── public/                 # Static assets (fonts, LLM files; icons generated at build)
 ├── icons/                  # Source SVG icon variants (editable)
-├── assets/                 # Vendored fonts, background, iconsheet template
-├── scripts/                # Asset generation + LLM file generation scripts
+├── assets/                 # Vendored fonts and background
+├── scripts/                # Build-time asset generation + LLM file scripts
 ├── astro.config.mjs        # Astro configuration (i18n, sitemap, integrations)
 ├── staticwebapp.config.json# Azure Static Web Apps configuration
 ├── LICENSE                 # MIT license for source code and scripts

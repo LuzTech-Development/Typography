@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '@/i18n';
 import { t } from '@/lib/i18n';
+import { FontPreview } from './FontPreview.tsx';
 
 interface Props {
     locale: Locale;
@@ -28,108 +29,53 @@ const sizes = [
 ];
 ---
 
-<section id="font" class="py-24">
+<section class="py-20">
     <div class="container-editorial">
         <p class="eyebrow">{f.eyebrow}</p>
-        <h2 class="display-heading mt-4 text-4xl md:text-5xl">{f.title}</h2>
-        <p class="mt-6 max-w-2xl text-lg text-paper/75">{f.lede}</p>
+        <h2 class="display-heading mt-4 text-3xl md:text-4xl">{f.title}</h2>
+        <p class="text-paper/75 mt-6 max-w-2xl text-lg">{f.lede}</p>
 
-        <div class="mt-12 grid gap-8 lg:grid-cols-2">
-            <!-- Weights -->
-            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-                <h3 class="text-xl font-bold">{f.weights.title}</h3>
-                <div class="mt-6 space-y-4">
-                    {
-                        weights.map(w => (
-                            <div class="flex items-baseline justify-between border-b border-white/[0.06] pb-3">
-                                <span class="text-2xl" style={`font-weight: ${w.weight}`}>
-                                    LuzTech
-                                </span>
-                                <span class="stamp-num text-ink-muted">{w.label}</span>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-
-            <!-- Sizes -->
-            <div class="rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-                <h3 class="text-xl font-bold">{f.sizes.title}</h3>
-                <div class="mt-6 space-y-4">
-                    {
-                        sizes.map(s => (
-                            <div class="flex items-baseline justify-between border-b border-white/[0.06] pb-3">
-                                <span class={`${s.cls} font-semibold`}>LuzTech</span>
-                                <span class="stamp-num text-ink-muted">{s.label}</span>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
+        <!-- Preview -->
+        <div class="mt-12">
+            <FontPreview
+                client:load
+                labels={{
+                    title: f.preview.title,
+                    placeholder: f.preview.placeholder,
+                    defaultText: f.preview.defaultText,
+                    weightsTitle: f.weights.title,
+                    sizesTitle: f.sizes.title
+                }}
+                weights={weights}
+                sizes={sizes}
+            />
         </div>
 
         <!-- Download -->
-        <div class="mt-8 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
+        <div class="bg-ink-soft mt-8 rounded-xl border border-white/[0.08] p-8">
             <h3 class="text-xl font-bold">{f.download.title}</h3>
-            <p class="mt-2 text-sm text-ink-muted">{f.download.officialHint}</p>
+            <p class="text-ink-muted mt-2 text-sm">{f.download.officialHint}</p>
             <div class="mt-6 flex flex-wrap gap-4">
                 <a
                     href="https://fonts.google.com/specimen/Space+Grotesk"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn btn--primary"
-                >
+                    class="btn btn--primary">
                     {f.download.googleFonts}
                 </a>
                 <a
                     href="https://github.com/floriankarsten/space-grotesk"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn btn--ghost"
-                >
+                    class="btn btn--ghost">
                     {f.download.github}
                 </a>
                 <a
                     href="/fonts/OFL.txt"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn btn--ghost"
-                >
+                    class="btn btn--ghost">
                     {f.download.license}
-                </a>
-            </div>
-        </div>
-
-        <!-- Resources -->
-        <div class="mt-8 rounded-xl border border-white/[0.08] bg-ink-soft p-8">
-            <h3 class="text-xl font-bold">{f.resources.title}</h3>
-            <div class="mt-6 grid gap-6 md:grid-cols-3">
-                <a
-                    href="https://meshgradient.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
-                >
-                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.meshGradient}</p>
-                    <p class="mt-2 text-sm text-ink-muted">{f.resources.meshGradientHint}</p>
-                </a>
-                <a
-                    href="https://github.com/LuzTech-Development/Typography/releases/latest"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
-                >
-                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.releases}</p>
-                    <p class="mt-2 text-sm text-ink-muted">{f.resources.releasesHint}</p>
-                </a>
-                <a
-                    href="https://github.com/LuzTech-Development/Typography"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group rounded-lg border border-white/[0.08] p-6 transition hover:border-luz-mint/40"
-                >
-                    <p class="font-semibold group-hover:text-luz-mint">{f.resources.repository}</p>
-                    <p class="mt-2 text-sm text-ink-muted">{f.resources.repositoryHint}</p>
                 </a>
             </div>
         </div>
