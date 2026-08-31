@@ -8,10 +8,10 @@ import {
 import { SwirledMesh } from './SwirledMesh';
 
 const DEFAULT_COLORS = {
-    tl: '#4665c3',
-    tr: '#1f6fef',
-    bl: '#00ff9d',
-    br: '#69dd96'
+    tl: '#69dd96',
+    tr: '#69dd96',
+    bl: '#4665c3',
+    br: '#1f6fef'
 } as const;
 
 const SIZE_PRESETS = [
