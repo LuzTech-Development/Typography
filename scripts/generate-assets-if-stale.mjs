@@ -9,7 +9,7 @@
 //
 // Force a rebuild with: node scripts/generate-assets-if-stale.mjs --force
 
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -58,15 +58,11 @@ if (!force && stored === current) {
 }
 
 console.log(`\n==> Generating assets (icons changed or forced)...`);
-execSync(`node "${join(__dirname, 'generate-icon-manifest.mjs')}"`, {
+execFileSync(process.execPath, [join(__dirname, 'generate-assets.mjs')], {
     cwd: root,
     stdio: 'inherit'
 });
-execSync(`node "${join(__dirname, 'build-assets.mjs')}"`, {
-    cwd: root,
-    stdio: 'inherit'
-});
-execSync(`node "${join(__dirname, 'generate-icon-zip.mjs')}"`, {
+execFileSync(process.execPath, [join(__dirname, 'cleanup-build-artifacts.mjs')], {
     cwd: root,
     stdio: 'inherit'
 });
