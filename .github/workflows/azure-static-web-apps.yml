@@ -10,6 +10,9 @@ concurrency:
   group: azure-swa-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

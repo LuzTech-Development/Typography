@@ -43,6 +43,7 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
     const [inverted, setInverted] = useState(false);
     const [copied, setCopied] = useState(false);
     const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
+    const [svgPreviewUrl, setSvgPreviewUrl] = useState<string | null>(null);
 
     // Fetch the outlined SVG and inject the chosen color into `currentColor`.
     // `svgMarkup` keeps the original `width`/`height` (512) so the downloaded
@@ -64,14 +65,18 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
         };
     }, [variant, format, svgHex]);
 
-    // Preview-only markup: strip intrinsic width/height so the SVG scales to
-    // its container instead of overflowing at its native 512px size.
-    const previewMarkup = svgMarkup
-        ? svgMarkup
-              .replace(/\swidth="[^"]*"/, '')
-              .replace(/\sheight="[^"]*"/, '')
-              .replace('<svg ', '<svg width="100%" height="100%" ')
-        : null;
+    useEffect(() => {
+        if (!svgMarkup) {
+            setSvgPreviewUrl(null);
+            return;
+        }
+
+        const url = URL.createObjectURL(
+            new Blob([svgMarkup], { type: 'image/svg+xml' })
+        );
+        setSvgPreviewUrl(url);
+        return () => URL.revokeObjectURL(url);
+    }, [svgMarkup]);
 
     const pngSrc = pngUrl(variant, size, color, inverted);
 
@@ -112,12 +117,11 @@ export function IconDownloader({ labels }: IconDownloaderProps) {
                             'conic-gradient(#1e242c 0 25%, #12161b 0 50%, #1e242c 0 75%, #12161b 0) 0 0 / 24px 24px'
                     }}>
                     {format === 'svg' ? (
-                        previewMarkup ? (
-                            <div
+                        svgPreviewUrl ? (
+                            <img
                                 className="h-full w-full"
-                                dangerouslySetInnerHTML={{
-                                    __html: previewMarkup
-                                }}
+                                src={svgPreviewUrl}
+                                alt={VARIANT_LABELS[variant]}
                             />
                         ) : (
                             <span className="text-ink-muted text-sm">

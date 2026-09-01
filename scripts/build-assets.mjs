@@ -8,8 +8,8 @@
 //
 // Run with: node scripts/build-assets.mjs
 
-import { execSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { cpSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
@@ -23,22 +23,17 @@ const publicIconsDir = join(root, 'public', 'icons');
 
 function run(cmd, args = []) {
     console.log(`\n==> ${cmd} ${args.join(' ')}`);
-    execSync(`bash "${join(scriptsDir, cmd)}" ${args.join(' ')}`, {
+    execFileSync('bash', [join(scriptsDir, cmd), ...args], {
         cwd: root,
         stdio: 'inherit'
     });
 }
 
 // 1. Discover variants from the source SVGs.
-const variants = execSync(`ls ${iconsDir}/*.svg`, { encoding: 'utf8' })
-    .trim()
-    .split('\n')
-    .map(p =>
-        p
-            .replace(/\.svg$/, '')
-            .split('/')
-            .pop()
-    );
+const variants = readdirSync(iconsDir)
+    .filter(file => file.endsWith('.svg'))
+    .map(file => file.replace(/\.svg$/, ''))
+    .sort();
 
 console.log(`\n==> Generating icons for variants: ${variants.join(', ')}`);
 
