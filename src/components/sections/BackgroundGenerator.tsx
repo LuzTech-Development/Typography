@@ -988,10 +988,49 @@ function AnimatedTab({
                         <button
                             type="button"
                             onClick={handlePreviewToggle}
-                            className="text-paper hover:border-luz-mint rounded-lg border border-white/10 px-4 py-2 text-sm transition sm:shrink-0">
-                            {playback.playing
-                                ? labels.animated.pause
-                                : labels.animated.play}
+                            aria-label={
+                                playback.playing
+                                    ? labels.animated.pause
+                                    : labels.animated.play
+                            }
+                            title={
+                                playback.playing
+                                    ? labels.animated.pause
+                                    : labels.animated.play
+                            }
+                            className="text-paper hover:border-luz-mint flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 transition sm:shrink-0">
+                            {playback.playing ? (
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    aria-hidden="true">
+                                    <rect
+                                        x="6"
+                                        y="5"
+                                        width="4"
+                                        height="14"
+                                        rx="1"
+                                    />
+                                    <rect
+                                        x="14"
+                                        y="5"
+                                        width="4"
+                                        height="14"
+                                        rx="1"
+                                    />
+                                </svg>
+                            ) : (
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    aria-hidden="true">
+                                    <path d="M8 5.14v13.72a1 1 0 0 0 1.55.83l10.29-6.86a1 1 0 0 0 0-1.66L9.55 4.31A1 1 0 0 0 8 5.14z" />
+                                </svg>
+                            )}
                         </button>
                         <input
                             type="range"
@@ -1002,7 +1041,7 @@ function AnimatedTab({
                             onChange={e =>
                                 playback.seek(Number(e.target.value))
                             }
-                            className="accent-luz-mint min-w-0"
+                            className="accent-luz-mint min-w-0 sm:flex-1"
                             aria-label={labels.animated.previewPosition}
                         />
                         <span className="stamp-num text-ink-muted col-span-2 min-h-4 text-right tabular-nums sm:col-span-1 sm:min-w-24">
