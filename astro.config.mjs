@@ -42,8 +42,7 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       vitePluginEditframe({
-        root: './src',
-        cacheRoot: './cache'
+        projectRoot: './src'
       })
     ],
     resolve: {
